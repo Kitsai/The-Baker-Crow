@@ -7,13 +7,10 @@ GameObject* Camera::focus = nullptr;
 Vec2 Camera::pos;
 Vec2 Camera::speed;
 
-/// @brief Seta um novo foco para a camera.
-/// @param newFocus Game object que sera focado.
 void Camera::Follow(GameObject* newFocus) {
     focus = newFocus;
 }
 
-/// @brief Retira o foco.
 void Camera::Unfollow() {
     focus = nullptr;
 }
@@ -79,9 +76,12 @@ void Camera::Update(float dt) {
 
         }
         pos = pos+speed;
+
+
         pos.x = (pos.x<0)? 0:pos.x; 
         pos.y = (pos.y<0)? 0:pos.y;
+
         pos.x = (pos.x>574)? 574:pos.x;
-        pos.y = (pos.y>1000)? 1000:pos.y;
+        pos.y = (pos.y>1000)? 1000:pos.y; 
     }
 }

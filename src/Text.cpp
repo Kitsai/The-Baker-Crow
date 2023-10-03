@@ -2,14 +2,14 @@
 
 #include <Camera.h>
 #include <Game.h>
-#include <defines/DefinesInclude.h>
 
-Text::Text(GameObject& associated,std::string fontFile,int fontSize,TextStyle style, std::string text,SDL_Color color): Component(associated) {
+Text::Text(GameObject& associated,std::string fontFile,int fontSize,TextStyle style, std::string text,SDL_Color colorA,SDL_Color colorB): Component(associated) {
     this->text = text;
     this->style = style;
     this->fontFile = fontFile;
     this->fontSize = fontSize;
-    this->color = color;
+    this->colorA = colorA;
+    this->colorB = colorB;
 
     RemakeTexture();
 }
@@ -47,8 +47,12 @@ void Text::SetText(std::string text) {
     RemakeTexture();
 }
 
-void Text::SetColor(SDL_Color color) {
-    this-> color = color;
+void Text::SetColorA(SDL_Color color) {
+    this-> colorA = colorA;
+    RemakeTexture();
+}
+void Text::SetColorB(SDL_Color color) {
+    this-> colorB = colorB;
     RemakeTexture();
 }
 
@@ -73,15 +77,15 @@ void Text::RemakeTexture() {
 
     switch (style) {
     case SOLID:
-        surface = TTF_RenderText_Solid(font.get(),text.data(),color);
+        surface = TTF_RenderText_Solid(font.get(),text.data(),colorA);
         break;
     
     case SHADED:
-        surface = TTF_RenderText_Shaded(font.get(),text.data(),color,COLOR_BLACK);
+        surface = TTF_RenderText_Shaded(font.get(),text.data(),colorA,colorB);
         break;
     
     case BLENDED:
-        surface = TTF_RenderText_Blended(font.get(),text.data(),color);
+        surface = TTF_RenderText_Blended(font.get(),text.data(),colorA);
         break;
 
     default:

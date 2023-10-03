@@ -1,20 +1,14 @@
 #include <Resources.h>
 
-/// @brief Table for all allocated images.
+
 std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> Resources::imageTable = {};
-/// @brief Table for all allocated musics.
+
 std::unordered_map<std::string, std::shared_ptr<Mix_Music>> Resources::musicTable = {};
-/// @brief Table for all allocated Sounds.
+
 std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> Resources::soundTable = {};
 
 std::unordered_map<std::string,std::shared_ptr<TTF_Font>> Resources::fontTable = {};
 
-/// @brief 
-/// Gets an image from the image table. If the image was not allocated yet allocates it.
-/// @param file 
-/// Path to the image file.
-/// @return 
-/// The Texture associated with the path in the table.
 std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
     if(imageTable.find(file) != imageTable.end()) 
         return imageTable[file];
@@ -29,20 +23,12 @@ std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
     return imageTable[file];
 }
 
-/// @brief 
-/// Clear all members of the image table.
 void Resources::ClearImages() {
     for(auto i: imageTable) 
         if(i.second.unique())
             imageTable.erase(i.first); 
 }
 
-/// @brief 
-/// Gets a music from the music table. If the music was not allocated yet allocates it.
-/// @param file 
-/// Path to the music file.
-/// @return 
-/// The Music associated with the path in the table.
 std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
     if(musicTable.find(file) != musicTable.end())
         return musicTable[file];
@@ -57,20 +43,12 @@ std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
     return musicTable[file];
 }
 
-/// @brief 
-/// Clear all members of the music table.
 void Resources::ClearMusics() {
     for(auto i: musicTable)
         if(i.second.unique())
             musicTable.erase(i.first);
 }
 
-/// @brief 
-/// Gets a sound from the sound table. If the sound was not allocated yet allocates it.
-/// @param file 
-/// Path to the sound file.
-/// @return 
-/// The Chunk associated with the path in the table.
 std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
     if(soundTable.find(file) != soundTable.end())
         return soundTable[file];
@@ -85,8 +63,6 @@ std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
     return soundTable[file];
 }
 
-/// @brief 
-/// Clear all members of the sounds table.
 void Resources::ClearSounds() {
     for(auto i: soundTable)
         if(i.second.unique())

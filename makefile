@@ -24,7 +24,7 @@ FILE_NAMES = $(sort $(notdir $(CPP_FILES:.cpp=)) $(notdir $(INC_FILES:.h=)))
 DEP_FILES = $(addprefix $(DEP_PATH)/,$(addsuffix .d,$(FILE_NAMES)))
 OBJ_FILES = $(addprefix $(BIN_PATH)/,$(notdir $(CPP_FILES:.cpp=.o)))
 
-EXEC = Penguin
+EXEC = The Baker Crow
 
 # SE FOR WINDOWS
 ifeq ($(OS),Windows_NT)

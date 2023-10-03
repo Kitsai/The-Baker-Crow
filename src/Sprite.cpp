@@ -6,9 +6,6 @@
 #include <iostream>
 #include <algorithm>
 
-/// @brief 
-/// Basic constructor for sprite.
-/// Initializes texture as nullptr.
 Sprite::Sprite(GameObject& assoc, int frameCount, float frameTime,float secondsToSelfDestruct): Component(assoc)  {
     texture = nullptr;
     scale = {1,1};
@@ -19,11 +16,6 @@ Sprite::Sprite(GameObject& assoc, int frameCount, float frameTime,float secondsT
     this->secondsToSelfDestruct = secondsToSelfDestruct;
 }
 
-/// @brief 
-/// Parametrized constructor for Sprite.
-/// Links the basic constructor and opens the given file.
-/// @param file 
-/// Path to sprite file.
 Sprite::Sprite(GameObject& assoc, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct): Sprite(assoc,frameCount,frameTime,secondsToSelfDestruct) {
     Open(file);
 }
@@ -32,8 +24,6 @@ Sprite::~Sprite() {
 
 }
 
-/// @brief Opens the given file with the Resource Manager and gets its width and height.
-/// @param file Path to image file.
 void Sprite::Open(std::string file) {
 
     texture = Resources::GetImage(file);
@@ -51,11 +41,6 @@ void Sprite::Open(std::string file) {
     associated.box.h = height;
 }
 
-/// @brief Sets the sprite clip with custom values.
-/// @param x Position on x axis.
-/// @param y Position on y axis.
-/// @param w Image width.
-/// @param h Image height.
 void Sprite::SetClip(int x, int y, int w, int h) {
     clipRect.x = x;
     clipRect.y = y;
@@ -63,23 +48,14 @@ void Sprite::SetClip(int x, int y, int w, int h) {
     clipRect.h = h;
 }
 
-/// @brief Renders the image with the position on the asociated game object.
 void Sprite::Render() {
     Render(associated.box.x-Camera::pos.x, associated.box.y-Camera::pos.y);
 }
 
-/// @brief Renders the image with the full width and height and in a custom position.
-/// @param x Position on the x axis.
-/// @param y Position on the y axis.
 void Sprite::Render(int x, int y) {
     Render(x,y,(width*scale.x)/frameCount,height*scale.y);
 }
 
-/// @brief Renders the image with custom positions and custom size.
-/// @param x Position on x axis.
-/// @param y Position on y axis.
-/// @param w Render width.
-/// @param h Render height.
 void Sprite::Render(int x, int y, int w, int h) {
     SDL_Rect dstrect;
     dstrect.x = x;
@@ -99,20 +75,14 @@ void Sprite::Render(int x, int y, int w, int h) {
     }
 }
 
-/// @brief Getter for width.
-/// @return int corresponding to image width.
 int Sprite::GetWidth() {
     return (width*scale.x)/frameCount;
 }
 
-/// @brief Getter for height.
-/// @return int corresponding to image height.
 int Sprite::GetHeight() {
     return height*scale.y;
 }
 
-/// @brief Checks if the imaage file has been opened.
-/// @return true if the file is already open.
 bool Sprite::IsOpen() {
     if(texture == nullptr) 
         return false;
@@ -136,12 +106,6 @@ void Sprite::Update(float dt) {
     
 }
 
-/// @brief 
-/// Returns whether the object is of a certain type.
-/// @param type 
-/// Type to be checked.
-/// @return 
-/// True if type matches with the passed argument.
 bool Sprite::Is(std::string type) {
     if(type == "Sprite") 
         return true;

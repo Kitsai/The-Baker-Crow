@@ -5,32 +5,19 @@
 #include <iostream>
 #include <algorithm>
 
-/// @brief 
-/// Basic constructor for sound.
-/// Initializes sound as nullptr.
 Sound::Sound(GameObject& assoc): Component(assoc) {
     chunk = nullptr;
 }
 
-/// @brief 
-/// Parametrized constructor for Sound.
-/// Links the basic constructor and opens the given file.
-/// @param file 
-/// Path to sound file.
-Sound::Sound(GameObject& assoc, const char* file): Sound(assoc) {
+Sound::Sound(GameObject& assoc, std::string file): Sound(assoc) {
     Open(file);
 }
 
-/// @brief 
-/// Stops the sound before deleting.
 Sound::~Sound() {
     if(chunk != nullptr) {
         Stop();
     }
 }
-
-/// @brief Plays the associated sound a certain number of times. If it is not determined will play only once.
-/// @param times number of times sound should be played. Default value is 1.
 
 void Sound::Play(int times) {
     if(IsOpen()){
@@ -38,15 +25,13 @@ void Sound::Play(int times) {
     }
 }
 
-/// @brief 
-/// Stops the sound from playing.
 void Sound::Stop() {
     Mix_HaltChannel(channel);
 }
 
 /// @brief Opens the given Sound with the Resource Manager.
 /// @param file Path to the sound file.
-void Sound::Open(const char* file) {
+void Sound::Open(std::string file) {
     chunk = Resources::GetSound(file);
     if(chunk == nullptr) {
         std::cout << "Error Sound:24 - " << SDL_GetError() << std::endl;

@@ -32,3 +32,4 @@
 *.app
 
 include/SDL2
+.vscode
