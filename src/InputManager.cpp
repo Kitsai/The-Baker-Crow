@@ -1,9 +1,5 @@
 #include <InputManager.h>
 
-InputManager& InputManager::GetInstance() {
-    static InputManager manager;
-    return manager;
-}
 
 InputManager::InputManager() {
     for(int i=0;i<6;i++) {
@@ -23,6 +19,50 @@ InputManager::InputManager() {
     mouseX = 0;
     mouseY = 0;
 
+}
+
+InputManager& InputManager::GetInstance() {
+    static InputManager manager;
+    return manager;
+}
+
+bool InputManager::QuitRequested() {
+    return quitRequested;
+}
+
+int InputManager::GetMouseX() {
+    return mouseX;
+}
+
+int InputManager::GetMouseY() {
+    return mouseY;
+}
+
+bool InputManager::KeyPress(int key) {
+    if(key > 0x40000000) key -= 0x3FFFFF81;
+    return keyState[key] && keyUpdate[key] == updateCounter;
+}
+
+bool InputManager::KeyRelease(int key) {
+    if(key > 0x40000000) key -= 0x3FFFFF81;
+    return !(mouseState[key]) && keyUpdate[key] == updateCounter;
+}
+
+bool InputManager::IsKeyDown(int key) {
+    if(key > 0x40000000) key -= 0x3FFFFF81;
+    return keyState[key];
+}
+
+bool InputManager::MousePress(int button) {
+    return mouseState[button] && mouseUpdate[button] == updateCounter;    
+}
+
+bool InputManager::MouseRelease(int button) {
+    return !(mouseState[button]) && mouseUpdate[button] == updateCounter;
+}
+
+bool InputManager::IsMouseDown(int button) {
+    return mouseState[button];
 }
 
 void InputManager::Update() {
@@ -55,44 +95,4 @@ void InputManager::Update() {
         }
 
     }            
-}
-
-
-bool InputManager::MousePress(int button) {
-    return mouseState[button] && mouseUpdate[button] == updateCounter;    
-}
-
-bool InputManager::MouseRelease(int button) {
-    return !(mouseState[button]) && mouseUpdate[button] == updateCounter;
-}
-
-bool InputManager::IsMouseDown(int button) {
-    return mouseState[button];
-}
-
-bool InputManager::KeyPress(int key) {
-    if(key > 0x40000000) key -= 0x3FFFFF81;
-    return keyState[key] && keyUpdate[key] == updateCounter;
-}
-
-bool InputManager::KeyRelease(int key) {
-    if(key > 0x40000000) key -= 0x3FFFFF81;
-    return !(mouseState[key]) && keyUpdate[key] == updateCounter;
-}
-
-bool InputManager::IsKeyDown(int key) {
-    if(key > 0x40000000) key -= 0x3FFFFF81;
-    return keyState[key];
-}
-
-int InputManager::GetMouseX() {
-    return mouseX;
-}
-
-int InputManager::GetMouseY() {
-    return mouseY;
-}
-
-bool InputManager::QuitRequested() {
-    return quitRequested;
 }

@@ -10,6 +10,10 @@ Music::Music(std::string file): Music() {
     Open(file);
 }
 
+Music::~Music() {
+    Stop();
+}
+
 void Music::Play(int times) {
     if(IsOpen()) {
         if(Mix_PlayMusic(music.get(),times) == -1) {
@@ -40,8 +44,4 @@ bool Music::IsOpen(){
         return false;
     else 
         return true;   
-}
-
-Music::~Music() {
-    Stop();
 }

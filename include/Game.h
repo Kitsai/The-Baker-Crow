@@ -29,12 +29,12 @@ class Game {
         State& GetCurrentState();
 
         /// @brief Pushes a new State into the state stack. 
-        /// Getting the fist state. and starts the game loop. Where it deals with the state stack and updated and renders the current state. 
-        /// Updates the Input Manager and calculated the Delta Time.
         /// @param state Pointer to the State that need to be put on the stack.
         void Push(State* state);
 
         /// @brief Runs the Game. Starting by
+        /// Getting the fist state. and starts the game loop. Where it deals with the state stack and updated and renders the current state. 
+        /// Updates the Input Manager and calculated the Delta Time.
         void Run();
 
         /// @brief Getter for the delta time.

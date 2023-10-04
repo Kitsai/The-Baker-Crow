@@ -48,12 +48,6 @@ void Collider::Render() {
 #endif // DEBUG
 }
 
-/// @brief 
-/// Returns whether the object is of a certain type.
-/// @param type 
-/// Type to be checked.
-/// @return 
-/// True if type matches with the passed argument.
 bool Collider::Is(std::string type) {
     if(type == "Collider") 
         return true;

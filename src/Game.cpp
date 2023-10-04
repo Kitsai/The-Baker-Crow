@@ -7,12 +7,6 @@
 
 Game* Game::instance = nullptr;
 
-Game& Game::GetInstance() {
-    if(Game::instance == nullptr) 
-        instance = new Game("The Baker Crow", 1920, 1080);
-    return *Game::instance;
-}
-
 
 Game::Game(const char* title, int width, int height) {
     if(Game::instance != nullptr) { 
@@ -85,15 +79,20 @@ Game::~Game() {
     SDL_Quit();
 }
 
+Game& Game::GetInstance() {
+    if(Game::instance == nullptr) 
+        instance = new Game("The Baker Crow", 1920, 1080);
+    return *Game::instance;
+}
+
+SDL_Renderer* Game::GetRenderer() {
+    return renderer;
+}
 
 State& Game::GetCurrentState() {
     return *stateStack.top();
 }
 
-
-SDL_Renderer* Game::GetRenderer() {
-    return renderer;
-}
 
 void Game::Push(State* state) {
     storedState = state;
@@ -143,14 +142,6 @@ void Game::Run() {
     Resources::ClearFonts();
 }
 
-
-void Game::CalculateDeltaTime() {
-    unsigned t = SDL_GetTicks();
-    dt = (float)(t-frameStart)*0.0001F;
-    frameStart = t;
-}
-
-
 float Game::GetDeltaTime() {
     return dt;
 }
@@ -161,4 +152,10 @@ int Game::GetWindowWidth() {
 
 int Game::GetWindowHeight() {
     return windowHeight;
+}
+
+void Game::CalculateDeltaTime() {
+    unsigned t = SDL_GetTicks();
+    dt = (float)(t-frameStart)*0.0001F;
+    frameStart = t;
 }
