@@ -31,15 +31,15 @@ int& TileMap::At(int x, int y, int z) {
     return tileMatrix[at];
 }
 
-void TileMap::RenderLayer(int layer,float cameraX,float cameraY) {
-    for(unsigned i = 0; i < mapHeight*mapWidth; i++) {
-        tileSet->RenderTile(tileMatrix[i + layer*mapHeight*mapWidth],(i%mapWidth)*tileSet->GetTileWidth() - cameraX,(i/mapWidth)*tileSet->GetTileHeight() - cameraY);
-    }
-}
-
 void TileMap::Render() {
     for(int i = 0; i < mapDepth; i++) {
         RenderLayer(i,Camera::pos.x,Camera::pos.y);
+    }
+}
+
+void TileMap::RenderLayer(int layer,float cameraX,float cameraY) {
+    for(unsigned i = 0; i < mapHeight*mapWidth; i++) {
+        tileSet->RenderTile(tileMatrix[i + layer*mapHeight*mapWidth],(i%mapWidth)*tileSet->GetTileWidth() - cameraX,(i/mapWidth)*tileSet->GetTileHeight() - cameraY);
     }
 }
 

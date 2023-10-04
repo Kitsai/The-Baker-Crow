@@ -24,6 +24,21 @@ Sprite::~Sprite() {
 
 }
 
+void Sprite::SetFrame(int frame) {
+    currentFrame = frame;
+    clipRect.x = frame*(width/frameCount);
+}
+
+void Sprite::SetFrameCount(int frame) {
+    frameCount = frame;
+    currentFrame = 0;
+    associated.box.w = width/frameCount; 
+}
+
+void Sprite::SetFrameTime(float frameTime) {
+    this->frameTime = frameTime;
+}
+
 void Sprite::Open(std::string file) {
 
     texture = Resources::GetImage(file);
@@ -83,6 +98,23 @@ int Sprite::GetHeight() {
     return height*scale.y;
 }
 
+void Sprite::SetScale(Vec2 scale) {
+    SetScale(scale.x,scale.y);
+}
+
+void Sprite::SetScale(float scaleX, float scaleY) {
+    scale.x = (scaleX==0)? scale.x:scaleX;
+    scale.y = (scaleY==0)? scale.y:scaleY;
+    Vec2 center = associated.box.GetCenter();
+    associated.box.w *= scale.x;
+    associated.box.h *= scale.y;
+    associated.box.SetCenter(center);
+}
+
+Vec2 Sprite::GetScale() {
+    return scale;
+}
+
 bool Sprite::IsOpen() {
     if(texture == nullptr) 
         return false;
@@ -111,36 +143,4 @@ bool Sprite::Is(std::string type) {
         return true;
     else
         return false; 
-}
-
-void Sprite::SetScale(Vec2 scale) {
-    SetScale(scale.x,scale.y);
-}
-
-void Sprite::SetScale(float scaleX, float scaleY) {
-    scale.x = (scaleX==0)? scale.x:scaleX;
-    scale.y = (scaleY==0)? scale.y:scaleY;
-    Vec2 center = associated.box.GetCenter();
-    associated.box.w *= scale.x;
-    associated.box.h *= scale.y;
-    associated.box.SetCenter(center);
-}
-
-Vec2 Sprite::GetScale() {
-    return scale;
-}
-
-void Sprite::SetFrame(int frame) {
-    currentFrame = frame;
-    clipRect.x = frame*(width/frameCount);
-}
-
-void Sprite::SetFrameCount(int frame) {
-    frameCount = frame;
-    currentFrame = 0;
-    associated.box.w = width/frameCount; 
-}
-
-void Sprite::SetFrameTime(float frameTime) {
-    this->frameTime = frameTime;
 }

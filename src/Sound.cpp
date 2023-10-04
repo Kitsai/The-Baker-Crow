@@ -29,6 +29,10 @@ void Sound::Stop() {
     Mix_HaltChannel(channel);
 }
 
+bool Sound::IsPlaying() {
+    return Mix_Playing(channel)>0;
+}
+
 /// @brief Opens the given Sound with the Resource Manager.
 /// @param file Path to the sound file.
 void Sound::Open(std::string file) {
@@ -50,11 +54,6 @@ bool Sound::IsOpen() {
         return false;  
 }
 
-/// @brief Checks if the the associated sound is playing.
-/// @return true if the sound is playing at the moment.
-bool Sound::IsPlaying() {
-    return Mix_Playing(channel)>0;
-}
 
 void Sound::Update(float dt) {
 
@@ -64,12 +63,6 @@ void Sound::Render() {
 
 }
 
-/// @brief 
-/// Returns whether the object is of a certain type.
-/// @param type 
-/// Type to be checked.
-/// @return 
-/// True if type matches with the passed argument.
 bool Sound::Is(std::string type) {
     if(type == "Sound") 
         return true;

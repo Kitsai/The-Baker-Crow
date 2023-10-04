@@ -44,6 +44,7 @@ class Vec2 {
         /// @param d Radians to rotate the vector.
         /// @return Rotated version of vector by d radians.
         Vec2 GetRotated(float d);
+        float calcInvRoot(float x);
 };
 
 #endif

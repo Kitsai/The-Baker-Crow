@@ -24,6 +24,14 @@ Vec2 Vec2::operator - (const Vec2& v) {
     vec.y = y - v.y;
     return vec;
 }
+void Vec2::operator += (const Vec2& v) {
+    x += v.x;
+    y += v.y;
+}
+void Vec2::operator -= (const Vec2& v) {
+    x -= v.x;
+    y -= v.y;
+}
 Vec2 Vec2::operator * (float e) {
     Vec2 vec;
     vec.x = x*e;
@@ -38,15 +46,7 @@ Vec2 Vec2::operator / (float e) {
     return vec;
 }
 
-void Vec2::operator += (const Vec2& v) {
-    x += v.x;
-    y += v.y;
-}
 
-void Vec2::operator -= (const Vec2& v) {
-    x -= v.x;
-    y -= v.y;
-}
 
 float Vec2::magnitude() {
     return sqrt((pow(x,2) + pow(y,2)));
@@ -54,9 +54,9 @@ float Vec2::magnitude() {
 
 Vec2 Vec2::normalized() {
     Vec2 ret;
-    float mag = magnitude();
-    ret.x = x / mag;
-    ret.y = y / mag;
+    float inv = calcInvRoot(x*x + y*y);
+    ret.x = x * inv;
+    ret.y = y * inv;
     return ret;
 }
 
@@ -79,3 +79,15 @@ Vec2 Vec2::GetRotated(float d) {
     return vec;
 }
 
+float Vec2::calcInvRoot(float x) {
+    long long i;
+    float x2,y;
+    
+    x2 = x * 0.5F;
+    y = x;
+    i = *(long long*) &y;
+    i = 0x5f3759df - (i >> 1);
+    y = *(float*) &i;
+    y = y * (1.5F - (x2 * y * y));
+    y = y * (1.5F - (x2 * y * y));
+}
