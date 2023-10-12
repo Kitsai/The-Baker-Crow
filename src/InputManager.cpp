@@ -53,6 +53,11 @@ bool InputManager::IsKeyDown(int key) {
     return keyState[key];
 }
 
+bool InputManager::AnyKeyDown() {
+    for(int i=0;i<416;i++) if(keyState[i]) return true;
+    return false;
+}
+
 bool InputManager::MousePress(int button) {
     return mouseState[button] && mouseUpdate[button] == updateCounter;    
 }
@@ -63,6 +68,11 @@ bool InputManager::MouseRelease(int button) {
 
 bool InputManager::IsMouseDown(int button) {
     return mouseState[button];
+}
+
+bool InputManager::AnyMouseDown() {
+    for(int i=0;i<6;i++) if(mouseState[i]) return true;
+    return false;
 }
 
 void InputManager::Update() {

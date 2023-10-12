@@ -8,6 +8,9 @@
 #define CAMERA_RESET_A 150
 #define CAMERA_SPEED_LIM 300
 
-
+//TUKI OVERWORLD
+#define TOW_SPEED_LIM 300
+#define TOW_A 50
+#define TOW_FRICTION 20
 
 #endif

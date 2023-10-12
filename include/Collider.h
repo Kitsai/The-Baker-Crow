@@ -3,6 +3,7 @@
 
 #include <GameObject.h>
 #include <string>
+#include "defines/DefineColor.h"
 
 /// @brief Component that adds a hitbox to the GameObject.
 class Collider: public Component {
@@ -11,13 +12,15 @@ class Collider: public Component {
         Vec2 scale;
         /// @brief Offset of the hitbox.
         Vec2 offset;
+        /// @brief color of the lines drawn to show box.
+        SDL_Color color;
     
     public:
         /// @brief Constructor For the Collider.
         /// @param associated Associated GameObject.
         /// @param scale Scale of hitbox.
         /// @param offSet Offset of hitbox.
-        Collider(GameObject& associated, Vec2 scale = {1,1},Vec2 offSet = {0,0});
+        Collider(GameObject& associated, Vec2 scale = {1,1},Vec2 offSet = {0,0}, SDL_Color color = COLOR_RED);
 
         /// @brief The hitbox itself.
         Rect box;
@@ -38,6 +41,7 @@ class Collider: public Component {
         /// @brief Sets the hitbx Offset and updates it accordingly.
         /// @param offset Vector with the new Offset.
         void SetOffset(Vec2 offset);
+        void SetColor(SDL_Color color);
 };
 
 #endif

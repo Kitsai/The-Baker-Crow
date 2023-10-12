@@ -9,9 +9,10 @@
 #include <SDL2/SDL.h>
 #endif // DEBUG
 
-Collider::Collider(GameObject& associated, Vec2 scale, Vec2 offSet): Component(associated) {
+Collider::Collider(GameObject& associated, Vec2 scale, Vec2 offSet, SDL_Color color): Component(associated) {
 	this->scale = scale;
 	offset = offSet;
+	this->color = color;
 }
 
 void Collider::Update(float dt) {
@@ -43,7 +44,7 @@ void Collider::Render() {
 					+ center - Camera::pos;
 	points[3] = {(int)point.x, (int)point.y};
 
-	SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), 255, 0, 0, SDL_ALPHA_OPAQUE);
+	SDL_SetRenderDrawColor(Game::GetInstance().GetRenderer(), color.r , color.g, color.b, color.a);
 	SDL_RenderDrawLines(Game::GetInstance().GetRenderer(), points, 5);
 #endif // DEBUG
 }
@@ -61,4 +62,8 @@ void Collider::SetScale(Vec2 scale) {
 
 void Collider::SetOffset(Vec2 offset) {
 	this->offset = offset;
+}
+
+void Collider::SetColor(SDL_Color color) {
+	this->color = color;
 }

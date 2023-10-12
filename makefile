@@ -7,7 +7,7 @@ LIBS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lm
 
 INC_PATHS = -I$(INC_PATH) $(addprefix -I,$(SDL_INC_PATH))
 
-FLAGS = -std=c++11 -Wall -pedantic -Wextra -Wno-unused-parameter -Werror=init-self
+FLAGS = -std=c++17 -Wall -pedantic -Wextra -Wno-unused-parameter -Werror=init-self
 
 DFLAGS = -ggdb -O0 -DDEBUG
 
@@ -24,7 +24,7 @@ FILE_NAMES = $(sort $(notdir $(CPP_FILES:.cpp=)) $(notdir $(INC_FILES:.h=)))
 DEP_FILES = $(addprefix $(DEP_PATH)/,$(addsuffix .d,$(FILE_NAMES)))
 OBJ_FILES = $(addprefix $(BIN_PATH)/,$(notdir $(CPP_FILES:.cpp=.o)))
 
-EXEC = The Baker Crow
+EXEC = TheBakerCrow
 
 # SE FOR WINDOWS
 ifeq ($(OS),Windows_NT)

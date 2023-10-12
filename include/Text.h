@@ -5,7 +5,7 @@
 #include "SDL2/SDL_ttf.h"
 #include <string>
 #include <memory>
-#include <defines/DefinesInclude.h>
+#include "defines/DefinesInclude.h"
 
 #include <GameObject.h>
 

@@ -22,6 +22,8 @@ class Vec2 {
         void operator -= (const Vec2& v);
         Vec2 operator * (float e);
         Vec2 operator / (float e);
+        Vec2& operator [] (int i);
+
         
         /// @brief Gets the vector magnitude.
         /// @return magnitude as a float.
