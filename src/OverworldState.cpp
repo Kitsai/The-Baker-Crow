@@ -2,7 +2,15 @@
 
 OverworldState::OverworldState(): State() {
 
-    Game& game = Game::GetInstance();
+    // Game& game = Game::GetInstance();
+    GameObject* bg = new GameObject();
+    bg->AddComponent(new Sprite(*bg,"resources/img/blackBG.jpg"));
+    AddObject(bg);
+
+    GameObject* map = new GameObject();
+    TileSet* ts = new TileSet(*map,64,64,"resources/img/placeholder.png");
+    map->AddComponent(new TileMap(*map,"resources/map/placeholder.txt",ts));
+    AddObject(map);
 
     GameObject* tuki = new GameObject();
     tuki->AddComponent(new TukiOW(*tuki));

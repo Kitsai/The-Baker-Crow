@@ -49,14 +49,19 @@ Vec2 Vec2::operator / (float e) {
 
 
 float Vec2::magnitude() {
-    return sqrt((pow(x,2) + pow(y,2)));
+    return sqrt(x*x + y*y);
 }
 
 Vec2 Vec2::normalized() {
     Vec2 ret;
-    float inv = calcInvRoot(x*x + y*y);
-    ret.x = x * inv;
-    ret.y = y * inv;
+    // float inv = calcInvRoot(x*x + y*y);
+    // ret.x = x * inv;
+    // ret.y = y * inv;
+
+    float mag = magnitude();
+    ret.x = x/mag;
+    ret.y = y/mag;
+
     return ret;
 }
 
@@ -81,13 +86,13 @@ Vec2 Vec2::GetRotated(float d) {
 
 float Vec2::calcInvRoot(float x) {
     long long i;
-    float x2,y;
+    float x2 = x * 0.5F;
+    float y = x;
     
-    x2 = x * 0.5F;
-    y = x;
     i = *(long long*) &y;
     i = 0x5f3759df - (i >> 1);
     y = *(float*) &i;
-    y = y * (1.5F - (x2 * y * y));
-    y = y * (1.5F - (x2 * y * y));
+    y *= (1.5F - (x2 * y * y));
+    y *= (1.5F - (x2 * y * y));
+    return y;
 }

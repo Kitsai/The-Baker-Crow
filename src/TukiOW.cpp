@@ -1,7 +1,7 @@
 #include <TukiOW.h>
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
-    associated.AddComponent(new Sprite(associated, "resources/img/PlayerBasicPlaceholder.png"));
+    associated.AddComponent(new Sprite(associated, "resources/img/tuki_pre.png"));
 }
 
 TukiOW::~TukiOW() {

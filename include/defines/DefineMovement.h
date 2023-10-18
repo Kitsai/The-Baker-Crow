@@ -10,7 +10,7 @@
 
 //TUKI OVERWORLD
 #define TOW_SPEED_LIM 300
-#define TOW_A 50
+#define TOW_A 300
 #define TOW_FRICTION 20
 
 #endif
