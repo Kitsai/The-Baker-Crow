@@ -81,7 +81,7 @@ Game::~Game() {
 
 Game& Game::GetInstance() {
     if(Game::instance == nullptr) 
-        instance = new Game("The Baker Crow", 1920, 1080);
+        instance = new Game("The Baker Crow", 1280, 720);
     return *Game::instance;
 }
 

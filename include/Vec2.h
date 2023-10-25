@@ -22,12 +22,14 @@ class Vec2 {
         void operator -= (const Vec2& v);
         Vec2 operator * (float e);
         Vec2 operator / (float e);
-        Vec2& operator [] (int i);
 
         
         /// @brief Gets the vector magnitude.
         /// @return magnitude as a float.
         float magnitude();
+        /// @brief Gets the vector magnitude squared.
+        /// @return float that is mag*mag
+        float magSquare();
         /// @brief Normalizes the vector using its magnitude.
         /// @return A normalized version of the vector.
         Vec2 normalized();

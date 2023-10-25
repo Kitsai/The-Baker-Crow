@@ -5,6 +5,7 @@ OverworldState::OverworldState(): State() {
     // Game& game = Game::GetInstance();
     GameObject* bg = new GameObject();
     bg->AddComponent(new Sprite(*bg,"resources/img/blackBG.jpg"));
+    bg->AddComponent(new CameraFollower(*bg));
     AddObject(bg);
 
     GameObject* map = new GameObject();

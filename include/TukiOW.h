@@ -18,6 +18,7 @@ class TukiOW: public Player {
         bool Is(std::string type);
         
     private:
+        Timer dashTimer;
         void CalcSpeed(float dt);
 
 };

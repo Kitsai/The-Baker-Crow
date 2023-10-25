@@ -49,7 +49,11 @@ Vec2 Vec2::operator / (float e) {
 
 
 float Vec2::magnitude() {
-    return sqrt(x*x + y*y);
+    return sqrt(magSquare());
+}
+
+float Vec2::magSquare() {
+    return x*x + y*y;
 }
 
 Vec2 Vec2::normalized() {

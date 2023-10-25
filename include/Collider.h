@@ -24,6 +24,8 @@ class Collider: public Component {
 
         /// @brief The hitbox itself.
         Rect box;
+        /// @brief Saves whether the hitbox is currently active.
+        bool active;
 
         /// @brief Updates the component. Follows the associated object position.
         /// @param dt Delta Time.
