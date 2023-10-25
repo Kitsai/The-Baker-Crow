@@ -15,7 +15,11 @@ void TukiOW::Update(float dt) {
         GameData::playerAlive = false;
     }
 
-    if(iM.KeyPress(Z_KEY) && state != PlayerState::DODGING) {
+    if(iM.KeyPress(X_KEY) && state != PlayerState::DODGING) {
+        
+    }
+
+    if(iM.KeyPress(Z_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
         //Sets the state to dodging sets the speed and deactivates the hitbox.
         state = PlayerState::DODGING;
 
@@ -42,12 +46,12 @@ void TukiOW::Update(float dt) {
     CalcSpeed(dt);
 
     if(state == PlayerState::DODGING) {
-        dashTimer.Update(dt);
+        //playerTimer.Update(dt);
 
         if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM ) {
             speed = speed.normalized()*TOW_SPEED_LIM;
             state = WALKING;
-            dashTimer.Restart();
+            //playerTimer.Restart();
 
             Collider* hitbox = (Collider*)associated.GetComponent("Collider");
             hitbox->active = true;
