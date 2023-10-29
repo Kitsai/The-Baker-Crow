@@ -19,6 +19,7 @@ class TukiOW: public Player {
         
     private:
         void CalcSpeed(float dt);
+        std::weak_ptr<GameObject> attack;
 
 };
 

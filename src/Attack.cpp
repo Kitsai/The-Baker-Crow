@@ -1,15 +1,18 @@
 #include <Attack.h>
 
-Attack::Attack(GameObject& associated, int damage, bool friendly, Vec2 speed, float duration): Component(associated) {
-    this->speed = speed;
+Attack::Attack(GameObject& associated, int damage, bool friendly, float duration, float speed): Component(associated) {
+    this->speed = Vec2(1,0).GetRotated(associated.angleDeg)*speed;
     this->damage = damage;
     this->friendly = friendly;
     this->duration = duration;    
 
+    associated.box.w = 32;
+    associated.box.h = 32;
+
     associated.AddComponent(new Collider(associated,{1,1},{0,0},COLOR_GREEN));
 }
 
-Attack::Attack(GameObject& associated, int damage, bool friendly, Vec2 speed, std::string file,float duration, int frameCount,float frameTime): Component(associated) {
+Attack::Attack(GameObject& associated, int damage, std::string file, bool friendly, float speed,float duration, int frameCount,float frameTime): Component(associated) {
     this->speed = speed;
     this->damage = damage;
     this->friendly = friendly;
@@ -30,7 +33,12 @@ void Attack::Update(float dt) {
         associated.RequestDelete();
         return;
     }
-    associated.box += speed*dt;
+
+    if(speed.x != 0 && speed.y != 0)
+        associated.box += speed;
+    else {
+        
+    }
 }
 
 void Attack::Render() {

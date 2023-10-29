@@ -2,8 +2,12 @@
 #define GameObject_h_
 
 #include <Rect.h>
+#include <Timer.h>
+
 #include <Component.h>
 #include <Collider.h>
+
+#include <Attack.h>
 
 #include <vector>
 #include <string>
@@ -11,6 +15,7 @@
 
 #include <Sprite.h>
 #include <Sound.h>
+
 
 /// @brief A object in the game. It holds a list of components that make that game object.
 class GameObject {

@@ -5,8 +5,8 @@
 
 class Attack: public Component {
     public:
-        Attack(GameObject& associated,int damage,bool friendly = false,Vec2 speed = {0,0}, float duration = 0 );
-        Attack(GameObject& associated,int damage,bool friendly = false, Vec2 speed = {0,0},std::string file, float duration = 0,int frameCount = 1, float frameTime = 0);
+        Attack(GameObject& associated,int damage,bool friendly = false, float duration = 0,float speed = 0 );
+        Attack(GameObject& associated,int damage,std::string file,bool friendly = false, float speed = 0, float duration = 0,int frameCount = 1, float frameTime = 0);
 
         ~Attack();
 

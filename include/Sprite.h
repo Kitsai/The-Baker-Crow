@@ -5,7 +5,6 @@
 #include <Rect.h>
 #include <string>
 #include <GameObject.h>
-#include <Timer.h>
 
 /// @brief An image component.
 class Sprite: public Component {

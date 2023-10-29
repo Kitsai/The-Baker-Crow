@@ -15,8 +15,17 @@ void TukiOW::Update(float dt) {
         GameData::playerAlive = false;
     }
 
-    if(iM.KeyPress(X_KEY) && state != PlayerState::DODGING) {
-        
+    if(iM.KeyPress(X_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
+        GameObject* attk = new GameObject();
+        attk->AddComponent(new Attack(*attk,50,true,1.0F,0));
+        attk->angleDeg = speed.incl();
+        attack = Game::GetInstance().GetCurrentState().AddObject(attk);
+        attk->box.SetCenter(Vec2(28,0).GetRotated(speed.incl()) + associated.box.GetCenter());
+        state = PlayerState::ATTACKING;
+    }
+
+    if(PlayerState::ATTACKING == state && attack.expired()) {
+        state = PlayerState::WALKING;
     }
 
     if(iM.KeyPress(Z_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
