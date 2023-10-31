@@ -3,6 +3,7 @@
 
 #include "defines/DefineInput.h"
 #include "SDL2/SDL.h"
+#include <Controller.h>
 
 /// @brief A manager that handles an input events
 class InputManager {
@@ -31,6 +32,8 @@ class InputManager {
         int mouseX;
         /// @brief y coordinate for the mouse cursor.
         int mouseY;
+
+        std::vector<std::unique_ptr<Controller>> controllers; 
 
         /// @brief Initializes all vectors with the defoult values of false and 0. And all other members following the same pattern.
         InputManager();

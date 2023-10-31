@@ -15,7 +15,7 @@ Game::Game(const char* title, int width, int height) {
     }
     Game::instance = this;
     
-    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK) != 0) {
+    if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK |SDL_INIT_GAMECONTROLLER) != 0) {
         std::cerr << "Error Game:22 -  " << SDL_GetError() << std::endl;
         exit(-1);
     }
