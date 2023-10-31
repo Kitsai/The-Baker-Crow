@@ -26,14 +26,14 @@ class InputManager {
         bool quitRequested;
 
         /// @brief A counter for how many times Update was run.
-        int updateCounter;
+        unsigned updateCounter;
 
         /// @brief x coordinate for the mouse cursor.
         int mouseX;
         /// @brief y coordinate for the mouse cursor.
         int mouseY;
 
-        std::vector<std::unique_ptr<Controller>> controllers; 
+        Controller* controller; 
 
         /// @brief Initializes all vectors with the defoult values of false and 0. And all other members following the same pattern.
         InputManager();

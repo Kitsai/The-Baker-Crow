@@ -81,28 +81,66 @@ void InputManager::Update() {
     /// coordenadas do mouse;
     SDL_GetMouseState(&mouseX,&mouseY);
 
+    controller->Update();
 
     quitRequested = false;
 
     updateCounter++;
 
     while(SDL_PollEvent(&event)) {
-        if(event.type == SDL_QUIT)
+
+        switch (event.type)
+        {
+        case SDL_QUIT:
             quitRequested = true;
+            break;
         
-        /// Seta o status do botao apertado como true no vetor
-        if(event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP) {
-            mouseState[event.button.button] = event.type == SDL_MOUSEBUTTONDOWN;
+        case SDL_MOUSEBUTTONDOWN:
+            mouseState[event.button.button] = true;
             mouseUpdate[event.button.button] = updateCounter;
-        }
+            break;
 
-        /// Calcula o indice caso seja necessario e seta como verdadeiro ou falso baseado no evento ocorrido
-        if((event.type == SDL_KEYDOWN || event.type == SDL_KEYUP) && event.key.repeat != 1) {
-            int id = event.key.keysym.sym; 
-            id -= (id >= 0x40000000)? 0x3FFFFF81 : 0;
-            keyState[id] = event.type == SDL_KEYDOWN;
+        case SDL_MOUSEBUTTONUP:
+            mouseState[event.button.button] = false;
+            mouseUpdate[event.button.button] = updateCounter;
+            break;
+
+        case SDL_KEYDOWN:
+            if(event.key.repeat != 1) break;
+            int id = event.key.keysym.sym;
+            if(id >= 0x40000000) id -= 0x3FFFFF81;
+
+            keyState[id] = true;
             keyUpdate[id] = updateCounter;
-        }
+            break;
 
+        case SDL_KEYUP:
+            if(event.key.repeat != 1) break;
+            int id = event.key.keysym.sym;
+            if(id >= 0x40000000) id -= 0x3FFFFF81;
+
+            keyState[id] = false;
+            keyUpdate[id] = updateCounter;
+            break;
+
+        case SDL_CONTROLLERDEVICEADDED:
+            if(!controller) controller = new Controller((int)event.cdevice.which);
+            break;
+        case SDL_CONTROLLERDEVICEREMOVED:
+            if(controller && event.cdevice.which == controller->GetId()) {
+                delete controller;
+                controller = Controller::CheckControllers();
+            }
+            break;
+        case SDL_CONTROLLERBUTTONDOWN:
+        case SDL_CONTROLLERBUTTONUP:
+            if(controller && event.cdevice.which == controller->GetId()) {
+                controller->ProcessEvent(event);
+            }
+            break;
+
+        default:
+            break;
+        }
     }            
 }
