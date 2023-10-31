@@ -10,18 +10,21 @@ TukiOW::~TukiOW() {
 
 void TukiOW::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
+    State& currState = Game::GetInstance().GetCurrentState();
+
     if(hp <= 0) {
         associated.RequestDelete();
         GameData::playerAlive = false;
     }
 
     if(iM.KeyPress(X_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
+        
         GameObject* attk = new GameObject();
-        attk->AddComponent(new Attack(*attk,50,true,1.0F,0));
+        attk->AddComponent(new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1,0));
         attk->angleDeg = speed.incl();
-        attack = Game::GetInstance().GetCurrentState().AddObject(attk);
-        attk->box.SetCenter(Vec2(28,0).GetRotated(speed.incl()) + associated.box.GetCenter());
+        attk->box.SetCenter(Vec2(32,0).GetRotated(speed.incl()) + associated.box.GetCenter());
         state = PlayerState::ATTACKING;
+        currState.AddObject(attk);
     }
 
     if(PlayerState::ATTACKING == state && attack.expired()) {
@@ -82,7 +85,7 @@ void TukiOW::CalcSpeed(float dt) {
     std::cout << "x: " << speed.x << " y: " << speed.y << std::endl;
 
     if(state == PlayerState::DODGING) {
-        speed -= speed.normalized()*dt*TOW_DASH_DECELERATION*0.5F;
+        speed -= speed.normalized()*dt*TOW_DASH_DECELERATION;
         return;
     }
 

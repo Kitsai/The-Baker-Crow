@@ -1,6 +1,10 @@
 #ifndef GameObject_h_
 #define GameObject_h_
 
+#include <vector>
+#include <string>
+#include <memory>
+
 #include <Rect.h>
 #include <Timer.h>
 
@@ -8,10 +12,6 @@
 #include <Collider.h>
 
 #include <Attack.h>
-
-#include <vector>
-#include <string>
-#include <memory>
 
 #include <Sprite.h>
 #include <Sound.h>

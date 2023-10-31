@@ -1,6 +1,6 @@
 #include <TileSet.h>
 
-TileSet::TileSet(GameObject& associated, int tileWidth, int tileHeight, const char* file) {
+TileSet::TileSet(GameObject& associated, int tileWidth, int tileHeight, std::string file) {
     this->tileHeight = tileHeight;
     this->tileWidth = tileWidth;
     tileSet = new Sprite(associated,file);
@@ -8,6 +8,10 @@ TileSet::TileSet(GameObject& associated, int tileWidth, int tileHeight, const ch
         rows = tileSet->GetHeight()/tileHeight;
         columns = tileSet->GetWidth()/tileWidth;
     }
+}
+
+TileSet::TileSet(GameObject& associated, int tileWidth,int tileHeight, std::string imgFile, std::string dataFile): TileSet(associated,tileWidth,tileHeight,imgFile) {
+    OpenMetadata(dataFile);
 }
 
 TileSet::~TileSet() {
@@ -27,4 +31,16 @@ int TileSet::GetTileWidth() {
 
 int TileSet::GetTileHeight() {
     return tileHeight;
+}
+
+void TileSet::OpenMetadata(std::string file) {
+    std::ifstream myfile (file);
+    if(myfile.is_open()) {
+        while(myfile) {
+            char auxc;
+            unsigned aux; 
+            myfile >> aux >> auxc;
+            metadata.push_back(aux);
+        }
+    }
 }

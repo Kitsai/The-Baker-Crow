@@ -32,9 +32,16 @@ void OverworldState::LoadAssets() {
 
 void OverworldState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
+
+    Camera::Update(dt);
+
     if(iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested()) quitRequested = true;
 
     UpdateArray(dt);
+
+    CheckCollisions();
+
+    DeleteObjects();
 }
 
 void OverworldState::Render() {
@@ -42,7 +49,9 @@ void OverworldState::Render() {
 }
 
 void OverworldState::Start() {
+    LoadAssets();
     StartArray();
+    started = true;
 }
 
 void OverworldState::Pause() {

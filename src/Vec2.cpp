@@ -46,6 +46,37 @@ Vec2 Vec2::operator / (float e) {
     return vec;
 }
 
+bool Vec2::operator==(const Vec2& v) {
+    return x==v.x && y==v.y;
+}
+
+bool Vec2::operator!=(const Vec2& v) {
+    return not operator==(v);
+}
+
+bool Vec2::operator==(float f) {
+    return magSquare() == f*f;
+}
+
+bool Vec2::operator!=(float f) {
+    return !operator==(f);
+}
+
+bool Vec2::operator<(Vec2& v) {
+    return magSquare() < v.magSquare();
+}
+
+bool Vec2::operator<=(Vec2& v) {
+    return operator<(v) && operator==(v);
+}
+
+bool Vec2::operator>(Vec2& v) {
+    return !operator<=(v);
+}
+
+bool Vec2::operator>=(Vec2& v) {
+    return !operator<(v);
+}
 
 
 float Vec2::magnitude() {
@@ -58,13 +89,13 @@ float Vec2::magSquare() {
 
 Vec2 Vec2::normalized() {
     Vec2 ret;
-    // float inv = calcInvRoot(x*x + y*y);
-    // ret.x = x * inv;
-    // ret.y = y * inv;
+    float inv = calcInvRoot(x*x + y*y);
+    ret.x = x * inv;
+    ret.y = y * inv;
 
-    float mag = magnitude();
-    ret.x = x/mag;
-    ret.y = y/mag;
+    // float mag = magnitude();
+    // ret.x = x/mag;
+    // ret.y = y/mag;
 
     return ret;
 }

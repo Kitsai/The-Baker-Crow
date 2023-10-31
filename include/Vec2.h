@@ -23,6 +23,16 @@ class Vec2 {
         Vec2 operator * (float e);
         Vec2 operator / (float e);
 
+        bool operator==(const Vec2& v);
+        bool operator!=(const Vec2& v);
+        bool operator==(float f);
+        bool operator!=(float f);
+
+        bool operator<(Vec2& v);
+        bool operator<=(Vec2& v);
+        bool operator>(Vec2& v);
+        bool operator>=(Vec2& v);
+
         
         /// @brief Gets the vector magnitude.
         /// @return magnitude as a float.

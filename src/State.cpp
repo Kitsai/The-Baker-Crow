@@ -1,5 +1,7 @@
 #include <State.h>
 
+#include "Collision.cpp"
+
 State::State() {
     popRequested = false;
     quitRequested = false;
@@ -51,4 +53,26 @@ void State::UpdateArray(float dt) {
 
 void State::RenderArray() {
     for(int i=0;i<objectArray.size();i++) objectArray[i]->Render();
+}
+
+void State::CheckCollisions() {
+	for(int i=0;i<objectArray.size();i++) {
+		Collider* colliderA = (Collider*)objectArray[i]->GetComponent("Collider");
+
+		if(colliderA != nullptr && colliderA->active) {
+			for(int j=i;j<objectArray.size();++j) {
+				Collider* colliderB = (Collider*)objectArray[j]->GetComponent("Collider");
+				if(colliderB != nullptr && colliderB->active && Collision::IsColliding(colliderA->box, colliderB->box,objectArray[i]->angleDeg,objectArray[j]->angleDeg)) {
+					objectArray[i]->NotifyCollision(*objectArray[j]);
+					objectArray[j]->NotifyCollision(*objectArray[i]);
+				}
+			}
+		}
+	}
+}
+
+void State::DeleteObjects() {
+	for(int i=0;i<objectArray.size();i++) 
+		if(objectArray[i]->IsDead()) 
+			objectArray.erase(objectArray.begin()+i);
 }
