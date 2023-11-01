@@ -1,3 +1,5 @@
 #include <GameData.h>
 
-bool GameData::playerVictory = false;
+bool GameData::playerAlive = false;
+
+Vec2 GameData::lastSafePosition = {0,0};

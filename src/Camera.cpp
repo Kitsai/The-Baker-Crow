@@ -18,7 +18,7 @@ void Camera::Unfollow() {
 void Camera::Update(float dt) { 
     if(focus != nullptr) {
         Game& game = Game::GetInstance();
-        pos = focus->box.GetCenter() - (Vec2(game.GetWindowWidth(),game.GetWindowHeight())*0.5);
+        pos = focus->box.GetCenter() - (Vec2(game.GetWindowWidth(),game.GetWindowHeight())*0.5F);
 
     } else {
 
