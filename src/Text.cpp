@@ -48,11 +48,11 @@ void Text::SetText(std::string text) {
 }
 
 void Text::SetColorA(SDL_Color color) {
-    this-> colorA = colorA;
+    this-> colorA = color;
     RemakeTexture();
 }
 void Text::SetColorB(SDL_Color color) {
-    this-> colorB = colorB;
+    this-> colorB = color;
     RemakeTexture();
 }
 

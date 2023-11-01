@@ -1,7 +1,7 @@
 #ifndef Rect_h_
 #define Rect_h_
 
-#include <Vec2.h>
+#include "Vec2.h"
 
 /// @brief An alrithmethic object that represents a rectangle.
 class Rect {

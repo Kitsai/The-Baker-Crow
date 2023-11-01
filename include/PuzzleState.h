@@ -1,7 +1,7 @@
 #ifndef PuzzleState_h_
 #define PuzzleState_h_
 
-#include <State.h>
+#include "State.h"
 
 class PuzzleState: public State {
     public:

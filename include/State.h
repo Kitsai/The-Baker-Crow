@@ -42,7 +42,7 @@ class State {
         /// @brief Construtor fot the State. Initializes all variables.
         State();
         /// @brief clear the object array.
-        ~State();
+        virtual ~State();
 
         /// @brief Load assets that are used in this State.
         virtual void LoadAssets() = 0;
