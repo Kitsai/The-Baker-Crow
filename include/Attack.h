@@ -3,6 +3,9 @@
 
 #include "GameObject.h"
 
+#include "Collider.h"
+#include "Sprite.h"
+
 class Attack: public Component {
     public:
         Attack(GameObject& associated,

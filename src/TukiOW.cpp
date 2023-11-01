@@ -1,4 +1,4 @@
-#include <TukiOW.h>
+#include "TukiOW.h"
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
     associated.AddComponent(new Sprite(associated, "resources/img/try.png"));

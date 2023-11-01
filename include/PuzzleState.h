@@ -8,13 +8,13 @@ class PuzzleState: public State {
         PuzzleState();
         ~PuzzleState();
 
-        LoadAssets();
-        Update(float dt);
-        Render();
+        void LoadAssets();
+        void Update(float dt);
+        void Render();
 
-        Start();
-        Pause();
-        Resume();
+        void Start();
+        void Pause();
+        void Resume();
 };
 
 #endif

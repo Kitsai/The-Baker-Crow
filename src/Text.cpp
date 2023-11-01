@@ -1,7 +1,7 @@
-#include <Text.h>
+#include "Text.h"
 
-#include <Camera.h>
-#include <Game.h>
+#include "Camera.h"
+#include "Game.h"
 
 Text::Text(GameObject& associated,std::string fontFile,int fontSize,TextStyle style, std::string text,SDL_Color colorA,SDL_Color colorB): Component(associated) {
     this->text = text;

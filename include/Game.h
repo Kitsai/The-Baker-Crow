@@ -5,7 +5,6 @@
 #include <string>
 #include <stack>
 #include "State.h"
-#include "Resources.h"
 
 /// @brief Game it is the object that holds and runs all the game aspects.
 class Game {

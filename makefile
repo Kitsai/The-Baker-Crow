@@ -1,4 +1,11 @@
-COMPILER = g++
+ifeq ($(CXX), clang++)
+	COMPILER = clang++
+else ifeq(&(CXX), clang)
+	COMPILER = clang++
+else
+	COMPILER = g++
+endif
+
 RMDIR = rm -rdf
 RM = rm -f
 

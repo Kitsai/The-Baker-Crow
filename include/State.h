@@ -3,13 +3,14 @@
 
 #include <memory>
 #include <vector>
-#include <Sprite.h>
-#include <GameObject.h>
-#include <Music.h>
-#include <Sound.h>
-#include <TileMap.h>
-#include <CameraFollower.h>
-#include <Text.h>
+#include "Sprite.h"
+#include "GameObject.h"
+#include "Music.h"
+#include "Sound.h"
+#include "TileMap.h"
+#include "CameraFollower.h"
+#include "Text.h"
+#include "Collider.h"
 
 
 
