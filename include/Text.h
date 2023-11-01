@@ -9,7 +9,6 @@
 #include "defines/DefinesInclude.h"
 
 #include "GameObject.h"
-#include "Resources.h"
 
 /// @brief A text component.
 class Text: public Component {

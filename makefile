@@ -1,6 +1,4 @@
-ifeq ($(CXX), clang++)
-	COMPILER = clang++
-else ifeq(&(CXX), clang)
+ifeq ($(COMP), clang++)
 	COMPILER = clang++
 else
 	COMPILER = g++

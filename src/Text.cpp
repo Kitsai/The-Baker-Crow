@@ -2,6 +2,7 @@
 
 #include "Camera.h"
 #include "Game.h"
+#include "Resources.h"
 
 Text::Text(GameObject& associated,std::string fontFile,int fontSize,TextStyle style, std::string text,SDL_Color colorA,SDL_Color colorB): Component(associated) {
     this->text = text;
@@ -27,8 +28,8 @@ void Text::Update(float dt) {
 
 void Text::Render() {
     if(texture != nullptr) {
-        SDL_Rect src = {0,0,associated.box.w,associated.box.h};
-        SDL_Rect dst = {associated.box.x - Camera::pos.x,associated.box.y - Camera::pos.y,src.w,src.h};
+        SDL_Rect src = {0,0,(int)associated.box.w,(int)associated.box.h};
+        SDL_Rect dst = {(int)(associated.box.x - Camera::pos.x),(int)(associated.box.y - Camera::pos.y,src.w),src.h};
 
         if(SDL_RenderCopyEx(
             Game::GetInstance().GetRenderer(), texture, &src, &dst,0,nullptr,SDL_FLIP_NONE) != 0) {
