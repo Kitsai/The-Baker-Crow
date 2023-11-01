@@ -22,10 +22,24 @@ class Vec2 {
         void operator -= (const Vec2& v);
         Vec2 operator * (float e);
         Vec2 operator / (float e);
+
+        bool operator==(const Vec2& v);
+        bool operator!=(const Vec2& v);
+        bool operator==(float f);
+        bool operator!=(float f);
+
+        bool operator<(Vec2& v);
+        bool operator<=(Vec2& v);
+        bool operator>(Vec2& v);
+        bool operator>=(Vec2& v);
+
         
         /// @brief Gets the vector magnitude.
         /// @return magnitude as a float.
         float magnitude();
+        /// @brief Gets the vector magnitude squared.
+        /// @return float that is mag*mag
+        float magSquare();
         /// @brief Normalizes the vector using its magnitude.
         /// @return A normalized version of the vector.
         Vec2 normalized();

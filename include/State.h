@@ -12,6 +12,7 @@
 #include <Text.h>
 
 
+
 /// @brief Abstract class for a state of the game.
 class State {
     protected:
@@ -32,6 +33,10 @@ class State {
         virtual void UpdateArray(float dt);
         /// @brief Renders the object Array.
         virtual void RenderArray();
+
+        virtual void CheckCollisions();
+
+        virtual void DeleteObjects();
 
     public:
         /// @brief Construtor fot the State. Initializes all variables.

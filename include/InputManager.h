@@ -1,8 +1,9 @@
 #ifndef InputManager_h_
 #define InputManager_h_
 
-#include <defines/DefineInput.h>
+#include "defines/DefineInput.h"
 #include "SDL2/SDL.h"
+#include <Controller.h>
 
 /// @brief A manager that handles an input events
 class InputManager {
@@ -11,22 +12,28 @@ class InputManager {
         bool mouseState[6];
         /// @brief Array that saves the last frame the mouse button was pressed.
         int mouseUpdate[6];
+        /// @brief Flag that tells whether a mouse button is pressed.
+        bool mouseDown;
 
         /// @brief Array that saves the state of keyboard keys.
         bool keyState[416];
         /// @brief Array that saves the last frame the key was pressed.
         int keyUpdate[416];
+        /// @brief Flag that tells whether a key is pressed.
+        bool keyDown;
 
         /// @brief flag that saves whether the game should end.
         bool quitRequested;
 
         /// @brief A counter for how many times Update was run.
-        int updateCounter;
+        unsigned updateCounter;
 
         /// @brief x coordinate for the mouse cursor.
         int mouseX;
         /// @brief y coordinate for the mouse cursor.
         int mouseY;
+
+        Controller* controller; 
 
         /// @brief Initializes all vectors with the defoult values of false and 0. And all other members following the same pattern.
         InputManager();
@@ -62,6 +69,9 @@ class InputManager {
         /// @param key The key that should be checked. 
         /// @return true if the the key is pressed. 
         bool IsKeyDown(int key);
+        /// @brief Checks if any key is pressed at the moment.
+        /// @return true if any key is being pressed.
+        bool AnyKeyDown();
 
         /// @brief Checks if a mouse button was pressed this frame.
         /// @param button The button that should be checked.
@@ -75,6 +85,9 @@ class InputManager {
         /// @param button The button that should be checked.
         /// @return true if the the button is pressed.
         bool IsMouseDown(int button);
+        /// @brief 
+        /// @return 
+        bool AnyMouseDown();
 
         /// @brief 
         /// Gets current mouse position. Resets quit Requested. Updates the update counter.

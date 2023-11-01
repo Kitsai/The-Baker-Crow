@@ -14,7 +14,6 @@ class Game {
         Game(const Game&) = delete;
         Game(Game&&) = default;
 
-
         /// @brief Finished all SDL libraries before destructing.
         ~Game();
 
