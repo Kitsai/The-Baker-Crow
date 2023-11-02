@@ -1,4 +1,4 @@
-#include "Enemy.h"
+#include <Enemy.h>
 
 Enemy::Enemy(GameObject& associated,int hp): Component(associated) {
     this->hp = hp;

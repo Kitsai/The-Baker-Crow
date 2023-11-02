@@ -9,8 +9,7 @@
 #include "SDL2/SDL_mixer.h"
 #include "SDL2/SDL_image.h"
 #include "SDL2/SDL_ttf.h"
-
-#include "Game.h"
+#include <Game.h>
 
 /// @brief Resource manager. That make sure assets are only loaded once.
 class Resources {

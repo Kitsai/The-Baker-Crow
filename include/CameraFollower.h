@@ -1,8 +1,8 @@
 #ifndef CameraFollower_h_
 #define CameraFollower_h_
 
-#include "GameObject.h"
-#include "Camera.h"
+#include <GameObject.h>
+#include <Camera.h>
 
 /// @brief Component that makes an object follow the camera position.
 class CameraFollower: public Component {

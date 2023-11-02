@@ -1,9 +1,9 @@
 #ifndef Camera_h_
 #define Camera_h_
 
-#include "GameObject.h"
-#include "defines/DefineMovement.h"
-#include "defines/DefineInput.h"
+#include <GameObject.h>
+#include <defines/DefineMovement.h>
+#include <defines/DefineInput.h>
 
 
 /// @brief A static class that saves the current position of the camera.

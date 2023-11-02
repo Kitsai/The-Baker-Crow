@@ -1,7 +1,7 @@
-#include "Camera.h"
+#include <Camera.h>
 
-#include "Game.h"
-#include "InputManager.h"
+#include <Game.h>
+#include <InputManager.h>
 
 GameObject* Camera::focus = nullptr;
 Vec2 Camera::pos;

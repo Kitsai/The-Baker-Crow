@@ -1,10 +1,7 @@
 #ifndef Attack_h_
 #define Attack_h_
 
-#include "GameObject.h"
-
-#include "Collider.h"
-#include "Sprite.h"
+#include <GameObject.h>
 
 class Attack: public Component {
     public:

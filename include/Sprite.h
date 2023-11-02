@@ -2,9 +2,9 @@
 #define Sprite_h_
 
 #include "SDL2/SDL_image.h"
-#include "Rect.h"
+#include <Rect.h>
 #include <string>
-#include "GameObject.h"
+#include <GameObject.h>
 
 /// @brief An image component.
 class Sprite: public Component {

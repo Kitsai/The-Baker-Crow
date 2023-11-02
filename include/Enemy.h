@@ -1,7 +1,7 @@
 #ifndef Enemy_h_
 #define Enemy_h_
 
-#include "GameObject.h"
+#include <GameObject.h>
 
 /// @brief Abstract class that identifies an Enemy.
 class Enemy: public Component {

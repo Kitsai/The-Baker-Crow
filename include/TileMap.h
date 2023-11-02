@@ -1,8 +1,8 @@
 #ifndef TileMap_h_
 #define TileMap_h_
 
-#include "TileSet.h"
-#include "GameObject.h"
+#include <TileSet.h>
+#include <GameObject.h>
 
 #include <vector>
 #include <string>

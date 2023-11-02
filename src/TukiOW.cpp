@@ -1,4 +1,4 @@
-#include "TukiOW.h"
+#include <TukiOW.h>
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
     associated.AddComponent(new Sprite(associated, "resources/img/try.png"));
@@ -20,7 +20,7 @@ void TukiOW::Update(float dt) {
     if(iM.KeyPress(X_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
         
         GameObject* attk = new GameObject();
-        attk->AddComponent(new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1.0F,0));
+        attk->AddComponent(new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1,0));
         attk->angleDeg = speed.incl();
         attk->box.SetCenter(Vec2(32,0).GetRotated(speed.incl()) + associated.box.GetCenter());
         state = PlayerState::ATTACKING;
@@ -60,7 +60,7 @@ void TukiOW::Update(float dt) {
     if(state == PlayerState::DODGING) {
         //playerTimer.Update(dt);
 
-        if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM) {
+        if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM ) {
             speed = speed.normalized()*TOW_SPEED_LIM;
             state = WALKING;
             //playerTimer.Restart();

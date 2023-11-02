@@ -1,7 +1,7 @@
 #ifndef Collider_h_
 #define Collider_h_
 
-#include "GameObject.h"
+#include <GameObject.h>
 #include <string>
 #include "defines/DefineColor.h"
 

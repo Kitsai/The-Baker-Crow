@@ -1,4 +1,4 @@
-#include "TileSet.h"
+#include <TileSet.h>
 
 TileSet::TileSet(GameObject& associated, int tileWidth, int tileHeight, std::string file) {
     this->tileHeight = tileHeight;

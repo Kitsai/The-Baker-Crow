@@ -1,7 +1,7 @@
-#include "Sprite.h"
+#include <Sprite.h>
 
-#include "Game.h"
-#include "Resources.h"
+#include <Game.h>
+#include <Resources.h>
 
 #include <iostream>
 #include <algorithm>
@@ -32,7 +32,7 @@ void Sprite::SetFrame(int frame) {
 void Sprite::SetFrameCount(int frame) {
     frameCount = frame;
     currentFrame = 0;
-    associated.box.w = ((double)width)/frameCount; 
+    associated.box.w = width/frameCount; 
 }
 
 void Sprite::SetFrameTime(float frameTime) {
@@ -52,7 +52,7 @@ void Sprite::Open(std::string file) {
         exit(-1);
     }
     SetClip(0,0,width/frameCount,height);
-    associated.box.w = ((double)width)/frameCount;
+    associated.box.w = width/frameCount;
     associated.box.h = height;
 }
 

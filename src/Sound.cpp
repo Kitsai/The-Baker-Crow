@@ -1,6 +1,6 @@
-#include "Sound.h"
-#include "SDL2/SDL_mixer.h"
-#include "Resources.h"
+#include <Sound.h>
+#include <SDL2/SDL_mixer.h>
+#include <Resources.h>
 
 #include <iostream>
 #include <algorithm>

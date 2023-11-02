@@ -5,10 +5,9 @@
 #include "SDL2/SDL_ttf.h"
 #include <string>
 #include <memory>
-#include <iostream>
 #include "defines/DefinesInclude.h"
 
-#include "GameObject.h"
+#include <GameObject.h>
 
 /// @brief A text component.
 class Text: public Component {

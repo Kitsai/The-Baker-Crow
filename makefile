@@ -1,9 +1,4 @@
-ifeq ($(COMP), clang++)
-	COMPILER = clang++
-else
-	COMPILER = g++
-endif
-
+COMPILER = g++
 RMDIR = rm -rdf
 RM = rm -f
 

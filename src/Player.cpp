@@ -1,6 +1,6 @@
-#include "Player.h"
+#include <Player.h>
 
-#include "Game.h"
+#include <Game.h>
 
 Player* Player::player = nullptr;
 

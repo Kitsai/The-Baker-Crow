@@ -1,6 +1,6 @@
-#include "Music.h"
+#include <Music.h>
 #include <iostream>
-#include "Resources.h"
+#include <Resources.h>
 
 Music::Music(){
     music = nullptr;

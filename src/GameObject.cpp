@@ -1,4 +1,4 @@
-#include "GameObject.h"
+#include <GameObject.h>
 #include <vector>
 #include <algorithm>
 #include <iostream>

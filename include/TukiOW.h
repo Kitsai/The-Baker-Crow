@@ -1,13 +1,12 @@
 #ifndef TukiOW_h_
 #define TukiOW_h_
 
-#include "Player.h"
+#include <Player.h>
 
-#include "GameData.h"
-#include "InputManager.h"
-#include "Attack.h"
+#include <GameData.h>
+#include <InputManager.h>
 
-#include "Game.h"
+#include <Game.h>
 
 class TukiOW: public Player {
     public:

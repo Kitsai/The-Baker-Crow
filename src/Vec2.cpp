@@ -1,4 +1,4 @@
-#include "Vec2.h"
+#include <Vec2.h>
 #include <cmath>
 
 
@@ -89,13 +89,13 @@ float Vec2::magSquare() {
 
 Vec2 Vec2::normalized() {
     Vec2 ret;
-    //float inv = calcInvRoot(x*x + y*y);
-    //ret.x = x * inv;
-    //ret.y = y * inv;
+    float inv = calcInvRoot(x*x + y*y);
+    ret.x = x * inv;
+    ret.y = y * inv;
 
-    float mag = magnitude();
-    ret.x = x/mag;
-    ret.y = y/mag;
+    // float mag = magnitude();
+    // ret.x = x/mag;
+    // ret.y = y/mag;
 
     return ret;
 }
