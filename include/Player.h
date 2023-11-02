@@ -1,7 +1,8 @@
 #ifndef Player_h_
 #define Player_h_
 
-#include <GameObject.h>
+#include "GameObject.h"
+#include "Collider.h"
 
 class Player: public Component {
     public:

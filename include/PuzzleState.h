@@ -1,20 +1,20 @@
 #ifndef PuzzleState_h_
 #define PuzzleState_h_
 
-#include <State.h>
+#include "State.h"
 
 class PuzzleState: public State {
     public:
         PuzzleState();
         ~PuzzleState();
 
-        LoadAssets();
-        Update(float dt);
-        Render();
+        void LoadAssets();
+        void Update(float dt);
+        void Render();
 
-        Start();
-        Pause();
-        Resume();
+        void Start();
+        void Pause();
+        void Resume();
 };
 
 #endif

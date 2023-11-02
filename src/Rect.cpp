@@ -1,4 +1,4 @@
-#include <Rect.h>
+#include "Rect.h"
 
 Rect::Rect(float x, float y, float w, float h) {
     this->x = x;
@@ -71,14 +71,14 @@ Vec2 Rect::GetPos() {
 
 Vec2 Rect::GetCenter() {
     Vec2 ret;
-    ret.x = x+(w/2);
-    ret.y = y+(h/2);
+    ret.x = x+(w*0.5F);
+    ret.y = y+(h*0.5F);
     return ret;
 }
 
 void Rect::SetCenter(const Vec2& v) {
-    x = v.x - (w/2);
-    y = v.y - (h/2);
+    x = v.x - (w*0.5F);
+    y = v.y - (h*0.5F);
 }
 
 float Rect::distRect(Rect& r) {

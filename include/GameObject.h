@@ -5,17 +5,10 @@
 #include <string>
 #include <memory>
 
-#include <Rect.h>
-#include <Timer.h>
+#include "Rect.h"
+#include "Timer.h"
 
-#include <Component.h>
-#include <Collider.h>
-
-#include <Attack.h>
-
-#include <Sprite.h>
-#include <Sound.h>
-
+#include "Component.h"
 
 /// @brief A object in the game. It holds a list of components that make that game object.
 class GameObject {

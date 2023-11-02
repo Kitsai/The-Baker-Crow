@@ -1,7 +1,7 @@
-#include <Sprite.h>
+#include "Sprite.h"
 
-#include <Game.h>
-#include <Resources.h>
+#include "Game.h"
+#include "Resources.h"
 
 #include <iostream>
 #include <algorithm>
