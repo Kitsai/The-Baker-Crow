@@ -1,7 +1,7 @@
 #ifndef Collision_h_
 #define Collision_h_
 
-#include <Rect.h>
+#include "Rect.h"
 
 #include <algorithm>
 #include <cmath>

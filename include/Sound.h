@@ -2,7 +2,7 @@
 #define Sound_h_
 
 #include "SDL2/SDL_mixer.h"
-#include <GameObject.h>
+#include "GameObject.h"
 
 /// @brief A sound component.
 class Sound: public Component {

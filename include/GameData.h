@@ -1,7 +1,7 @@
 #ifndef GameData_h_
 #define GameData_h_
 
-#include <Vec2.h>
+#include "Vec2.h"
 
 /// @brief A static class made to keep important game data.
 class GameData {

@@ -1,8 +1,8 @@
 #ifndef TileSet_h_
 #define TileSet_h_
 
-#include <Sprite.h>
-#include <GameObject.h>
+#include "Sprite.h"
+#include "GameObject.h"
 
 #include <string>
 #include <fstream>

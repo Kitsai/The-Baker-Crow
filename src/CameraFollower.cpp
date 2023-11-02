@@ -1,4 +1,4 @@
-#include <CameraFollower.h>
+#include "CameraFollower.h"
 #include <algorithm>
 
 CameraFollower::CameraFollower(GameObject& go): Component(go) {
