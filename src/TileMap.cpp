@@ -39,7 +39,7 @@ void TileMap::Render() {
 
 void TileMap::RenderLayer(int layer,float cameraX,float cameraY) {
     for(unsigned i = 0; i < mapHeight*mapWidth; i++) {
-        tileSet->RenderTile(tileMatrix[i + layer*mapHeight*mapWidth],(i%mapWidth)*tileSet->GetTileWidth() - cameraX,(i/mapWidth)*tileSet->GetTileHeight() - cameraY);
+        tileSet->RenderTile(tileMatrix[i + layer*mapHeight*mapWidth],(i%mapWidth)*tileSet->GetTileWidth() - cameraX,((double)i/mapWidth)*tileSet->GetTileHeight() - cameraY);
     }
 }
 
