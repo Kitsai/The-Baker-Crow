@@ -29,7 +29,7 @@ void Text::Update(float dt) {
 void Text::Render() {
     if(texture != nullptr) {
         SDL_Rect src = {0,0,(int)associated.box.w,(int)associated.box.h};
-        SDL_Rect dst = {(int)(associated.box.x - Camera::pos.x),(int)(associated.box.y - Camera::pos.y,src.w),src.h};
+        SDL_Rect dst = {(int)(associated.box.x - Camera::pos.x), (int)(associated.box.y - Camera::pos.y), src.w, src.h};
 
         if(SDL_RenderCopyEx(
             Game::GetInstance().GetRenderer(), texture, &src, &dst,0,nullptr,SDL_FLIP_NONE) != 0) {
