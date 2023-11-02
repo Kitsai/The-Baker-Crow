@@ -1,0 +1,8 @@
+[
+    {
+      "directory": "/home/eduardo_marciano/Documents/GitHub/The-Baker-Crow/include",
+      "command": "g++ -std=c++17 -I. -I..",
+      "file": "/GitHub/The-Baker-Crow/include/"
+    }
+
+  ]
