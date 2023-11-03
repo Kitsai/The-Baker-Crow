@@ -26,7 +26,7 @@ std::weak_ptr<GameObject> State::AddObject(GameObject* go) {
 std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
     std::weak_ptr<GameObject> retPrt;
 
-	for(int i=0;i<objectArray.size();i++) {
+	for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
 		if(objectArray[i].get() == go) {
 			retPrt = objectArray[i];
 			break;
@@ -44,24 +44,24 @@ bool State::QuitRequested() {
 }
 
 void State::StartArray() {
-    for(int i=0;i<objectArray.size();i++) objectArray[i]->Start();
+    for(std::vector<int>::size_type i=0;i<objectArray.size();i++) objectArray[i]->Start();
 }
 
 void State::UpdateArray(float dt) {
-    for(int i=0;i<objectArray.size();i++) objectArray[i]->Update(dt);
+    for(std::vector<int>::size_type i=0;i<objectArray.size();i++) objectArray[i]->Update(dt);
 }
 
 void State::RenderArray() {
-    for(int i=0;i<objectArray.size();i++) objectArray[i]->Render();
+    for(std::vector<int>::size_type i=0;i<objectArray.size();i++) objectArray[i]->Render();
 }
 
 void State::CheckCollisions() {
-	for(int i=0;i<objectArray.size();i++) {
-		Collider* colliderA = (Collider*)objectArray[i]->GetComponent("Collider");
+	for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
+		Collider* colliderA = (Collider*)objectArray[i]->GetComponent("Collider").get();
 
 		if(colliderA != nullptr && colliderA->active) {
-			for(int j=i;j<objectArray.size();++j) {
-				Collider* colliderB = (Collider*)objectArray[j]->GetComponent("Collider");
+			for(std::vector<int>::size_type j=i;j<objectArray.size();++j) {
+				Collider* colliderB = (Collider*)objectArray[j]->GetComponent("Collider").get();
 				if(	colliderB != nullptr 
 					&& colliderB->active 
 					&& Collision::IsColliding(colliderA->box, colliderB->box,objectArray[i]->angleDeg,objectArray[j]->angleDeg)
@@ -75,7 +75,7 @@ void State::CheckCollisions() {
 }
 
 void State::DeleteObjects() {
-	for(int i=0;i<objectArray.size();i++) 
+	for(std::vector<int>::size_type i=0;i<objectArray.size();i++) 
 		if(objectArray[i]->IsDead()) 
 			objectArray.erase(objectArray.begin()+i);
 }

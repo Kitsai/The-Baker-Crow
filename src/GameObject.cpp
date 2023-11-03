@@ -13,22 +13,23 @@ GameObject::~GameObject() {
     components.clear();
 }
 
-void GameObject::Start() {
-    for(int i=0;i<components.size();i++) 
-        components[i]->Start();
-    started = true;   
+void GameObject::Start(){
+    for (auto& component : components){
+        component->Start();
+    }
+    started = true;
 }
 
 
 void GameObject::Update(float dt) {
-    for(int i=0;i<components.size();i++) {
+    for (std::vector<int>::size_type i = 0; i < components.size(); i++){
         components[i]->Update(dt);
     }
-} 
+}
 
 void GameObject::Render() {
-    for(int i=0;i<components.size();i++) {
-        components[i]->Render();  
+    for (std::vector<int>::size_type i = 0; i < components.size(); i++){
+        components[i]->Render();
     }
 }
 
@@ -40,31 +41,37 @@ void GameObject::RequestDelete() {
     isDead = true;
 }
 
-void GameObject::AddComponent(Component* cpt) {
+void GameObject::AddComponent(std::shared_ptr<Component> cpt){
     components.emplace_back(cpt);
-    if(started) cpt->Start();
+    if (started) {
+        cpt->Start();
+    }
 }
 
 
-void GameObject::RemoveComponent(Component* cpt) {
-    for(int i=0; i<components.size();i++) 
-        if(components[i].get() == cpt){
-            components.erase(components.begin()+i);
-            return;
-        }  
+void GameObject::RemoveComponent(std::shared_ptr<Component> cpt){
+    for (std::vector<int>::size_type i = 0; i < components.size(); i++){
+        if (components[i] == cpt){
+            components.erase(components.begin() + i);
+        }
+    }
 }
 
 
-Component* GameObject::GetComponent(std::string type) {
-    for(int i=0;i<components.size();i++) 
-        if(components[i]->Is(type))
-            return (Component*)components[i].get(); 
+std::shared_ptr<Component> GameObject::GetComponent(std::string type){
+    for (std::vector<int>::size_type i = 0; i < components.size(); i++){
+        if (components[i]->Is(type))
+        {
+            return components[i];
+        }
+    }
+
     return nullptr;
 }
 
 std::vector<Component*> GameObject::GetComponents(std::string type) {
     std::vector<Component*> ret;
-    for(int i=0;i<components.size();i++) {
+    for(std::vector<int>::size_type i=0;i<components.size();i++) {
         if(components[i]->Is(type)) {
             ret.push_back(components[i].get());
         }
@@ -74,5 +81,5 @@ std::vector<Component*> GameObject::GetComponents(std::string type) {
 
 
 void GameObject::NotifyCollision(GameObject& other) {
-    for(int i=0;i<components.size();i++) components[i]->NotifyCollision(other); 
+    for(std::vector<int>::size_type i=0;i<components.size();i++) components[i]->NotifyCollision(other); 
 }

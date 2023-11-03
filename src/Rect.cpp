@@ -6,6 +6,9 @@ Rect::Rect(float x, float y, float w, float h) {
     this->w = w;
     this->h = h;
 }
+Rect::Rect(const Rect& other) : x(other.x), y(other.y), w(other.w), h(other.h) {
+    
+}
 
 Rect Rect::operator+(const Vec2& v) {
     Rect rect;

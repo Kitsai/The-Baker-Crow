@@ -13,6 +13,7 @@ class Vec2 {
         /// @param x Value for x axis. Default = 0.
         /// @param y Value for y axis. Default = 0
         Vec2(float x = 0, float y = 0);
+        Vec2(const Vec2& other);
 
 
         void operator = (const Vec2& v);

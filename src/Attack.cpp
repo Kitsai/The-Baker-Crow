@@ -16,7 +16,7 @@ Attack::Attack(GameObject& associated,
     associated.box.w = 32;
     associated.box.h = 32;
 
-    associated.AddComponent(new Collider(associated,{1,1},{0,0},COLOR_GREEN));
+    associated.AddComponent((std::shared_ptr<Collider>)new Collider(associated,{1,1},{0,0},COLOR_GREEN));
 }
 
 Attack::Attack(GameObject& associated, 
@@ -35,9 +35,9 @@ Attack::Attack(GameObject& associated,
     this->friendly = friendly;
     this->duration = duration;
 
-    associated.AddComponent(new Sprite(associated,file,frameCount,frameTime));
+    associated.AddComponent((std::shared_ptr<Sprite>)new Sprite(associated,file,frameCount,frameTime));
 
-    associated.AddComponent(new Collider(associated,{1,1},{0,0},COLOR_GREEN));
+    associated.AddComponent((std::shared_ptr<Collider>)new Collider(associated,{1,1},{0,0},COLOR_GREEN));
 }
 
 Attack::~Attack() {

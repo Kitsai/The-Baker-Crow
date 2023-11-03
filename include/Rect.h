@@ -22,6 +22,7 @@ class Rect {
         /// @param w Rectangle width. Default = 0.
         /// @param h Rectangle height. Default = 0.
         Rect(float x = 0,float y = 0, float w = 0, float h = 0);
+        Rect(const Rect& other);
 
         // OPERATIOS WITH VECTORS.
         Rect operator+(const Vec2& v);

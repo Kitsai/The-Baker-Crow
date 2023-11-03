@@ -37,9 +37,11 @@ void TileMap::Render() {
     }
 }
 
-void TileMap::RenderLayer(int layer,float cameraX,float cameraY) {
-    for(unsigned i = 0; i < mapHeight*mapWidth; i++) {
-        tileSet->RenderTile(tileMatrix[i + layer*mapHeight*mapWidth],(i%mapWidth)*tileSet->GetTileWidth() - cameraX,(int(i/mapWidth))*tileSet->GetTileHeight() - cameraY);
+void TileMap::RenderLayer(int layer, float cameraX, float cameraY) {
+    for(std::vector<int>::size_type i = 0; i < static_cast<std::vector<int>::size_type>(mapHeight * mapWidth); i++) {
+        tileSet->RenderTile(tileMatrix[i + layer * mapHeight * mapWidth],
+                            (i % mapWidth) * tileSet->GetTileWidth() - cameraX,
+                            (static_cast<int>(i / mapWidth)) * tileSet->GetTileHeight() - cameraY);
     }
 }
 

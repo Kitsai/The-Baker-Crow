@@ -6,6 +6,10 @@ Vec2::Vec2(float x, float y) {
     this->y = y;
 }
 
+Vec2::Vec2(const Vec2& other) : x(other.x), y(other.y) {
+    
+}
+
 void Vec2::operator = (const Vec2& v) {
     this->x = v.x;
     this->y = v.y;
@@ -113,14 +117,5 @@ Vec2 Vec2::GetRotated(float d) {
 }
 
 float Vec2::calcInvRoot(float x) {
-    long long i;
-    float x2 = x * 0.5F;
-    float y = x;
-    
-    i = *(long long*) &y;
-    i = 0x5f3759df - (i >> 1);
-    y = *(float*) &i;
-    y *= (1.5F - (x2 * y * y));
-    y *= (1.5F - (x2 * y * y));
-    return y;
+    return 1.0f / std::sqrt(x);
 }
