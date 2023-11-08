@@ -1,8 +1,8 @@
+#include "FoodItem.h"
 #include "FoodPiece.h"
-#include "Item.h"
 
-FoodPiece::FoodPiece(GameObject& associated, std::string type) 
-    : Component(associated), item(nullptr), locked(false), type(type) {
+FoodPiece::FoodPiece(GameObject& associated, class FoodItem& foodItem) 
+    : Component(associated), foodItem(&foodItem), locked(false), type(foodItem.GetType()) {
     evaluateForm();
 }
 
@@ -15,12 +15,8 @@ void FoodPiece::Render() {
 void FoodPiece::Update(float dt) {
 }
 
-void FoodPiece::SetItem(Item* item) {
-    this->item = item;
-}
-
-Item* FoodPiece::GetItem() {
-    return item;
+FoodItem* FoodPiece::GetFoodItem() {
+    return foodItem;
 }
 
 std::string FoodPiece::GetType() {
@@ -38,7 +34,7 @@ bool FoodPiece::UnLock() {
 }
 
 bool FoodPiece::Is(std::string type) {
-    return this->type == type;
+    return type == "FoodPiece";
 }
 
 std::vector<std::vector<int>> FoodPiece::GetForm() {

@@ -3,10 +3,8 @@
 #include <algorithm>
 #include <iostream>
 
-GameObject::GameObject():box() {
-    isDead = false;
-    started = false;
-    angleDeg = 0;
+GameObject::GameObject() : box(), isDead(false), started(false), angleDeg(0) {
+
 }
 
 GameObject::~GameObject() {
@@ -78,7 +76,6 @@ std::vector<Component*> GameObject::GetComponents(std::string type) {
     }
     return ret;
 }
-
 
 void GameObject::NotifyCollision(GameObject& other) {
     for(std::vector<int>::size_type i=0;i<components.size();i++) components[i]->NotifyCollision(other); 

@@ -5,18 +5,18 @@
 #include <vector>
 #include "Component.h"
 
-class Item;
+class FoodItem;
 
 class FoodPiece : public Component {
 public:
-    FoodPiece(GameObject& associated, std::string type);
+    FoodPiece(GameObject& associated, FoodItem& FoodItem);
     ~FoodPiece();
     
     void Render();
     void Update(float dt);
-    void SetItem(Item* item);
+    void SetFoodItem(FoodItem* FoodItem);
 
-    Item* GetItem();
+    FoodItem* GetFoodItem();
     std::string GetType();
     
     bool Lock();
@@ -29,7 +29,7 @@ private:
     // Attributes
     bool locked;
 
-    Item* item;
+    FoodItem* foodItem;
     std::string type;
     std::vector<std::vector<int>> form;
     //Methods
