@@ -7,13 +7,17 @@
 
 class FoodPuzzle {
 public:
-    
     FoodPuzzle(std::string mapFilePath);
-    void AddFoodPiece(const FoodPiece& foodPiece, int x, int y);
-    void RemoveFoodPiece(const FoodPiece& foodPiece);
+    bool IsCompleted();
+    bool AddFoodPiece(const FoodPiece& foodPiece);
+    bool RemoveFoodPiece(const FoodPiece& foodPiece);    
+    void LockFoodPiece(const FoodPiece& foodPiece);
+    void UnLockFoodPiece(const FoodPiece& foodPiece);
 
 private:
-    std::vector<std::string> map;
+    bool completed;
+    std::vector<std::string> answerMap;
+    std::vector<std::string> actualMap; 
     std::vector<FoodPiece> foodPieces;
 };
 #endif
