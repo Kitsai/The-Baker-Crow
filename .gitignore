@@ -34,3 +34,6 @@
 include/SDL2
 .vscode
 TheBakerCrow
+
+#clangd configuration
+compile_commands.json
