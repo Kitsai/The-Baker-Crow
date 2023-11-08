@@ -2,7 +2,7 @@
 A game developed as part of an introductory course on game development at the Universidade de Brasilia (UnB).
 
 # Configuration - (Debian-based Linux) 
-## Install g++
+## g++
     sudo apt install g++
 
 ## SDL Library
