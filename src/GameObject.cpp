@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <iostream>
 
-GameObject::GameObject() : box(), isDead(false), started(false), angleDeg(0) {
+GameObject::GameObject() :  isDead(false), started(false), box(0, 0, 0, 0), angleDeg(0) {
 
 }
 

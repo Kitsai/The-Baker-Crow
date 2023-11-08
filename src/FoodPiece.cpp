@@ -2,7 +2,7 @@
 #include "FoodPiece.h"
 
 FoodPiece::FoodPiece(GameObject& associated, class FoodItem& foodItem) 
-    : Component(associated), foodItem(&foodItem), locked(false), type(foodItem.GetType()) {
+    : Component(associated), locked(false), foodItem(&foodItem), type(foodItem.GetType()) {
     evaluateForm();
 }
 
