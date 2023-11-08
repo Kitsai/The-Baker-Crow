@@ -40,6 +40,6 @@ void FoodItem::Render(){
 
 }
 
-bool FoodPiece::Is(std::string type) {
+bool FoodItem::Is(std::string type) {
     return type == "FoodItem";
 }

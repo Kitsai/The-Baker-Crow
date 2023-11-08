@@ -14,6 +14,8 @@ class FoodItem : public Component{
         void Render();
         void Update(float dt);
         
+        bool Is(std::string type);
+
         std::string GetType();
         FoodPiece*  GetFoodPiece() const;
     
