@@ -13,6 +13,7 @@ public:
     bool RemoveFoodPiece(const FoodPiece& foodPiece);    
     void LockFoodPiece(const FoodPiece& foodPiece);
     void UnLockFoodPiece(const FoodPiece& foodPiece);
+    std::vector<std::string> GetMap();
 
 private:
     bool completed;

@@ -2,10 +2,14 @@
 #define PuzzleState_h_
 
 #include "State.h"
+#include "FoodPuzzle.h"
 
 class PuzzleState: public State {
+    private:
+        FoodPuzzle* puzzle;
+        void LoadMap(FoodPuzzle* puzzle);
     public:
-        PuzzleState();
+        PuzzleState(int puzzleNumber);
         ~PuzzleState();
 
         void LoadAssets();
