@@ -1,17 +1,25 @@
 #include "PuzzleState.h"
 #include "InputManager.h"
+#include "Selector.h"
 
 #include "Game.h"
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(){
-    // Load assets
-    GameObject* go = new GameObject();
-    go->AddComponent((std::shared_ptr<Sprite>)new Sprite(*go,"resources/img/ui_puzzle.png"));
-    go->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-    AddObject(go);
+    GameObject* ui = new GameObject();
+    ui->AddComponent((std::shared_ptr<Sprite>)new Sprite(*ui,"resources/img/ui_puzzle.png"));
+    ui->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+    AddObject(ui);
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap(puzzle);
+
+    // load music
+
+    GameObject* selector = new GameObject();
+    selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
+    selector->box.x = 15;
+    selector->box.y = 32;
+    AddObject(selector);
 }
 
 PuzzleState::~PuzzleState(){
@@ -31,8 +39,13 @@ void PuzzleState::Update(float dt){
 
     UpdateArray(dt);
 
-    DeleteObjects();
-
+    for(std::vector<int>::size_type i=0;i<objectArray.size();i++) 
+		if(objectArray[i]->IsDead()){
+            if(objectArray[i]->GetComponent("Selector") != nullptr){
+             // coloca no puzzle as peças a serem encaixadas conforme selecionado pelo selector    
+            }
+			objectArray.erase(objectArray.begin()+i);
+        }
 }
 
 void PuzzleState::Start(){
