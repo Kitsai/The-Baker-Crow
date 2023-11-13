@@ -7,7 +7,7 @@
 class PuzzleState: public State {
     private:
         FoodPuzzle* puzzle;
-        void LoadMap(FoodPuzzle* puzzle);
+        void LoadMap();
     public:
         PuzzleState(int puzzleNumber);
         ~PuzzleState();
@@ -19,6 +19,7 @@ class PuzzleState: public State {
         void Start();
         void Pause();
         void Resume();
+
 };
 
 #endif

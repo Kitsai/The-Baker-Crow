@@ -1,6 +1,7 @@
 #include "PuzzleState.h"
 #include "InputManager.h"
 #include "Selector.h"
+#include "FoodItem.h"
 
 #include "Game.h"
 
@@ -11,7 +12,7 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(){
     AddObject(ui);
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
-    LoadMap(puzzle);
+    LoadMap();
 
     // load music
 
@@ -42,7 +43,14 @@ void PuzzleState::Update(float dt){
     for(std::vector<int>::size_type i=0;i<objectArray.size();i++) 
 		if(objectArray[i]->IsDead()){
             if(objectArray[i]->GetComponent("Selector") != nullptr){
-             // coloca no puzzle as peças a serem encaixadas conforme selecionado pelo selector    
+                // coloca no puzzle as peças a serem encaixadas conforme selecionado pelo selector
+                GameObject* pieces = new GameObject();
+                pieces->box.x = 415;
+                pieces->box.y = 170;
+                // substituir por pegar do inventário depois
+                std::shared_ptr<FoodItem> item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "ovo");
+                pieces->AddComponent(item);
+                AddObject(pieces);
             }
 			objectArray.erase(objectArray.begin()+i);
         }
@@ -58,7 +66,7 @@ void PuzzleState::Pause(){}
 
 void PuzzleState::Resume(){}
 
-void PuzzleState::LoadMap(FoodPuzzle* puzzle){
+void PuzzleState::LoadMap(){
     std::vector<std::string> map = puzzle->GetMap();
     for(int i = 2; i < (int)map.size(); i++){
         for(int j = 0; j < (int)map[i].size(); j++){
