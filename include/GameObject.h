@@ -47,6 +47,9 @@ class GameObject {
         /// @brief Sets the isDead flag to true. So the object should be deleted.
         void RequestDelete();
 
+        /// @brief Sets the isDead flag to false.
+        void UnrequestDelete();
+
         /// @brief Adds a given component to the component vector.
         /// @param cpt A raw pointer to the component that should be added.
         void AddComponent(std::shared_ptr<Component> cpt);

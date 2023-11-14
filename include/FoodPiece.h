@@ -33,7 +33,7 @@ private:
     FoodItem* foodItem;
     std::string type;
     std::vector<std::vector<int>> form;
-    std::vector<std::shared_ptr<GameObject>> pieces;
+    std::vector<std::weak_ptr<GameObject>> pieces;
     //Methods
     void evaluateForm();
 };

@@ -39,6 +39,10 @@ void GameObject::RequestDelete() {
     isDead = true;
 }
 
+void GameObject::UnrequestDelete() {
+    isDead = false;
+}
+
 void GameObject::AddComponent(std::shared_ptr<Component> cpt){
     components.emplace_back(cpt);
     if (started) {

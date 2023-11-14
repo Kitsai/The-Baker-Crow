@@ -2,6 +2,7 @@
 #include "InputManager.h"
 #include "Selector.h"
 #include "FoodItem.h"
+#include "FoodPiece.h"
 
 #include "Game.h"
 
@@ -40,21 +41,34 @@ void PuzzleState::Update(float dt){
 
     UpdateArray(dt);
 
-    for(std::vector<int>::size_type i=0;i<objectArray.size();i++) 
-		if(objectArray[i]->IsDead()){
+    for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
+        if(objectArray[i]->IsDead()){
             if(objectArray[i]->GetComponent("Selector") != nullptr){
                 // coloca no puzzle as peças a serem encaixadas conforme selecionado pelo selector
                 GameObject* pieces = new GameObject();
                 pieces->box.x = 415;
                 pieces->box.y = 170;
                 // substituir por pegar do inventário depois
-                std::shared_ptr<FoodItem> item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "ovo");
+                std::shared_ptr<FoodItem> item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "morango");
                 pieces->AddComponent(item);
                 AddObject(pieces);
             }
-			objectArray.erase(objectArray.begin()+i);
+
+            bool locked = false;
+            if(objectArray[i]->GetComponent("FoodPiece") != nullptr){
+                locked = puzzle->AddFoodPiece(*(FoodPiece*)objectArray[i]->GetComponent("FoodPiece").get());
+                if (!locked) {
+                    objectArray[i]->UnrequestDelete();
+                    continue; // if unable to add piece to puzzle, doesn't delete piece
+                }
+                // if puzzle isn't complete, goes back to selector
+            }
+            
+            objectArray.erase(objectArray.begin()+i);
         }
+    }
 }
+
 
 void PuzzleState::Start(){
     LoadAssets();

@@ -27,7 +27,7 @@ void FoodItem::Decrease() {
         amount--;
 }
 
-FoodPiece* FoodItem::GetFoodPiece() const {
+FoodPiece* FoodItem::GetFoodPiece() {
     return foodPiece;
 }
 
