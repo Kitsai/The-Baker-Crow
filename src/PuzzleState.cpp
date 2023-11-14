@@ -37,23 +37,49 @@ void PuzzleState::Render(){
 void PuzzleState::Update(float dt){
     InputManager& iM = InputManager::GetInstance();
 
-    if(iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested()) quitRequested = true;
+    if(iM.QuitRequested()) quitRequested = true;
 
     UpdateArray(dt);
 
+    // checks whether puzzle has been complete 
+    if (puzzle->IsCompleted()) quitRequested = true;
+
     for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
+        // deletes selector if ESCAPE_KEY has been pressed, creates selector
+        if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece") != nullptr){
+            objectArray[i]->RequestDelete();
+
+            FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").get());
+            std::vector<std::weak_ptr<GameObject>> pieces = foodPiece->GetPieces();
+            for (int i = 0; i < (int)pieces.size(); i++){
+                pieces[i].lock()->RequestDelete();
+            }
+
+            GameObject* selector = new GameObject();
+            selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
+            selector->box.x = 15;
+            selector->box.y = 32;
+            AddObject(selector);
+        }
+
         if(objectArray[i]->IsDead()){
+            // deletes selector, creates puzzle piece
             if(objectArray[i]->GetComponent("Selector") != nullptr){
-                // coloca no puzzle as peças a serem encaixadas conforme selecionado pelo selector
                 GameObject* pieces = new GameObject();
                 pieces->box.x = 415;
                 pieces->box.y = 170;
+
                 // substituir por pegar do inventário depois
-                std::shared_ptr<FoodItem> item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "morango");
+                std::shared_ptr<FoodItem> item;
+                if (objectArray[i].get()->box.y == 32) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "morango");
+                else if (objectArray[i].get()->box.y == 187) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "mel");
+                else if (objectArray[i].get()->box.y == 342) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "acucar");
+                else if (objectArray[i].get()->box.y == 505) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "chocolate");
                 pieces->AddComponent(item);
                 AddObject(pieces);
             }
 
+            // deletes puzzle piece, creates selector
             bool locked = false;
             if(objectArray[i]->GetComponent("FoodPiece") != nullptr){
                 locked = puzzle->AddFoodPiece(*(FoodPiece*)objectArray[i]->GetComponent("FoodPiece").get());
@@ -61,7 +87,12 @@ void PuzzleState::Update(float dt){
                     objectArray[i]->UnrequestDelete();
                     continue; // if unable to add piece to puzzle, doesn't delete piece
                 }
-                // if puzzle isn't complete, goes back to selector
+                
+                GameObject* selector = new GameObject();
+                selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
+                selector->box.x = 15;
+                selector->box.y = 32;
+                AddObject(selector);
             }
             
             objectArray.erase(objectArray.begin()+i);

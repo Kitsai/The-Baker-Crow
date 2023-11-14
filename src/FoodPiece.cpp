@@ -70,6 +70,10 @@ std::vector<std::vector<int>> FoodPiece::GetForm() {
     return form;
 }
 
+std::vector<std::weak_ptr<GameObject>> FoodPiece::GetPieces(){
+    return pieces;
+}
+
 void FoodPiece::evaluateForm(){ 
     if (type == "ovo")
         form = {{1, 1, 1, 1}};
