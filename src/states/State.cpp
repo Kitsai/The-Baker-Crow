@@ -1,6 +1,6 @@
 #include "State.h"
 
-#include "Collision.cpp"
+#include "../Collision.cpp"
 
 State::State() {
     popRequested = false;
