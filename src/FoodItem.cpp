@@ -8,14 +8,16 @@
 
 FoodItem::FoodItem(GameObject& associated, std::string type) : Component(associated), amount(1), type(type) {
 
+
         GameObject* object_foodPiece = new GameObject();
         object_foodPiece->box.x = associated.box.x;
         object_foodPiece->box.y = associated.box.y;
         FoodPiece* foodPieceComponent = new FoodPiece(*object_foodPiece, *this);
         object_foodPiece->AddComponent((std::shared_ptr<FoodPiece>)foodPieceComponent);
+        this->foodPiece = foodPieceComponent;  
         
-        // Adiciona o FoodPiece ao estado do jogo
         Game::GetInstance().GetCurrentState().AddObject(object_foodPiece);
+
 }
 
 void FoodItem::Increase() {
