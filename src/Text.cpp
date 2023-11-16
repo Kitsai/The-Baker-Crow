@@ -24,17 +24,20 @@ Text::~Text() {
 }
 
 void Text::Update(float dt) { 
-    if(elapsedTime <= 0){
-        if(texture){
-            SDL_DestroyTexture(texture);
-            texture = nullptr;
-            elapsedTime = 2.0F;
+    if(blinking){
+        
+        if(elapsedTime <= 0){
+            if(texture){
+                SDL_DestroyTexture(texture);
+                texture = nullptr;
+                elapsedTime = 2.0F;
+            }else{
+                RemakeTexture();
+                elapsedTime = 8.0F;
+            }
         }else{
-            RemakeTexture();
-            elapsedTime = 8.0F;
+            elapsedTime = elapsedTime - 0.1;
         }
-    }else{
-        elapsedTime = elapsedTime - 0.1;
     }
 }
 

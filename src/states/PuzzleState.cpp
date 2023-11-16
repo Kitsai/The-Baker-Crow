@@ -1,10 +1,10 @@
-#include "states/PuzzleState.h"
-#include "InputManager.h"
+#include "Game.h"
 #include "Selector.h"
 #include "FoodItem.h"
 #include "FoodPiece.h"
-
-#include "Game.h"
+#include "InputManager.h"
+#include "states/PuzzleState.h"
+#include "defines/DefineInput.h"
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(){
     GameObject* ui = new GameObject();
@@ -37,6 +37,12 @@ void PuzzleState::Render(){
 
 void PuzzleState::Update(float dt){
     InputManager& iM = InputManager::GetInstance();
+
+
+    if ((InputManager::GetInstance().KeyPress(SPACE_KEY))){
+        popRequested = true;
+        backGraundMusic->Stop();
+    }
 
     if(iM.QuitRequested()) quitRequested = true;
 
@@ -100,7 +106,6 @@ void PuzzleState::Update(float dt){
         }
     }
 }
-
 
 void PuzzleState::Start(){
     LoadAssets();
