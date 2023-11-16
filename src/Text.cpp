@@ -28,10 +28,11 @@ void Text::Update(float dt) {
         if(texture){
             SDL_DestroyTexture(texture);
             texture = nullptr;
+            elapsedTime = 2.0F;
         }else{
             RemakeTexture();
+            elapsedTime = 8.0F;
         }
-        elapsedTime = 2.0F;
     }else{
         elapsedTime = elapsedTime - 0.1;
     }

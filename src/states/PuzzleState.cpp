@@ -22,6 +22,7 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(){
     selector->box.x = 15;
     selector->box.y = 32;
     AddObject(selector);
+    backGraundMusic = new Music("resources/music/MusicPuzzle.flac");
 }
 
 PuzzleState::~PuzzleState(){
@@ -105,11 +106,16 @@ void PuzzleState::Start(){
     LoadAssets();
     StartArray();
     started = true;
+    backGraundMusic->Play();
 }
 
 void PuzzleState::Pause(){}
 
-void PuzzleState::Resume(){}
+void PuzzleState::Resume(){
+    Camera::pos.x = 0;
+    Camera::pos.y = 0;
+    backGraundMusic->Play();
+}
 
 void PuzzleState::LoadMap(){
     std::vector<std::string> map = puzzle->GetMap();
