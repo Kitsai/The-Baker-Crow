@@ -4,7 +4,7 @@
 #include "SDL2/SDL.h"
 #include <string>
 #include <stack>
-#include "State.h"
+#include "states/State.h"
 
 /// @brief Game it is the object that holds and runs all the game aspects.
 class Game {

@@ -1,4 +1,4 @@
-#include "OverworldState.h"
+#include "states/OverworldState.h"
 
 OverworldState::OverworldState(): State() {
 
@@ -35,8 +35,9 @@ void OverworldState::Update(float dt) {
 
     Camera::Update(dt);
 
-    if(iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested()) quitRequested = true;
-
+    if(iM.QuitRequested()) quitRequested = true;
+    else if (iM.KeyPress(ESCAPE_KEY)) popRequested = true;
+    
     UpdateArray(dt);
 
     CheckCollisions();

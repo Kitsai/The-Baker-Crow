@@ -4,7 +4,8 @@
 #include "Game.h"
 #include "Resources.h"
 
-Text::Text(GameObject& associated,std::string fontFile,int fontSize,TextStyle style, std::string text,SDL_Color colorA,SDL_Color colorB): Component(associated) {
+Text::Text(GameObject& associated,std::string fontFile,int fontSize,TextStyle style,
+      std::string text,SDL_Color colorA, SDL_Color colorB, bool blinking): Component(associated), blinking(blinking) {
     this->text = text;
     this->style = style;
     this->fontFile = fontFile;
@@ -22,20 +23,30 @@ Text::~Text() {
     }   
 }
 
-void Text::Update(float dt) {
-
+void Text::Update(float dt) { 
+    if(elapsedTime <= 0){
+        if(texture){
+            SDL_DestroyTexture(texture);
+            texture = nullptr;
+        }else{
+            RemakeTexture();
+        }
+        elapsedTime = 2.0F;
+    }else{
+        elapsedTime = elapsedTime - 0.1;
+    }
 }
 
-void Text::Render() {
-    if(texture != nullptr) {
-        SDL_Rect src = {0,0,(int)associated.box.w,(int)associated.box.h};
-        SDL_Rect dst = {(int)(associated.box.x - Camera::pos.x), (int)(associated.box.y - Camera::pos.y), src.w, src.h};
-
-        if(SDL_RenderCopyEx(
-            Game::GetInstance().GetRenderer(), texture, &src, &dst,0,nullptr,SDL_FLIP_NONE) != 0) {
-                std::cerr << "Error - " << SDL_GetError() << std::endl;
-                exit(-1);
-        }
+void Text::Render(){
+    if (elapsedTime > 0) {
+        SDL_Rect clipRect = {0, 0,(int) associated.box.w,(int) associated.box.h};
+        SDL_Rect destRect = {
+            (int)(associated.box.x),
+            (int)(associated.box.y),
+            (int)associated.box.w,
+            (int)associated.box.h
+    };
+        SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture, &clipRect, &destRect, 0, nullptr, SDL_FLIP_NONE);
     }
 }
 

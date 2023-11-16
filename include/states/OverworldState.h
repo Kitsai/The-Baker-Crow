@@ -2,11 +2,9 @@
 #define OverworldState_h_
 
 #include "State.h"
-
+#include "TukiOW.h"
 #include "GameData.h"
 #include "InputManager.h"
-
-#include "TukiOW.h"
 
 class OverworldState: public State {
     public:

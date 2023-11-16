@@ -12,8 +12,6 @@
 #include "Text.h"
 #include "Collider.h"
 
-
-
 /// @brief Abstract class for a state of the game.
 class State {
     protected:

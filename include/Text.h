@@ -9,12 +9,11 @@
 #include "defines/DefinesInclude.h"
 
 #include "GameObject.h"
-
+enum TextStyle {SOLID,SHADED,BLENDED};
 /// @brief A text component.
 class Text: public Component {
     public:
         /// @brief Enum with diferent text types. SOLID - direct text. SHADED - Retangula com outra cor no fundo. BLENDED - Bordas suavisadas para adaptar ao fundo.
-        enum TextStyle {SOLID,SHADED,BLENDED};
 
         /// @brief Constructor for the Text component initializes all members. And makes the texture.
         /// @param associated Object the component is part of.
@@ -24,7 +23,8 @@ class Text: public Component {
         /// @param text Texto que deve ser escrito na tela.
         /// @param colorA Cor do texto.
         /// @param colorB Cor do fundo.
-        Text(GameObject& associated,std::string fontFile, int fontSize,TextStyle style,std::string text,SDL_Color colorA, SDL_Color colorB = COLOR_BLACK);
+        /// @param blinking Piscar ou não.
+        Text(GameObject& associated,std::string fontFile, int fontSize,TextStyle style,std::string text,SDL_Color colorA, SDL_Color colorB = COLOR_BLACK, bool blinking = false);
         /// @brief Frees the texture.
         ~Text();
 
@@ -78,6 +78,9 @@ class Text: public Component {
         SDL_Color colorA;
         /// @brief color of the background.
         SDL_Color colorB;
+
+        bool  blinking;
+        float elapsedTime = 2.0F;
 };
 
 #endif
