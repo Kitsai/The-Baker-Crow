@@ -17,11 +17,7 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(){
 
     // load music
 
-    GameObject* selector = new GameObject();
-    selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
-    selector->box.x = 15;
-    selector->box.y = 32;
-    AddObject(selector);
+    CreateSelector();
 }
 
 PuzzleState::~PuzzleState(){
@@ -47,19 +43,16 @@ void PuzzleState::Update(float dt){
     for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
         // deletes selector if ESCAPE_KEY has been pressed, creates selector
         if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece") != nullptr){
-            objectArray[i]->RequestDelete();
-
             FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").get());
-            std::vector<std::weak_ptr<GameObject>> pieces = foodPiece->GetPieces();
+            if (foodPiece->IsLocked()) continue;
+            
+            objectArray[i]->RequestDelete();
+            std::vector<std::weak_ptr<GameObject>> pieces = foodPiece->GetPieces();        
             for (int i = 0; i < (int)pieces.size(); i++){
                 pieces[i].lock()->RequestDelete();
             }
 
-            GameObject* selector = new GameObject();
-            selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
-            selector->box.x = 15;
-            selector->box.y = 32;
-            AddObject(selector);
+            CreateSelector();
         }
 
         if(objectArray[i]->IsDead()){
@@ -79,20 +72,19 @@ void PuzzleState::Update(float dt){
                 AddObject(pieces);
             }
 
-            // deletes puzzle piece, creates selector
-            bool locked = false;
+            // checks whether piece can be locked; if so, creates a selector
             if(objectArray[i]->GetComponent("FoodPiece") != nullptr){
-                locked = puzzle->AddFoodPiece(*(FoodPiece*)objectArray[i]->GetComponent("FoodPiece").get());
-                if (!locked) {
+                FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").get());
+                if (foodPiece->GetStatus()){ // only checks if piece is waiting to be evaluated
+                    bool locked = puzzle->AddFoodPiece(*(FoodPiece*)objectArray[i]->GetComponent("FoodPiece").get());
                     objectArray[i]->UnrequestDelete();
-                    continue; // if unable to add piece to puzzle, doesn't delete piece
+                    if (!locked) continue;
+                    
+                    foodPiece->Lock();
+
+                    CreateSelector();
+                    continue;
                 }
-                
-                GameObject* selector = new GameObject();
-                selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
-                selector->box.x = 15;
-                selector->box.y = 32;
-                AddObject(selector);
             }
             
             objectArray.erase(objectArray.begin()+i);
@@ -123,4 +115,12 @@ void PuzzleState::LoadMap(){
             AddObject(go);
         }
     }
+}
+
+void PuzzleState::CreateSelector(){
+    GameObject* selector = new GameObject();
+    selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
+    selector->box.x = 15;
+    selector->box.y = 32;
+    AddObject(selector);
 }

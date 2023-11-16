@@ -5,7 +5,7 @@
 #include <iostream>
 
 FoodPiece::FoodPiece(GameObject& associated, class FoodItem& foodItem) 
-    : Component(associated), locked(false), foodItem(&foodItem), type(foodItem.GetType()) {
+    : Component(associated), locked(false), waiting(false), foodItem(&foodItem), type(foodItem.GetType()) {
     evaluateForm();
     RenderPieces();
 }
@@ -19,6 +19,8 @@ void FoodPiece::Render() {
 
 void FoodPiece::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
+
+    if (locked) return;
 
     if (iM.KeyPress(LEFT_ARROW_KEY)) {
         for (int i = 0; i < (int)pieces.size(); i++)
@@ -45,20 +47,38 @@ void FoodPiece::Update(float dt) {
             pieces[i].lock()->box.y += 67;
     }
 
-    if (iM.KeyPress(ENTER_KEY)) associated.RequestDelete();
+    if (iM.KeyPress(ENTER_KEY)) {
+        associated.RequestDelete();
+        Wait();
+    } 
 }
 
 std::string FoodPiece::GetType() {
     return type;
 }
 
+// waits to see whether piece can be locked
+void FoodPiece::Wait() {
+    waiting = true;
+}
+
+bool FoodPiece::GetStatus() {
+    return waiting;
+}
+
+bool FoodPiece::IsLocked() {
+    return locked;
+}
+
 bool FoodPiece::Lock() {
     locked = true;
+    waiting = false;
     return locked;
 }
 
 bool FoodPiece::UnLock() {
     locked = false;
+    waiting = false;
     return !locked;
 }
 
