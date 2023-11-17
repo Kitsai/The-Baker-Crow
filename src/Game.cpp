@@ -114,13 +114,8 @@ void Game::Run() {
         
         if(GetCurrentState().PopRequested()) {
             stateStack.pop();
-            Resources::ClearImages();
-            Resources::ClearMusics();
-            Resources::ClearSounds();
-            Resources::ClearFonts();
-            
             if(stateStack.size()) GetCurrentState().Resume();
-    }
+        }
         if(storedState != nullptr) {
             GetCurrentState().Pause();
             stateStack.emplace(storedState);
@@ -128,14 +123,18 @@ void Game::Run() {
             GetCurrentState().Start();
         }
 
-        GetCurrentState().Update(dt);
-        GetCurrentState().Render();
+        if(!stateStack.empty()){
+            GetCurrentState().Update(dt);
+            GetCurrentState().Render();
 
-        SDL_RenderPresent(renderer);
-        SDL_Delay(33);
+            SDL_RenderPresent(renderer);
+            SDL_Delay(33);
 
-        if(GetCurrentState().QuitRequested())
-            while(stateStack.size()) stateStack.pop();
+            if(GetCurrentState().QuitRequested())
+                while(stateStack.size()) stateStack.pop();
+        }else{
+            break;
+        }
     }
     Resources::ClearImages();
     Resources::ClearMusics();

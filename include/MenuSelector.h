@@ -6,20 +6,22 @@
 #include "Component.h"
 
 class MenuSelector : public Component {
-    int selected;
 
 public:
     MenuSelector(GameObject& assoc);
     MenuSelector(GameObject& assoc, std::string buttonPath);
     ~MenuSelector();
 
-    int nButtons;
-
     void Update(float dt);
     void Render();
     bool Is(std::string type);
 
-    std::vector<Button> buttons;
+    int GetSelected();
+    private:
+        int nButtons;
+        int selected;
+        std::shared_ptr<Button> selectedButton;
+        std::vector<std::shared_ptr<Button>> buttons;
 };
 
 #endif

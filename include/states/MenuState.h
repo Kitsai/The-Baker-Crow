@@ -4,9 +4,15 @@
 #include "Text.h"
 #include "Game.h"
 #include "State.h"
+#include "Music.h"
 #include "Sprite.h"
+#include "Camera.h"
 #include "GameObject.h"
 #include "InputManager.h"
+#include "MenuSelector.h"
+#include "states/PuzzleState.h"
+#include "defines/DefineInput.h"
+#include "states/OverworldState.h"
 
 class MenuState : public State {
     
@@ -23,6 +29,7 @@ class MenuState : public State {
         void Resume();
     
     private:
-    Music* backGraundMusic;
+    std::shared_ptr<Music> backGraundMusic;
+    std::shared_ptr<MenuSelector> selector;
 };
 #endif

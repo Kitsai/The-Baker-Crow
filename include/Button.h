@@ -11,13 +11,14 @@ class Button {
         Button(Vec2 vec, std::string buttonPath, std::string name);
         ~Button();
         
+        void Choose();
+        void UnChoose();
+
         bool blinkingText;
         std::string name;
-        
-        void Choosed();
     
     private:
-        Text* texto;
-        Sprite*  buttonImage;
+        std::shared_ptr<Text> text;
+        std::shared_ptr<Sprite> buttonImage;
 };
 #endif
