@@ -1,13 +1,9 @@
 #include "Resources.h"
 
-
-std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> Resources::imageTable = {};
-
-std::unordered_map<std::string, std::shared_ptr<Mix_Music>> Resources::musicTable = {};
-
-std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> Resources::soundTable = {};
-
-std::unordered_map<std::string,std::shared_ptr<TTF_Font>> Resources::fontTable = {};
+std::unordered_map<std::string, std::shared_ptr<TTF_Font>> Resources::fontTable;
+std::unordered_map<std::string, std::shared_ptr<Mix_Chunk>> Resources::soundTable;
+std::unordered_map<std::string, std::shared_ptr<Mix_Music>> Resources::musicTable;
+std::unordered_map<std::string, std::shared_ptr<SDL_Texture>> Resources::imageTable;
 
 std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
     if(imageTable.find(file) != imageTable.end()) 
@@ -23,11 +19,6 @@ std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
     return imageTable[file];
 }
 
-void Resources::ClearImages() {
-    for(auto i: imageTable) 
-        if(i.second.unique())
-            imageTable.erase(i.first); 
-}
 
 std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
     if(musicTable.find(file) != musicTable.end())
@@ -41,12 +32,6 @@ std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
 
     musicTable[file] = std::shared_ptr<Mix_Music>(music,[](Mix_Music* p) {Mix_FreeMusic(p);});
     return musicTable[file];
-}
-
-void Resources::ClearMusics() {
-    for(auto i: musicTable)
-        if(i.second.unique())
-            musicTable.erase(i.first);
 }
 
 std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
@@ -63,11 +48,6 @@ std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
     return soundTable[file];
 }
 
-void Resources::ClearSounds() {
-    for(auto i: soundTable)
-        if(i.second.unique())
-            soundTable.erase(i.first);
-}
 
 std::shared_ptr<TTF_Font> Resources::GetFont(std::string file, int size) {
     std::string key = file + std::to_string(size);
@@ -84,8 +64,49 @@ std::shared_ptr<TTF_Font> Resources::GetFont(std::string file, int size) {
     return fontTable[key];
 }
 
+void Resources::ClearImages() {
+    auto it = imageTable.begin();
+    
+    while (it != imageTable.end()) {
+        if (it->second.use_count() == 1) {
+            it = imageTable.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+    
+void Resources::ClearSounds() {
+    auto it = soundTable.begin();
+
+    while (it != soundTable.end()) {
+        if (it->second.use_count() == 1) {
+            it = soundTable.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
+
+void Resources::ClearMusics() {
+    auto it = musicTable.begin();
+
+    while (it != musicTable.end()) {
+        if (it->second.use_count() == 1) {
+            it = musicTable.erase(it);
+        } else {
+            ++it;
+        }
+    }
+}
 void Resources::ClearFonts() {
-    for(auto i: fontTable) 
-        if(i.second.unique())
-            fontTable.erase(i.first);
+    auto it = fontTable.begin();
+
+    while (it != fontTable.end()) {
+        if (it->second.use_count() == 1) {
+            it = fontTable.erase(it);
+        } else {
+            ++it;
+        }
+    }
 }
