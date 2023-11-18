@@ -25,7 +25,6 @@ Text::~Text() {
 
 void Text::Update(float dt) { 
     if(blinking){
-        
         if(elapsedTime <= 0){
             if(texture){
                 SDL_DestroyTexture(texture);

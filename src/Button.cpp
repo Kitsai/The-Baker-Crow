@@ -25,10 +25,14 @@ Button::Button(Vec2 vetor, std::string buttonPath, std::string name) : blinkingT
 
 void Button::UnChoose(){
     buttonImage->SetScale(1.0F,1.0F);
+    text->blinking = false;
+    text->SetColorA({255, 255, 255});
 }
 
 void Button::Choose(){
     buttonImage->SetScale(1.5F, 1.5F);
+    text->blinking = true;
+    text->SetColorA({255, 255, 0});
 }
 
 Button::~Button() = default;
