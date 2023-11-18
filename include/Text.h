@@ -57,6 +57,8 @@ class Text: public Component {
         /// @param fontSize size of the font.
         void SetFontSize(int fontSize);
 
+        bool  blinking;        
+
     private:
         /// @brief Remakes the texture with current data.
         void RemakeTexture();
@@ -78,9 +80,7 @@ class Text: public Component {
         SDL_Color colorA;
         /// @brief color of the background.
         SDL_Color colorB;
-
-        bool  blinking;
-        float elapsedTime = 2.0F;
+        float elapsedTime = 1.0F;
 };
 
 #endif

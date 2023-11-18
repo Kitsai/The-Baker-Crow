@@ -21,13 +21,12 @@ MenuState::~MenuState(){
 }
 
 void MenuState::Update(float dt){
-    if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
-        popRequested = true;
-        backGraundMusic->Stop();
-    }
-    else if ((InputManager::GetInstance().KeyPress(ESCAPE_KEY)|| InputManager::GetInstance().QuitRequested())){
-        popRequested = true;
+
+    if (InputManager::GetInstance().QuitRequested()){
         quitRequested = true;
+    }
+    else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
+        popRequested = true;
         backGraundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
@@ -42,7 +41,6 @@ void MenuState::Update(float dt){
         popRequested = true;
         backGraundMusic->Stop();
     }
-
     for (int i = 0; i < objectArray.size(); i++) {
         objectArray[i]->Update(dt);
     }   

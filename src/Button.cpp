@@ -17,18 +17,21 @@ Button::Button(Vec2 vetor, std::string buttonPath, std::string name) : blinkingT
     this->text = std::make_shared<Text>(*textObj, std::string("resources/font/Base.ttf"), 32, TextStyle::BLENDED, std::string(name), SDL_Color{200, 200, 200}, SDL_Color{0, 0, 0}, blinkingText);
 
     textObj->AddComponent(this->text);
-    textObj->box.x = vetor.x;
-    textObj->box.y = vetor.y;
+    textObj->box.x = vetor.x + (imageObj->box.w)/4;
+    textObj->box.y = vetor.y + (imageObj->box.h)/8;
     Game::GetInstance().GetCurrentState().AddObject(imageObj);
     Game::GetInstance().GetCurrentState().AddObject(textObj);
 }
 
 void Button::UnChoose(){
-    buttonImage->SetScale(1.0F,1.0F);
+    buttonImage->UnSetFocus();
+    text->blinking = false;
+    text->SetColorA({255, 255, 255});
 }
-
 void Button::Choose(){
-    buttonImage->SetScale(1.5F, 1.5F);
+    buttonImage->SetFocus(1.125f, 1.25f);
+    text->blinking = true;
+    text->SetColorA({255, 255, 0});
 }
 
 Button::~Button() = default;
