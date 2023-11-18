@@ -39,9 +39,8 @@ void MenuSelector::Update(float dt) {
     if(selectedButton){
         selectedButton->UnChoose();
     }
-    else if(selectedButton != buttons[selected]){
-        selectedButton->Choose();
-    }
+    selectedButton = buttons[selected];
+    selectedButton->Choose();
 }
 
 void MenuSelector::Render() {
