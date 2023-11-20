@@ -30,6 +30,7 @@ public:
 
     std::vector<std::vector<int>> GetForm();
     std::vector<std::weak_ptr<GameObject>> GetPieces();
+
     void RenderPieces();
 private:
     // Attributes

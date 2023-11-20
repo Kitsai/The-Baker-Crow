@@ -8,7 +8,7 @@
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(){
     GameObject* ui = new GameObject();
-    ui->AddComponent((std::shared_ptr<Sprite>)new Sprite(*ui,"resources/img/ui_puzzle.png"));
+    ui->AddComponent((std::shared_ptr<Sprite>)new Sprite(*ui,"resources/img/puzzle/ui/Exemplo.png"));
     ui->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
     AddObject(ui);
     
@@ -47,7 +47,7 @@ void PuzzleState::Update(float dt){
             if (foodPiece->IsLocked()) continue;
             
             objectArray[i]->RequestDelete();
-            std::vector<std::weak_ptr<GameObject>> pieces = foodPiece->GetPieces();        
+            std::vector<std::weak_ptr<GameObject>> pieces = foodPiece->GetPieces();
             for (int i = 0; i < (int)pieces.size(); i++){
                 pieces[i].lock()->RequestDelete();
             }
@@ -108,8 +108,8 @@ void PuzzleState::LoadMap(){
     for(int i = 2; i < (int)map.size(); i++){
         for(int j = 0; j < (int)map[i].size(); j++){
             GameObject* go = new GameObject();
-            go->box.x = 415+(67*j);
-            go->box.y = 170+(67*(i-2));
+            go->box.x = 415+(60*j);
+            go->box.y = 170+(60*(i-2));
             if (map[i][j] == '1') go->AddComponent((std::shared_ptr<Sprite>)new Sprite(*go,"resources/img/puzzleTile_ph.png"));
             else if (map[i][j] == '0') go->AddComponent((std::shared_ptr<Sprite>)new Sprite(*go,"resources/img/puzzleTilec_ph.png"));
             AddObject(go);
