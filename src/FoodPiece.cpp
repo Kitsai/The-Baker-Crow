@@ -25,6 +25,7 @@ void FoodPiece::Update(float dt) {
     if (iM.KeyPress(LEFT_ARROW_KEY)) {
         for (int i = 0; i < (int)pieces.size(); i++)
             if (pieces[i].lock()->box.x < 450) return; // se uma das peças estiver no limite, nenhuma delas pode se mover
+        associated.box.x -= 60;
         for (int i = 0; i < (int)pieces.size(); i++){
             pieces[i].lock()->box.x -= 60;
         }
@@ -32,6 +33,7 @@ void FoodPiece::Update(float dt) {
     if (iM.KeyPress(RIGHT_ARROW_KEY)) {
         for (int i = 0; i < (int)pieces.size(); i++)
             if (pieces[i].lock()->box.x > 700) return; 
+        associated.box.x += 60;
         for (int i = 0; i < (int)pieces.size(); i++){
             pieces[i].lock()->box.x += 60;
         }
@@ -39,6 +41,7 @@ void FoodPiece::Update(float dt) {
     if(iM.KeyPress(UP_ARROW_KEY)) {
         for (int i = 0; i < (int)pieces.size(); i++)
             if (pieces[i].lock()->box.y < 200) return;
+        associated.box.y -= 60;
         for (int i = 0; i < (int)pieces.size(); i++){
             pieces[i].lock()->box.y -= 60;
         }
@@ -46,6 +49,7 @@ void FoodPiece::Update(float dt) {
     if(iM.KeyPress(DOWN_ARROW_KEY)) {
         for (int i = 0; i < (int)pieces.size(); i++)
             if (pieces[i].lock()->box.y > 450) return;
+        associated.box.y += 60;
         for (int i = 0; i < (int)pieces.size(); i++){
             pieces[i].lock()->box.y += 60;
         }

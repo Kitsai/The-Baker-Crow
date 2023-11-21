@@ -76,7 +76,7 @@ void PuzzleState::Update(float dt){
             if(objectArray[i]->GetComponent("FoodPiece") != nullptr){
                 FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").get());
                 if (foodPiece->GetStatus()){ // only checks if piece is waiting to be evaluated
-                    bool locked = puzzle->AddFoodPiece(*(FoodPiece*)objectArray[i]->GetComponent("FoodPiece").get());
+                    bool locked = puzzle->AddFoodPiece(*foodPiece, {objectArray[i]->box.x, objectArray[i]->box.y});
                     objectArray[i]->UnrequestDelete();
                     if (!locked) continue;
                     
