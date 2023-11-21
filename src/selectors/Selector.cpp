@@ -1,4 +1,4 @@
-#include "Selector.h"
+#include "selectors/Selector.h"
 #include "Sprite.h"
 #include "InputManager.h"
 #include <iostream>

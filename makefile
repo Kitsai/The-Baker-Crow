@@ -21,11 +21,12 @@ RFLAGS = -O3 -mtune=native
 INC_PATH = include
 SRC_PATH = src
 STATES_PATH = src/states
+SELECTORS_PATH = src/selectors
 BIN_PATH = bin
 DEP_PATH = dep
 
-CPP_FILES = $(wildcard $(SRC_PATH)/*.cpp) $(wildcard $(STATES_PATH)/*.cpp)
-INC_FILES = $(wildcard $(SRC_PATH)/*.hpp)
+CPP_FILES = $(wildcard $(SRC_PATH)/*.cpp) $(wildcard $(SELECTORS_PATH)/*.cpp) $(wildcard $(STATES_PATH)/*.cpp)
+INC_FILES = $(wildcard $(SRC_PATH)/*.hpp) 
 FILE_NAMES = $(sort $(notdir $(CPP_FILES:.cpp=)) $(notdir $(INC_FILES:.h=)))
 DEP_FILES = $(addprefix $(DEP_PATH)/,$(addsuffix .d,$(FILE_NAMES)))
 OBJ_FILES = $(addprefix $(BIN_PATH)/,$(notdir $(CPP_FILES:.cpp=.o)))
@@ -66,6 +67,12 @@ all: $(EXEC)
 
 $(EXEC): $(OBJ_FILES)
 	$(COMPILER) -o $@ $^ $(LINK_PATH) $(LIBS) $(FLAGS)
+
+$(BIN_PATH)/%.o: $(SELECTORS_PATH)/%.cpp | folders
+	$(COMPILER) $(SDL_INC_PATH) -I$(INC_PATH) -c $(FLAGS) -o $@ $<
+
+$(DEP_PATH)/%.d: $(SELECTORS_PATH)/%.cpp | folders
+	@$(COMPILER) $(SDL_INC_PATH) -I$(INC_PATH) -M -MT '$(BIN_PATH)/$(*F).o'
 
 $(BIN_PATH)/%.o: $(STATES_PATH)/%.cpp | folders
 	$(COMPILER) $(SDL_INC_PATH) -I$(INC_PATH) -c $(FLAGS) -o $@ $<

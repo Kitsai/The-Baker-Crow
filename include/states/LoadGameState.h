@@ -1,5 +1,5 @@
-#ifndef MenuState_h
-#define MenuState_h
+#ifndef LoadGameState_h
+#define LoadGameState_h
 
 #include "Text.h"
 #include "Game.h"

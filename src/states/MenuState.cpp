@@ -1,5 +1,5 @@
 #include "Camera.h"
-#include "MenuSelector.h"
+#include "selectors/MenuSelector.h"
 #include "Sprite.h"
 #include "defines/DefineInput.h"
 #include "states/MenuState.h"
