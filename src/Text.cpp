@@ -115,3 +115,9 @@ void Text::RemakeTexture() {
 
     SDL_FreeSurface(surface);
 }
+
+void Text::SetColarandTextSize(SDL_Color color, int fontSize){
+    this->fontSize = fontSize;
+    this-> colorA = color;
+    RemakeTexture();
+}

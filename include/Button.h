@@ -1,6 +1,7 @@
 #ifndef Button_H
 #define Button_H
 
+#include "GameObject.h"
 #include "Sprite.h"
 #include "Text.h"
 #include "Component.h"
@@ -18,7 +19,10 @@ class Button {
         std::string name;
     
     private:
+        GameObject* textObj;
         std::shared_ptr<Text> text;
+
+        GameObject* imageObj;
         std::shared_ptr<Sprite> buttonImage;
 };
 #endif

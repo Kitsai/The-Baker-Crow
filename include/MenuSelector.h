@@ -18,9 +18,10 @@ public:
 
     int GetSelected();
     private:
-        int nButtons;
         int selected;
         std::shared_ptr<Button> selectedButton;
+        
+        int nButtons;
         std::vector<std::shared_ptr<Button>> buttons;
 };
 

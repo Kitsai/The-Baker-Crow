@@ -7,31 +7,37 @@
 
 Button::Button(Vec2 vetor, std::string buttonPath, std::string name) : blinkingText(false), name(name){
     
-    GameObject *imageObj = new GameObject();
+    this->imageObj = new GameObject();
     this->buttonImage = std::make_shared<Sprite>(*imageObj, "resources/img/MenuButton.png");
-    imageObj->AddComponent(buttonImage);
-    imageObj->box.x = vetor.x;
-    imageObj->box.y = vetor.y;
+    this->imageObj->AddComponent(buttonImage);
+    this->imageObj->box.x = vetor.x;
+    this->imageObj->box.y = vetor.y;
 
-    GameObject *textObj = new GameObject();
-    this->text = std::make_shared<Text>(*textObj, std::string("resources/font/Base.ttf"), 32, TextStyle::BLENDED, std::string(name), SDL_Color{200, 200, 200}, SDL_Color{0, 0, 0}, blinkingText);
+    this->textObj = new GameObject();
+    this->text = std::make_shared<Text>(*textObj, std::string("resources/font/Base.ttf"), 32, TextStyle::BLENDED, std::string(name), SDL_Color{255, 255, 255, 255}, SDL_Color{0, 0, 0, 0}, blinkingText);
 
-    textObj->AddComponent(this->text);
-    textObj->box.x = vetor.x + (imageObj->box.w)/4;
-    textObj->box.y = vetor.y + (imageObj->box.h)/8;
+    this->textObj->AddComponent(this->text);
+    this->textObj->box.x = vetor.x + (imageObj->box.w)/4;
+    this->textObj->box.y = vetor.y + (imageObj->box.h)/8;
     Game::GetInstance().GetCurrentState().AddObject(imageObj);
     Game::GetInstance().GetCurrentState().AddObject(textObj);
 }
 
 void Button::UnChoose(){
     buttonImage->UnSetFocus();
+    this->textObj->box.x = this->imageObj->box.x + (this->imageObj->box.w)/4;
+    this->textObj->box.y = this->imageObj->box.y + (this->imageObj->box.h)/8;
+    
     text->blinking = false;
-    text->SetColorA({255, 255, 255});
+    text->SetColarandTextSize({255, 255, 255, 255}, 32);
 }
 void Button::Choose(){
     buttonImage->SetFocus(1.125f, 1.25f);
+    this->textObj->box.x = this->imageObj->box.x + (this->imageObj->box.w)/4;
+    this->textObj->box.y = this->imageObj->box.y;
+    
     text->blinking = true;
-    text->SetColorA({255, 255, 0});
+    text->SetColarandTextSize({255, 255, 0, 255}, 48);
 }
 
 Button::~Button() = default;

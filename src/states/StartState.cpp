@@ -17,7 +17,7 @@ StartState::StartState(): State(){
     GameObject *textObj = new GameObject();
     std::string texto = "PRESS SPACEBAR OR ENTER TO PLAY";
     
-    Text* startText = new Text(*textObj, "resources/font/Base.ttf", 64, TextStyle::BLENDED,texto, {200, 200, 200},{0, 0, 0},  true);
+    Text* startText = new Text(*textObj, "resources/font/Base.ttf", 64, TextStyle::BLENDED,texto, {255, 255, 255, 255},{0, 0, 0, 0},  true);
     textObj->AddComponent((std::shared_ptr<Text>) startText);
     textObj->box.SetCenter(Vec2((float)(Game::GetInstance().GetWindowWidth())/2, (float)(Game::GetInstance().GetWindowHeight())*7/8));
     
@@ -38,7 +38,7 @@ void StartState::Update(float dt){
         Game::GetInstance().Push(newState);
         backGraundMusic->Stop();
     }
-    for (int i = 0; i < objectArray.size(); i++) {
+    for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
     }
 }

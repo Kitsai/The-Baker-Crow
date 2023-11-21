@@ -46,6 +46,7 @@ class Text: public Component {
         void SetColorA(SDL_Color color);
         /// @brief Setter for the backgropund color. Remakes the texture.
         /// @param color background color.
+        void SetColarandTextSize(SDL_Color color, int fontSize);
         void SetColorB(SDL_Color color);
         /// @brief Setter for the text style. Remakes the texture.
         /// @param style style of the text.

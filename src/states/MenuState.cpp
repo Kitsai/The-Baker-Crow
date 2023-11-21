@@ -41,7 +41,7 @@ void MenuState::Update(float dt){
         popRequested = true;
         backGraundMusic->Stop();
     }
-    for (int i = 0; i < objectArray.size(); i++) {
+    for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
     }   
 }
