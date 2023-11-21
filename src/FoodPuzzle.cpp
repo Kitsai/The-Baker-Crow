@@ -1,5 +1,6 @@
 #include <fstream>
 #include "FoodPuzzle.h"
+#include <iostream>
 
 FoodPuzzle::FoodPuzzle(std::string mapFilePath) : completed(false) {
     std::ifstream file(mapFilePath);
@@ -8,6 +9,7 @@ FoodPuzzle::FoodPuzzle(std::string mapFilePath) : completed(false) {
         answerMap.push_back(line);
     }
     file.close();
+
     actualMap.resize(answerMap.size(), std::string(answerMap[0].size(), '0'));
 }
 
@@ -29,4 +31,8 @@ void FoodPuzzle::LockFoodPiece(const FoodPiece& foodPiece) {
 }
 
 void FoodPuzzle::UnLockFoodPiece(const FoodPiece& foodPiece) {
+}
+
+std::vector<std::string> FoodPuzzle::GetMap() {
+    return answerMap;
 }

@@ -112,6 +112,9 @@ class Sprite: public Component {
         /// @param type Type to be checked.
         /// @return True if type matches with the passed argument. 
         bool Is(std::string type);  
+
+        void SetFocus(float scaleX, float scaleY);
+        void UnSetFocus();
 };
 
 #endif

@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include "Component.h"
+#include "GameObject.h"
 
 class FoodItem;
 
@@ -24,7 +25,8 @@ public:
     bool Is(std::string type);
 
     std::vector<std::vector<int>> GetForm();
-    
+    std::vector<std::weak_ptr<GameObject>> GetPieces();
+    void RenderPieces();
 private:
     // Attributes
     bool locked;
@@ -32,6 +34,7 @@ private:
     FoodItem* foodItem;
     std::string type;
     std::vector<std::vector<int>> form;
+    std::vector<std::weak_ptr<GameObject>> pieces;
     //Methods
     void evaluateForm();
 };

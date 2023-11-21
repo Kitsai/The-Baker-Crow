@@ -17,7 +17,7 @@ class FoodItem : public Component{
         bool Is(std::string type);
 
         std::string GetType();
-        FoodPiece*  GetFoodPiece() const;
+        FoodPiece*  GetFoodPiece();
     
     private:
         int amount;

@@ -1,4 +1,4 @@
-#include "OverworldState.h"
+#include "states/OverworldState.h"
 
 OverworldState::OverworldState(): State() {
 
@@ -20,6 +20,7 @@ OverworldState::OverworldState(): State() {
     Camera::Follow(tuki);
 
     GameData::playerAlive = true;
+    backGraundMusic = new Music("resources/music/MusicWorld.flac");
 }
 
 OverworldState::~OverworldState() {
@@ -35,8 +36,15 @@ void OverworldState::Update(float dt) {
 
     Camera::Update(dt);
 
-    if(iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested()) quitRequested = true;
+    if(iM.QuitRequested()){
+        quitRequested = true;
+    } 
+    else if (iM.KeyPress(ESCAPE_KEY)){
+        popRequested = true;
+        backGraundMusic->Stop();
 
+    } 
+    
     UpdateArray(dt);
 
     CheckCollisions();
@@ -52,6 +60,7 @@ void OverworldState::Start() {
     LoadAssets();
     StartArray();
     started = true;
+    backGraundMusic->Play();
 }
 
 void OverworldState::Pause() {
@@ -59,5 +68,7 @@ void OverworldState::Pause() {
 }
 
 void OverworldState::Resume() {
-
+    Camera::pos.x = 0;
+    Camera::pos.y = 0;
+    backGraundMusic->Play();
 }
