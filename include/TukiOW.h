@@ -19,6 +19,7 @@ class TukiOW: public Player {
         bool Is(std::string type);
         
     private:
+        void Move(float dt);
         void CalcSpeed(float dt);
         std::weak_ptr<GameObject> attack;
 
