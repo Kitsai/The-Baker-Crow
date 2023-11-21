@@ -1,6 +1,5 @@
 #include "Game.h"
-#include "OverworldState.h"
-#include "PuzzleState.h"
+#include "states/StartState.h"
 
 int main(int argc, char** argv) {
     

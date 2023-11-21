@@ -53,9 +53,7 @@ void TukiOW::Update(float dt) {
     }
 
     // simulating the calculation of the speed integral by separating the calculation in two steps.
-    CalcSpeed(dt);
-    associated.box += speed*dt;
-    CalcSpeed(dt);
+    Move(dt);
 
     if(state == PlayerState::DODGING) {
         //playerTimer.Update(dt);
@@ -80,40 +78,43 @@ void TukiOW::Update(float dt) {
     }
 } 
 
+void TukiOW::Move(float dt) {
+    CalcSpeed(dt);
+    std::cout << speed.magnitude() << std::endl;
+    if(state == PlayerState::STANDING) {
+        speed = speed*TOW_DAMP_STATIC;
+    } 
+    //if(state == PlayerState::DODGING) {
+    //    speed = speed * 
+    //} 
+    else {
+        speed = speed*TOW_DAMP_MOVING;
+    }
+    associated.box += speed*dt*GLOBAL_SPEED_SCALER;
+    CalcSpeed(dt);
+}
+ 
 void TukiOW::CalcSpeed(float dt) {
     InputManager& iM = InputManager::GetInstance();
-    std::cout << "x: " << speed.x << " y: " << speed.y << std::endl;
 
-    if(state == PlayerState::DODGING) {
-        speed -= speed.normalized()*dt*TOW_DASH_DECELERATION;
+    if(state == PlayerState::DODGING)
         return;
-    }
-
-    bool movementKey = false;
 
     if(iM.IsKeyDown(LEFT_ARROW_KEY)) {
-        speed.x -= TOW_A*dt*0.5F;
-        movementKey = true;
+        speed.x -= TOW_A*dt;
     } 
     if(iM.IsKeyDown(RIGHT_ARROW_KEY)) { 
-        speed.x += TOW_A*dt*0.5F;     
-        movementKey = true;
+        speed.x += TOW_A*dt;     
     }
     if(iM.IsKeyDown(UP_ARROW_KEY)) {
-        speed.y -= TOW_A*dt*0.5F;
-        movementKey = true;
+        speed.y -= TOW_A*dt;
     }
     if(iM.IsKeyDown(DOWN_ARROW_KEY)) {
-        speed.y += TOW_A*dt*0.5F;
-        movementKey = true;
+        speed.y += TOW_A*dt;
     }
     Vec2 norm = speed.normalized();
     if(speed.magSquare() > TOW_SPEED_LIM*TOW_SPEED_LIM) 
         speed = norm * TOW_SPEED_LIM;
-
-    if(!movementKey && state == WALKING && speed.magSquare() > 0) 
-        speed -= norm*TOW_FRICTION*0.5F*dt; 
-
 }
 
 bool TukiOW::Is(std::string type) {

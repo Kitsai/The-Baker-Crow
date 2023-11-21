@@ -102,13 +102,48 @@ void Sprite::SetScale(Vec2 scale) {
     SetScale(scale.x,scale.y);
 }
 
-void Sprite::SetScale(float scaleX, float scaleY) {
-    scale.x = (scaleX==0)? scale.x:scaleX;
-    scale.y = (scaleY==0)? scale.y:scaleY;
-    Vec2 center = associated.box.GetCenter();
-    associated.box.w *= scale.x;
-    associated.box.h *= scale.y;
-    associated.box.SetCenter(center);
+void Sprite::SetScale(float scaleX, float scaleY){
+    if (scaleX > 0){
+        this->scale.x = scaleX;
+        associated.box.w = associated.box.w * scale.x;
+    }
+    if (scaleY > 0){
+        this->scale.y = scaleY;
+        associated.box.h = associated.box.h * scale.y;
+    }
+}
+
+void Sprite::SetFocus(float escalarX, float escalarY) {
+    if (escalarX > 0 && escalarY > 0) {
+        float difX = (associated.box.w - associated.box.w * escalarX) / 2.0f;
+        float difY = (associated.box.h - associated.box.h * escalarY) / 2.0f;
+        
+        this->scale.x = escalarX;
+        this->scale.y = escalarY;
+        
+        associated.box.w *= scale.x;
+        associated.box.h *= scale.y;
+
+        associated.box.x +=  difX;
+        associated.box.y +=  difY;
+    }
+}
+
+void Sprite::UnSetFocus() {
+    float originalW = associated.box.w / scale.x;
+    float originalH = associated.box.h / scale.y;
+
+    float difX = (originalW - associated.box.w) / 2.0f;
+    float difY = (originalH - associated.box.h) / 2.0f;
+
+    this->scale.x = 1.0f;
+    this->scale.y = 1.0f;
+
+    associated.box.w = originalW;
+    associated.box.h = originalH;
+
+    associated.box.x -= difX;
+    associated.box.y -= difY;
 }
 
 Vec2 Sprite::GetScale() {
