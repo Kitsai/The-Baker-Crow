@@ -9,16 +9,16 @@
 #include "Camera.h"
 #include "GameObject.h"
 #include "InputManager.h"
-#include "selectors/MenuSelector.h"
+#include "selectors/NewGameSelector.h"
 #include "states/PuzzleState.h"
 #include "defines/DefineInput.h"
 #include "states/OverworldState.h"
 
-class MenuState : public State {
+class NewGameState : public State {
     
     public:
-        MenuState();
-        ~MenuState();
+        NewGameState();
+        ~NewGameState();
 
         void Render();
         void Update(float dt);
@@ -30,6 +30,6 @@ class MenuState : public State {
     
     private:
     std::shared_ptr<Music> backGraundMusic;
-    std::shared_ptr<MenuSelector> selector;
+    std::shared_ptr<NewGameSelector> selector;
 };
 #endif

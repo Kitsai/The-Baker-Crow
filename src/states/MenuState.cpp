@@ -1,9 +1,9 @@
 #include "Camera.h"
-#include "selectors/MenuSelector.h"
-#include "Sprite.h"
-#include "defines/DefineInput.h"
 #include "states/MenuState.h"
-#include <memory>
+#include "defines/DefineInput.h"
+#include "states/NewGameState.h"
+#include "states/LoadGameState.h"
+#include "selectors/MenuSelector.h"
 
 MenuState::MenuState(): State(), selector(nullptr){
 
@@ -27,16 +27,15 @@ void MenuState::Update(float dt){
     }
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
-        backGraundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
-        PuzzleState* newState = new PuzzleState(1);
+        NewGameState* newState = new NewGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         backGraundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
-        OverworldState* newState = new OverworldState();
+        LoadGameState* newState = new LoadGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         backGraundMusic->Stop();
