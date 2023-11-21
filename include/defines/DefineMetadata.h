@@ -1,5 +1,5 @@
 #ifndef DefineMetadata_h_
-#define DefineMEtadata_h_
+#define DefineMetadata_h_
 
 #define TILE_IMPASSABLE 0b1
 #define TILE_DAMAGING 0b10

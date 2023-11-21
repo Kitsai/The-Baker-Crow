@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "Button.h"
-#include "MenuSelector.h"
+#include "selectors/MenuSelector.h"
 #include "InputManager.h"
 #include <memory>
 

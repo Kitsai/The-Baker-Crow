@@ -2,6 +2,7 @@
 #define Selector_H
 
 #include "Component.h"
+
 class Selector : public Component {
     int selected;
     void RenderSelected();
