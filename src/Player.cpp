@@ -12,7 +12,7 @@ Player::Player(GameObject& associated): Component(associated) {
     player = this;
 
     Game& game = Game::GetInstance();
-    associated.AddComponent((std::shared_ptr<Collider>)new Collider(associated));
+    associated.AddComponent(new Collider(associated));
     associated.box.SetCenter(Vec2(game.GetWindowWidth(),game.GetWindowHeight()) * 0.5F);
 }
 
