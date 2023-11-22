@@ -5,7 +5,7 @@
 #include "InputManager.h"
 #include <memory>
 
-NewGameSelector::NewGameSelector(GameObject& assoc) : Component(assoc), selected(0), nButtons(2){
+NewGameSelector::NewGameSelector() : selected(0), nButtons(2){
     
     MenuButton* buttonGame1 = new MenuButton(Vec2(0, 300),"resources/img/MenuButton.png", "NEW GAME 1");
     MenuButton* buttonGame2 = new MenuButton(Vec2(400, 300),"resources/img/MenuButton.png", "NEW GAME 2");

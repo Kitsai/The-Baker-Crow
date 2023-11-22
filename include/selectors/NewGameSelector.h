@@ -5,11 +5,11 @@
 #include "MenuButton.h"
 #include "Component.h"
 
-class NewGameSelector : public Component {
+class NewGameSelector {
 
 public:
-    NewGameSelector(GameObject& assoc);
-    NewGameSelector(GameObject& assoc, std::string buttonPath);
+    NewGameSelector();
+    NewGameSelector(std::string buttonPath);
     ~NewGameSelector();
 
     void Update(float dt);
