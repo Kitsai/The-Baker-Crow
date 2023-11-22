@@ -12,7 +12,7 @@ MenuState::MenuState(): State(), selector(nullptr){
 
     titleObj->AddComponent(new Sprite(*titleObj, "resources/img/MainMenu.jpg"));
 
-    objectArray.emplace_back(titleObj);
+    AddObject(titleObj);
     backGroundMusic = std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 

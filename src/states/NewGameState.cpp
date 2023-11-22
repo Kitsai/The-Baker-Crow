@@ -45,9 +45,8 @@ void NewGameState::Update(float dt){
         popRequested = true;
         backGroundMusic->Stop();
     }
-    for (int i = 0; i < (int) objectArray.size(); i++) {
-        objectArray[i]->Update(dt);
-    }   
+    selector->Update(dt);
+    UpdateArray(dt);
 }
 
 void NewGameState::LoadAssets(){
@@ -55,22 +54,14 @@ void NewGameState::LoadAssets(){
 }
 
 void NewGameState::Render() {
-    
-    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
-        objectArray[i]->Render();
-    }
+    RenderArray();
 }
 
 void NewGameState::Start(){
     
-    GameObject* selectorObj = new GameObject();
-    selectorObj->AddComponent(new NewGameSelector(*selectorObj));
-    
-    objectArray.emplace_back(selectorObj);
+    selector = std::make_unique<NewGameSelector>();
 
-    for (int i = 0; i < (int)objectArray.size(); i++){
-        objectArray[i]->Start();
-    }
+    StartArray();
     started = true;
     backGroundMusic->Play();
 }
