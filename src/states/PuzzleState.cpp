@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Selector.h"
+#include "selectors/Selector.h"
 #include "FoodItem.h"
 #include "FoodPiece.h"
 #include "InputManager.h"

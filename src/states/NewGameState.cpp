@@ -1,26 +1,25 @@
+#include "Sprite.h"
 #include "Camera.h"
-#include "states/MenuState.h"
 #include "defines/DefineInput.h"
 #include "states/NewGameState.h"
-#include "states/LoadGameState.h"
-#include "selectors/MenuSelector.h"
+#include "selectors/NewGameSelector.h"
 
-MenuState::MenuState(): State(), selector(nullptr){
+NewGameState::NewGameState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
-
-    std::shared_ptr<Sprite> titleImage = std::make_shared<Sprite>(*titleObj, "resources/img/MainMenu.jpg");
+    std::shared_ptr<Sprite> titleImage = std::make_shared<Sprite>(*titleObj, "resources/img/blackBG.jpg");
+    
     titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
     backGraundMusic = std::make_shared<Music>("resources/music/MusicMenu.flac");
 }
 
-MenuState::~MenuState(){
+NewGameState::~NewGameState(){
     objectArray.clear();
 }
 
-void MenuState::Update(float dt){
+void NewGameState::Update(float dt){
 
     if (InputManager::GetInstance().QuitRequested()){
         quitRequested = true;
@@ -29,13 +28,19 @@ void MenuState::Update(float dt){
         popRequested = true;
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
-        NewGameState* newState = new NewGameState();
+        OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         backGraundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
-        LoadGameState* newState = new LoadGameState();
+        OverworldState* newState = new OverworldState();
+        Game::GetInstance().Push(newState);
+        popRequested = true;
+        backGraundMusic->Stop();
+    }
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
+        OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         backGraundMusic->Stop();
@@ -45,21 +50,21 @@ void MenuState::Update(float dt){
     }   
 }
 
-void MenuState::LoadAssets(){
+void NewGameState::LoadAssets(){
     
 }
 
-void MenuState::Render() {
+void NewGameState::Render() {
     
     for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
         objectArray[i]->Render();
     }
 }
 
-void MenuState::Start(){
+void NewGameState::Start(){
     
     GameObject* selectorObj = new GameObject();
-    selector = std::make_shared<MenuSelector>(*selectorObj);
+    selector = std::make_shared<NewGameSelector>(*selectorObj);
     selectorObj->AddComponent(selector);
     
     objectArray.emplace_back(selectorObj);
@@ -71,9 +76,9 @@ void MenuState::Start(){
     backGraundMusic->Play();
 }
 
-void MenuState::Pause(){}
+void NewGameState::Pause(){}
 
-void MenuState::Resume(){
+void NewGameState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
     backGraundMusic->Play();
