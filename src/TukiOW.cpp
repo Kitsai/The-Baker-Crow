@@ -1,7 +1,7 @@
 #include "TukiOW.h"
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
-    associated.AddComponent(new Sprite(associated, "resources/img/try.png"));
+    associated.AddComponent((std::shared_ptr<Sprite>)new Sprite(associated, "resources/img/try.png"));
 }
 
 TukiOW::~TukiOW() {
@@ -20,7 +20,7 @@ void TukiOW::Update(float dt) {
     if(iM.KeyPress(X_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
         
         GameObject* attk = new GameObject();
-        attk->AddComponent(new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1.0F,0));
+        attk->AddComponent((std::shared_ptr<Attack>)new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1.0F,0));
         attk->angleDeg = speed.incl();
         attk->box.SetCenter(Vec2(32,0).GetRotated(speed.incl()) + associated.box.GetCenter());
         state = PlayerState::ATTACKING;
@@ -47,7 +47,7 @@ void TukiOW::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        Collider* hitbox = (Collider*)associated.GetComponent("Collider");
+        Collider* hitbox = (Collider*)associated.GetComponent("Collider").get();
         hitbox->active = false;
         hitbox->SetColor(COLOR_BLUE);
     }
@@ -63,7 +63,7 @@ void TukiOW::Update(float dt) {
             state = WALKING;
             //playerTimer.Restart();
 
-            Collider* hitbox = (Collider*)associated.GetComponent("Collider");
+            Collider* hitbox = (Collider*)associated.GetComponent("Collider").get();
             hitbox->active = true;
             hitbox->SetColor(COLOR_RED);
         }

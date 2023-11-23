@@ -4,16 +4,17 @@
 #include "states/NewGameState.h"
 #include "states/LoadGameState.h"
 #include "selectors/MenuSelector.h"
-#include <memory>
 
 MenuState::MenuState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
 
-    titleObj->AddComponent(new Sprite(*titleObj, "resources/img/MainMenu.jpg"));
+    std::shared_ptr<Sprite> titleImage = std::make_shared<Sprite>(*titleObj, "resources/img/MainMenu.jpg");
+    titleObj->AddComponent(titleImage);
 
-    AddObject(titleObj);
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicMenu.flac");
+
+    objectArray.emplace_back(titleObj);
+    backGraundMusic = std::make_shared<Music>("resources/music/MusicMenu.flac");
 }
 
 MenuState::~MenuState(){
@@ -28,21 +29,21 @@ void MenuState::Update(float dt){
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 0)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
         NewGameState* newState = new NewGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGraundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         LoadGameState* newState = new LoadGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGraundMusic->Stop();
     }
-
-    selector->Update(dt);
-    UpdateArray(dt);
+    for (int i = 0; i < (int) objectArray.size(); i++) {
+        objectArray[i]->Update(dt);
+    }   
 }
 
 void MenuState::LoadAssets(){
@@ -50,21 +51,31 @@ void MenuState::LoadAssets(){
 }
 
 void MenuState::Render() {
-    RenderArray();
+    
+    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
+        objectArray[i]->Render();
+    }
 }
 
 void MenuState::Start(){
     
-    selector = std::make_unique<MenuSelector>();
+    GameObject* selectorObj = new GameObject();
+    selector = std::make_shared<MenuSelector>(*selectorObj);
+    selectorObj->AddComponent(selector);
+    
+    objectArray.emplace_back(selectorObj);
 
-    StartArray();
+    for (int i = 0; i < (int)objectArray.size(); i++){
+        objectArray[i]->Start();
+    }
     started = true;
-    backGroundMusic->Play();
+    backGraundMusic->Play();
 }
 
 void MenuState::Pause(){}
 
 void MenuState::Resume(){
-    Camera::pos = 0;
-    backGroundMusic->Play();
+    Camera::pos.x = 0;
+    Camera::pos.y = 0;
+    backGraundMusic->Play();
 }

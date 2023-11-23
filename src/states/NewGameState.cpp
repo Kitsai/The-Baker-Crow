@@ -3,16 +3,16 @@
 #include "defines/DefineInput.h"
 #include "states/NewGameState.h"
 #include "selectors/NewGameSelector.h"
-#include <memory>
 
 NewGameState::NewGameState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
+    std::shared_ptr<Sprite> titleImage = std::make_shared<Sprite>(*titleObj, "resources/img/blackBG.jpg");
     
-    titleObj->AddComponent(new Sprite(*titleObj, "resources/img/blackBG.jpg"));
+    titleObj->AddComponent(titleImage);
 
-    AddObject(titleObj);
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicMenu.flac");
+    objectArray.emplace_back(titleObj);
+    backGraundMusic = std::make_shared<Music>("resources/music/MusicMenu.flac");
 }
 
 NewGameState::~NewGameState(){
@@ -27,23 +27,23 @@ void NewGameState::Update(float dt){
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 0)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGraundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGraundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGraundMusic->Stop();
     }
     selector->Update(dt);
     UpdateArray(dt);
@@ -59,11 +59,16 @@ void NewGameState::Render() {
 
 void NewGameState::Start(){
     
-    selector = std::make_unique<NewGameSelector>();
+    GameObject* selectorObj = new GameObject();
+    selector = std::make_shared<NewGameSelector>(*selectorObj);
+    selectorObj->AddComponent(selector);
+    
+    objectArray.emplace_back(selectorObj);
+
 
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    backGraundMusic->Play();
 }
 
 void NewGameState::Pause(){}
@@ -71,5 +76,5 @@ void NewGameState::Pause(){}
 void NewGameState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGroundMusic->Play();
+    backGraundMusic->Play();
 }

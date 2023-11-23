@@ -2,7 +2,7 @@
 #define NewGameSelector_H
 
 #include <vector>
-#include "MenuButton.h"
+#include "Button.h"
 #include "Component.h"
 
 class NewGameSelector {
@@ -19,8 +19,9 @@ public:
     int GetSelected();
     private:
         int selected;
+        std::shared_ptr<Button> selectedButton;
         
         int nButtons;
-        std::vector<std::unique_ptr<MenuButton>> buttons;
+        std::vector<std::shared_ptr<Button>> buttons;
 };
 #endif

@@ -115,8 +115,8 @@ void Sprite::SetScale(float scaleX, float scaleY){
 
 void Sprite::SetFocus(float escalarX, float escalarY) {
     if (escalarX > 0 && escalarY > 0) {
-        float difX = (associated.box.w - associated.box.w * escalarX) * 0.5f;
-        float difY = (associated.box.h - associated.box.h * escalarY) * 0.5f;
+        float difX = (associated.box.w - associated.box.w * escalarX) / 2.0f;
+        float difY = (associated.box.h - associated.box.h * escalarY) / 2.0f;
         
         this->scale.x = escalarX;
         this->scale.y = escalarY;
@@ -133,8 +133,8 @@ void Sprite::UnSetFocus() {
     float originalW = associated.box.w / scale.x;
     float originalH = associated.box.h / scale.y;
 
-    float difX = (originalW - associated.box.w) * 0.5F;
-    float difY = (originalH - associated.box.h) * 0.5F;
+    float difX = (originalW - associated.box.w) / 2.0f;
+    float difY = (originalH - associated.box.h) / 2.0f;
 
     this->scale.x = 1.0f;
     this->scale.y = 1.0f;
