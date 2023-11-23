@@ -3,14 +3,14 @@
 
 #include <memory>
 #include <vector>
-#include "MenuButton.h"
+#include "UIButton.h"
 #include "Component.h"
 
-class LoadGameSelector : public Component {
+class LoadGameSelector {
 
 public:
-    LoadGameSelector(GameObject& assoc);
-    LoadGameSelector(GameObject& assoc, std::string buttonPath);
+    LoadGameSelector();
+    LoadGameSelector(std::string buttonPath);
     ~LoadGameSelector();
 
     void Update(float dt);
@@ -22,6 +22,6 @@ public:
         int selected;
         
         int nButtons;
-        std::vector<std::unique_ptr<MenuButton>> buttons;
+        std::vector<std::unique_ptr<UIButton>> buttons;
 };
 #endif

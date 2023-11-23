@@ -1,15 +1,15 @@
 #include "Game.h"
 #include "Sprite.h"
-#include "MenuButton.h"
+#include "UIButton.h"
 #include "selectors/MenuSelector.h"
 #include "InputManager.h"
 #include <memory>
 
 MenuSelector::MenuSelector() : selected(0), nButtons(2){
     
-    MenuButton* buttonNewGame = new MenuButton(Vec2(500, 200),"resources/img/MenuButton.png", "NEW GAME");
-    MenuButton* buttonLoadGame = new MenuButton(Vec2(500, 400),"resources/img/MenuButton.png", "LOAD GAME");
-    MenuButton* buttonCreditsGame = new MenuButton(Vec2(500, 600),"resources/img/MenuButton.png", "CREDITS");
+    UIButton* buttonNewGame = new UIButton(Vec2(500, 200),"resources/img/MenuButton.png", "NEW GAME");
+    UIButton* buttonLoadGame = new UIButton(Vec2(500, 400),"resources/img/MenuButton.png", "LOAD GAME");
+    UIButton* buttonCreditsGame = new UIButton(Vec2(500, 600),"resources/img/MenuButton.png", "CREDITS");
 
     buttons.emplace_back(buttonNewGame);
     buttons.emplace_back(buttonLoadGame);

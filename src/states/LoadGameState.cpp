@@ -3,6 +3,7 @@
 #include "defines/DefineInput.h"
 #include "states/LoadGameState.h"
 #include "selectors/LoadGameSelector.h"
+#include <memory>
 
 LoadGameState::LoadGameState(): State(), selector(nullptr){
 
@@ -45,32 +46,23 @@ void LoadGameState::Update(float dt){
         popRequested = true;
         backGroundMusic->Stop();
     }
-    for (int i = 0; i < (int) objectArray.size(); i++) {
-        objectArray[i]->Update(dt);
-    }   
+    selector->Update(dt);
+    UpdateArray(dt);
 }
 
 void LoadGameState::LoadAssets(){
     
 }
 
-void LoadGameState::Render() {
-    
-    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
-        objectArray[i]->Render();
-    }
+void LoadGameState::Render() { 
+    RenderArray();
 }
 
 void LoadGameState::Start(){
-    
-    GameObject* selectorObj = new GameObject();
-    selectorObj->AddComponent(new LoadGameSelector(*selectorObj));
-    
-    objectArray.emplace_back(selectorObj);
 
-    for (int i = 0; i < (int)objectArray.size(); i++){
-        objectArray[i]->Start();
-    }
+    selector = std::make_unique<LoadGameSelector>();
+
+    StartArray();
     started = true;
     backGroundMusic->Play();
 }

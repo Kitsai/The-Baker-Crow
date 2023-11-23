@@ -2,7 +2,7 @@
 #define NewGameSelector_H
 
 #include <vector>
-#include "MenuButton.h"
+#include "UIButton.h"
 #include "Component.h"
 
 class NewGameSelector {
@@ -21,6 +21,6 @@ public:
         int selected;
         
         int nButtons;
-        std::vector<std::unique_ptr<MenuButton>> buttons;
+        std::vector<std::unique_ptr<UIButton>> buttons;
 };
 #endif
