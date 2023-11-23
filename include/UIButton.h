@@ -25,9 +25,7 @@ class UIButton {
     
     private:
         std::weak_ptr<GameObject> textObj;
-        Text* text;
 
         std::weak_ptr<GameObject> imageObj;
-        Sprite* buttonImage;
 };
 #endif

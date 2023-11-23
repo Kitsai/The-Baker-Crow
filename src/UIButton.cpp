@@ -7,13 +7,11 @@
 UIButton::UIButton(Vec2 vetor, std::string buttonPath, std::string name) : blinkingText(false), name(name){
     
     GameObject* tempImageObj = new GameObject();
-    buttonImage = new Sprite(*tempImageObj, buttonPath);
-    tempImageObj->AddComponent(buttonImage);
+    tempImageObj->AddComponent(new Sprite(*tempImageObj, buttonPath));
     tempImageObj->box = vetor;
 
     GameObject* tempTextObj = new GameObject();
-    text = new Text(*tempTextObj, "resources/font/Base.ttf", 32, TextStyle::BLENDED, name, COLOR_WHITE, COLOR_BLACK, blinkingText);
-    tempTextObj->AddComponent(text);
+    tempTextObj->AddComponent(new Text(*tempTextObj, "resources/font/Base.ttf", 32, TextStyle::BLENDED, name, COLOR_WHITE, COLOR_BLACK, blinkingText));
 
     tempTextObj->box.x = vetor.x + (tempImageObj->box.w)*0.25F;
     tempTextObj->box.y = vetor.y + (tempImageObj->box.h)*0.125F;
@@ -28,10 +26,13 @@ void UIButton::UnChoose(){
 
     std::shared_ptr<GameObject> textObjPtr = textObj.lock();
     std::shared_ptr<GameObject> imageObjPtr = imageObj.lock();
-    buttonImage->UnSetFocus();
+
+    ((Sprite*)imageObjPtr->GetComponent("Sprite"))->UnSetFocus();
+
     textObjPtr->box.x = imageObjPtr->box.x + (imageObjPtr->box.w)*0.25F;
     textObjPtr->box.y = imageObjPtr->box.y + (imageObjPtr->box.h)*0.125F;
     
+    Text* text = (Text*)textObjPtr->GetComponent("Text");
     text->blinking = false;
     text->SetColarandTextSize({255, 255, 255, 255}, 32);
 }
@@ -42,10 +43,12 @@ void UIButton::Choose(){
     std::shared_ptr<GameObject> textObjPtr = textObj.lock();
     std::shared_ptr<GameObject> imageObjPtr = imageObj.lock();
 
-    buttonImage->SetFocus(1.125f, 1.25f);
+    ((Sprite*)imageObjPtr->GetComponent("Sprite"))->SetFocus(1.125F, 1.25F);
     textObjPtr->box.x = imageObjPtr->box.x + (imageObjPtr->box.w)/4;
     textObjPtr->box.y = imageObjPtr->box.y;
     
+        
+    Text* text = (Text*)textObjPtr->GetComponent("Text");
     text->blinking = true;
     text->SetColarandTextSize({255, 255, 0, 255}, 48);
 }
