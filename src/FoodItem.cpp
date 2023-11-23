@@ -13,7 +13,7 @@ FoodItem::FoodItem(GameObject& associated, std::string type) : Component(associa
         object_foodPiece->box.x = associated.box.x;
         object_foodPiece->box.y = associated.box.y;
         FoodPiece* foodPieceComponent = new FoodPiece(*object_foodPiece, *this);
-        object_foodPiece->AddComponent(foodPieceComponent);
+        object_foodPiece->AddComponent((std::shared_ptr<FoodPiece>)foodPieceComponent);
         this->foodPiece = foodPieceComponent;  
         
         Game::GetInstance().GetCurrentState().AddObject(object_foodPiece);

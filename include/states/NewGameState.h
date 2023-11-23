@@ -29,6 +29,7 @@ class NewGameState : public State {
         void Resume();
     
     private:
-    std::unique_ptr<NewGameSelector> selector;
+    std::shared_ptr<Music> backGraundMusic;
+    std::shared_ptr<NewGameSelector> selector;
 };
 #endif

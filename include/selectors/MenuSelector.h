@@ -2,14 +2,14 @@
 #define MenuSelector_H
 
 #include <vector>
-#include "MenuButton.h"
+#include "Button.h"
 #include "Component.h"
 
-class MenuSelector {
+class MenuSelector : public Component {
 
 public:
-    MenuSelector();
-    MenuSelector(std::string buttonPath);
+    MenuSelector(GameObject& assoc);
+    MenuSelector(GameObject& assoc, std::string buttonPath);
     ~MenuSelector();
 
     void Update(float dt);
@@ -19,9 +19,10 @@ public:
     int GetSelected();
     private:
         int selected;
+        std::shared_ptr<Button> selectedButton;
         
         int nButtons;
-        std::vector<std::unique_ptr<MenuButton>> buttons;
+        std::vector<std::shared_ptr<Button>> buttons;
 };
 
 #endif
