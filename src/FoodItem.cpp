@@ -6,7 +6,7 @@
 #include "GameObject.h"
 #include "FoodPiece.h"
 
-FoodItem::FoodItem(GameObject& associated, std::string type) : Component(associated), amount(1), type(type) {
+FoodItem::FoodItem(GameObject& associated, FoodItemType type) : Component(associated), amount(1), type(type) {
 
 
         GameObject* object_foodPiece = new GameObject();
@@ -33,7 +33,7 @@ FoodPiece* FoodItem::GetFoodPiece() {
     return foodPiece;
 }
 
-std::string FoodItem::GetType(){
+FoodItemType FoodItem::GetType(){
     return this->type;
 }
 

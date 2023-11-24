@@ -3,11 +3,12 @@
 
 #include <string>
 #include "Component.h"
+#include "items.h"
 
 class FoodPiece;
 class FoodItem : public Component{
     public:
-        FoodItem(GameObject& associated, std::string type);        
+        FoodItem(GameObject& associated, FoodItemType type);        
         
         void Increase();
         void Decrease();
@@ -16,12 +17,12 @@ class FoodItem : public Component{
         
         bool Is(std::string type);
 
-        std::string GetType();
+        FoodItemType GetType();
         FoodPiece*  GetFoodPiece();
     
     private:
         int amount;
-        std::string type;
+        FoodItemType type;
         FoodPiece* foodPiece;  
 };
 #endif

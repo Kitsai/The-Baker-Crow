@@ -48,7 +48,7 @@ void FoodPiece::Update(float dt) {
     if (iM.KeyPress(ENTER_KEY)) associated.RequestDelete();
 }
 
-std::string FoodPiece::GetType() {
+FoodItemType FoodPiece::GetType() {
     return type;
 }
 
@@ -75,28 +75,28 @@ std::vector<std::weak_ptr<GameObject>> FoodPiece::GetPieces(){
 }
 
 void FoodPiece::evaluateForm(){ 
-    if (type == "ovo")
+    if (type == FoodItemType::ovo)
         form = {{1, 1, 1, 1}};
     
-    else if (type == "morango")
+    else if (type == FoodItemType::morango)
         form = {{1, 0},{1, 0},{1, 1}};
 
-    else if (type == "chocolate") 
+    else if (type == FoodItemType::chocolate) 
         form = {{1, 0},{1, 1},{0, 1}};
 
-    else if (type == "trigo") 
+    else if (type == FoodItemType::trigo) 
         form = {{1, 1},{1, 1}};
 
-    else if (type == "manteiga") 
+    else if (type == FoodItemType::manteiga) 
         form = {{1, 1, 1},{0, 1, 0}};
      
-    else if (type == "mel") 
+    else if (type == FoodItemType::mel) 
         form = {{1, 1}};
      
-    else if (type == "acucar") 
+    else if (type == FoodItemType::acucar) 
         form = {{1}};
      
-    else if (type == "leite") 
+    else if (type == FoodItemType::leite) 
         form = {{1, 0},{1, 1}};
 }
 

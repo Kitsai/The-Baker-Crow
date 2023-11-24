@@ -5,6 +5,7 @@
 #include <vector>
 #include "Component.h"
 #include "GameObject.h"
+#include "items.h"
 
 class FoodItem;
 
@@ -18,7 +19,7 @@ public:
     void SetFoodItem(FoodItem* FoodItem);
 
     FoodItem* GetFoodItem();
-    std::string GetType();
+    FoodItemType GetType();
     
     bool Lock();
     bool UnLock();
@@ -32,7 +33,7 @@ private:
     bool locked;
 
     FoodItem* foodItem;
-    std::string type;
+    FoodItemType type;
     std::vector<std::vector<int>> form;
     std::vector<std::weak_ptr<GameObject>> pieces;
     //Methods
