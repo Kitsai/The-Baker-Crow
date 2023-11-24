@@ -29,6 +29,6 @@ class LoadGameState : public State {
         void Resume();
     
     private:
-    std::shared_ptr<LoadGameSelector> selector;
+    std::unique_ptr<LoadGameSelector> selector;
 };
 #endif

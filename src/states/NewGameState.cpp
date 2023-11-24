@@ -3,6 +3,7 @@
 #include "defines/DefineInput.h"
 #include "states/NewGameState.h"
 #include "selectors/NewGameSelector.h"
+#include <memory>
 
 NewGameState::NewGameState(): State(), selector(nullptr){
 
@@ -47,7 +48,8 @@ void NewGameState::Update(float dt){
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
-    }   
+    }
+    selector->Update(dt);
 }
 
 void NewGameState::LoadAssets(){
@@ -63,11 +65,8 @@ void NewGameState::Render() {
 
 void NewGameState::Start(){
     
-    GameObject* selectorObj = new GameObject();
-    selector = std::make_shared<NewGameSelector>(*selectorObj);
-    selectorObj->AddComponent(selector);
-    
-    objectArray.emplace_back(selectorObj);
+
+    selector = std::make_unique<NewGameSelector>();
 
     for (int i = 0; i < (int)objectArray.size(); i++){
         objectArray[i]->Start();

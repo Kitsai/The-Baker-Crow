@@ -29,6 +29,6 @@ class NewGameState : public State {
         void Resume();
     
     private:
-    std::shared_ptr<NewGameSelector> selector;
+    std::unique_ptr<NewGameSelector> selector;
 };
 #endif

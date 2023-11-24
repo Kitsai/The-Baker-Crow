@@ -5,7 +5,7 @@
 #include "InputManager.h"
 #include <memory>
 
-NewGameSelector::NewGameSelector(GameObject& assoc) : Component(assoc), selected(0), nButtons(2){
+NewGameSelector::NewGameSelector() : selected(0), nButtons(2){
     
     Button* buttonGame1 = new Button(Vec2(0, 300),"resources/img/MenuButton.png", "NEW GAME 1");
     Button* buttonGame2 = new Button(Vec2(400, 300),"resources/img/MenuButton.png", "NEW GAME 2");
@@ -55,13 +55,6 @@ void NewGameSelector::Update(float dt) {
         selectedButton = buttons[selected];
         selectedButton->Choose();
     }
-}
-
-void NewGameSelector::Render() {
-}
-
-bool NewGameSelector::Is(std::string type) {
-    return type == "NewGameSelector";
 }
 
 int NewGameSelector::GetSelected(){

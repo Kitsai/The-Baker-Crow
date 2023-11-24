@@ -42,7 +42,8 @@ void MenuState::Update(float dt){
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
-    }   
+    }
+    selector->Update(dt);
 }
 
 void MenuState::LoadAssets(){
@@ -58,11 +59,7 @@ void MenuState::Render() {
 
 void MenuState::Start(){
     
-    GameObject* selectorObj = new GameObject();
-    selector = std::make_shared<MenuSelector>(*selectorObj);
-    selectorObj->AddComponent(selector);
-    
-    objectArray.emplace_back(selectorObj);
+    selector = std::make_unique<MenuSelector>();
 
     for (int i = 0; i < (int)objectArray.size(); i++){
         objectArray[i]->Start();

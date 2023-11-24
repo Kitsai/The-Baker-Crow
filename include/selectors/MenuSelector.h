@@ -5,18 +5,16 @@
 #include "Button.h"
 #include "Component.h"
 
-class MenuSelector : public Component {
+class MenuSelector{
 
 public:
-    MenuSelector(GameObject& assoc);
-    MenuSelector(GameObject& assoc, std::string buttonPath);
+    MenuSelector();
+    MenuSelector(std::string buttonPath);
     ~MenuSelector();
 
-    void Update(float dt);
-    void Render();
-    bool Is(std::string type);
-
     int GetSelected();
+    void Update(float dt);
+    
     private:
         int selected;
         std::shared_ptr<Button> selectedButton;
