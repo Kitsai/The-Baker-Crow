@@ -78,10 +78,10 @@ void PuzzleState::Update(float dt){
 
                 // substituir por pegar do inventário depois
                 std::shared_ptr<FoodItem> item;
-                if (objectArray[i].get()->box.y == 32) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "morango");
-                else if (objectArray[i].get()->box.y == 187) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "mel");
-                else if (objectArray[i].get()->box.y == 342) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "acucar");
-                else if (objectArray[i].get()->box.y == 505) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "chocolate");
+                if (objectArray[i].get()->box.y == 32) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, FoodItemType::morango);
+                else if (objectArray[i].get()->box.y == 187) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, FoodItemType::mel);
+                else if (objectArray[i].get()->box.y == 342) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, FoodItemType::acucar);
+                else if (objectArray[i].get()->box.y == 505) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, FoodItemType::chocolate);
                 pieces->AddComponent(item);
                 AddObject(pieces);
             }

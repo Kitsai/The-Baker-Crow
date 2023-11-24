@@ -1,11 +1,12 @@
 #include "Game.h"
+#include "GameObject.h"
 #include "Sprite.h"
 #include "Button.h"
 #include "selectors/NewGameSelector.h"
 #include "InputManager.h"
 #include <memory>
 
-NewGameSelector::NewGameSelector() : selected(0), nButtons(2){
+NewGameSelector::NewGameSelector(GameObject& assoc) : Component(assoc), selected(0), nButtons(2){
     
     Button* buttonGame1 = new Button(Vec2(0, 300),"resources/img/MenuButton.png", "NEW GAME 1");
     Button* buttonGame2 = new Button(Vec2(400, 300),"resources/img/MenuButton.png", "NEW GAME 2");
