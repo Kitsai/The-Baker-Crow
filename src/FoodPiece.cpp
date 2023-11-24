@@ -136,7 +136,7 @@ void FoodPiece::RenderPieces(){
         for (int j = 0; j < (int)form[i].size(); j++){
             if (form[i][j] == 1){
                 GameObject* go = new GameObject();
-                Sprite* sprite = new Sprite(*go,"resources/img/puzzle/pieces/"+type+".png");
+                Sprite* sprite = new Sprite(*go,"resources/img/puzzle/pieces/"+foodItemTypeToString[type]+".png");
                 sprite->SetScale(2,2);
 
                 go->AddComponent(std::shared_ptr<Sprite>(sprite));
