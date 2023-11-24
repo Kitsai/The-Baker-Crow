@@ -12,7 +12,6 @@ MenuState::MenuState(): State(), selector(nullptr){
     std::shared_ptr<Sprite> titleImage = std::make_shared<Sprite>(*titleObj, "resources/img/MainMenu.jpg");
     titleObj->AddComponent(titleImage);
 
-
     objectArray.emplace_back(titleObj);
     backGraundMusic = std::make_shared<Music>("resources/music/MusicMenu.flac");
 }

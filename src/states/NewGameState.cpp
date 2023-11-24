@@ -45,8 +45,9 @@ void NewGameState::Update(float dt){
         popRequested = true;
         backGraundMusic->Stop();
     }
-    selector->Update(dt);
-    UpdateArray(dt);
+    for (int i = 0; i < (int) objectArray.size(); i++) {
+        objectArray[i]->Update(dt);
+    }   
 }
 
 void NewGameState::LoadAssets(){
@@ -54,7 +55,10 @@ void NewGameState::LoadAssets(){
 }
 
 void NewGameState::Render() {
-    RenderArray();
+    
+    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
+        objectArray[i]->Render();
+    }
 }
 
 void NewGameState::Start(){
@@ -65,8 +69,9 @@ void NewGameState::Start(){
     
     objectArray.emplace_back(selectorObj);
 
-
-    StartArray();
+    for (int i = 0; i < (int)objectArray.size(); i++){
+        objectArray[i]->Start();
+    }
     started = true;
     backGraundMusic->Play();
 }
