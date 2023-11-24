@@ -9,7 +9,6 @@ class NewGameSelector{
 
 public:
     NewGameSelector();
-    NewGameSelector(std::string buttonPath);
     ~NewGameSelector();
 
     int GetSelected();
