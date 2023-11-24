@@ -29,7 +29,6 @@ class LoadGameState : public State {
         void Resume();
     
     private:
-    std::shared_ptr<Music> backGraundMusic;
     std::shared_ptr<LoadGameSelector> selector;
 };
 #endif

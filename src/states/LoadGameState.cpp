@@ -12,7 +12,7 @@ LoadGameState::LoadGameState(): State(), selector(nullptr){
     titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
-    backGraundMusic = std::make_shared<Music>("resources/music/MusicMenu.flac");
+    backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 
 LoadGameState::~LoadGameState(){
@@ -26,25 +26,25 @@ void LoadGameState::Update(float dt){
     }
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
-        backGraundMusic->Stop();
+        backGroundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
         PuzzleState* newState = new PuzzleState(1);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGraundMusic->Stop();
+        backGroundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         PuzzleState* newState = new PuzzleState(1);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGraundMusic->Stop();
+        backGroundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         PuzzleState* newState = new PuzzleState(1);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGraundMusic->Stop();
+        backGroundMusic->Stop();
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
@@ -74,7 +74,7 @@ void LoadGameState::Start(){
         objectArray[i]->Start();
     }
     started = true;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }
 
 void LoadGameState::Pause(){}
@@ -82,5 +82,5 @@ void LoadGameState::Pause(){}
 void LoadGameState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }

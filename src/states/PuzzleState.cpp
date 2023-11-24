@@ -22,7 +22,7 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(){
     selector->box.x = 15;
     selector->box.y = 32;
     AddObject(selector);
-    backGraundMusic = new Music("resources/music/MusicPuzzle.flac");
+    backGroundMusic =  std::make_unique<Music>("resources/music/MusicPuzzle.flac");
 }
 
 PuzzleState::~PuzzleState(){
@@ -41,7 +41,7 @@ void PuzzleState::Update(float dt){
 
     if ((InputManager::GetInstance().KeyPress(SPACE_KEY))){
         popRequested = true;
-        backGraundMusic->Stop();
+        backGroundMusic->Stop();
     }
 
     if(iM.QuitRequested()) quitRequested = true;
@@ -111,7 +111,7 @@ void PuzzleState::Start(){
     LoadAssets();
     StartArray();
     started = true;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }
 
 void PuzzleState::Pause(){}
@@ -119,7 +119,7 @@ void PuzzleState::Pause(){}
 void PuzzleState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }
 
 void PuzzleState::LoadMap(){
