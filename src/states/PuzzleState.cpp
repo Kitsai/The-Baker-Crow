@@ -8,21 +8,16 @@
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(){
     GameObject* ui = new GameObject();
-    ui->AddComponent((std::shared_ptr<Sprite>)new Sprite(*ui,"resources/img/ui_puzzle.png"));
+    ui->AddComponent((std::shared_ptr<Sprite>)new Sprite(*ui,"resources/img/puzzle/ui/Exemplo.png"));
     ui->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
     AddObject(ui);
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap();
 
-    // load music
-
-    GameObject* selector = new GameObject();
-    selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
-    selector->box.x = 15;
-    selector->box.y = 32;
-    AddObject(selector);
     backGraundMusic = new Music("resources/music/MusicPuzzle.flac");
+
+    CreateSelector();
 }
 
 PuzzleState::~PuzzleState(){
@@ -54,19 +49,16 @@ void PuzzleState::Update(float dt){
     for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
         // deletes selector if ESCAPE_KEY has been pressed, creates selector
         if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece") != nullptr){
-            objectArray[i]->RequestDelete();
-
             FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").get());
+            if (foodPiece->IsLocked()) continue;
+            
+            objectArray[i]->RequestDelete();
             std::vector<std::weak_ptr<GameObject>> pieces = foodPiece->GetPieces();
             for (int i = 0; i < (int)pieces.size(); i++){
                 pieces[i].lock()->RequestDelete();
             }
 
-            GameObject* selector = new GameObject();
-            selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
-            selector->box.x = 15;
-            selector->box.y = 32;
-            AddObject(selector);
+            CreateSelector();
         }
 
         if(objectArray[i]->IsDead()){
@@ -86,20 +78,19 @@ void PuzzleState::Update(float dt){
                 AddObject(pieces);
             }
 
-            // deletes puzzle piece, creates selector
-            bool locked = false;
+            // checks whether piece can be locked; if so, creates a selector
             if(objectArray[i]->GetComponent("FoodPiece") != nullptr){
-                locked = puzzle->AddFoodPiece(*(FoodPiece*)objectArray[i]->GetComponent("FoodPiece").get());
-                if (!locked) {
+                FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").get());
+                if (foodPiece->GetStatus()){ // only checks if piece is waiting to be evaluated
+                    bool locked = puzzle->AddFoodPiece(*foodPiece, {objectArray[i]->box.x, objectArray[i]->box.y});
                     objectArray[i]->UnrequestDelete();
-                    continue; // if unable to add piece to puzzle, doesn't delete piece
+                    if (!locked) continue;
+                    
+                    foodPiece->Lock();
+
+                    CreateSelector();
+                    continue;
                 }
-                
-                GameObject* selector = new GameObject();
-                selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
-                selector->box.x = 15;
-                selector->box.y = 32;
-                AddObject(selector);
             }
             
             objectArray.erase(objectArray.begin()+i);
@@ -127,11 +118,19 @@ void PuzzleState::LoadMap(){
     for(int i = 2; i < (int)map.size(); i++){
         for(int j = 0; j < (int)map[i].size(); j++){
             GameObject* go = new GameObject();
-            go->box.x = 415+(67*j);
-            go->box.y = 170+(67*(i-2));
+            go->box.x = 415+(60*j);
+            go->box.y = 170+(60*(i-2));
             if (map[i][j] == '1') go->AddComponent((std::shared_ptr<Sprite>)new Sprite(*go,"resources/img/puzzleTile_ph.png"));
             else if (map[i][j] == '0') go->AddComponent((std::shared_ptr<Sprite>)new Sprite(*go,"resources/img/puzzleTilec_ph.png"));
             AddObject(go);
         }
     }
+}
+
+void PuzzleState::CreateSelector(){
+    GameObject* selector = new GameObject();
+    selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
+    selector->box.x = 15;
+    selector->box.y = 32;
+    AddObject(selector);
 }

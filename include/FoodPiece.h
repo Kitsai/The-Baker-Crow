@@ -23,14 +23,20 @@ public:
     
     bool Lock();
     bool UnLock();
+    bool IsLocked();
     bool Is(std::string type);
+
+    void Wait();
+    bool GetStatus();
 
     std::vector<std::vector<int>> GetForm();
     std::vector<std::weak_ptr<GameObject>> GetPieces();
+
     void RenderPieces();
 private:
     // Attributes
     bool locked;
+    bool waiting;
 
     FoodItem* foodItem;
     FoodItemType type;
