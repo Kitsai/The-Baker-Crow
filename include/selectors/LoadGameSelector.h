@@ -9,7 +9,6 @@ class LoadGameSelector {
 
 public:
     LoadGameSelector();
-    LoadGameSelector(std::string buttonPath);
     ~LoadGameSelector();
 
     int GetSelected();

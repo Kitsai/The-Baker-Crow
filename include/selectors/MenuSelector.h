@@ -9,7 +9,6 @@ class MenuSelector{
 
 public:
     MenuSelector();
-    MenuSelector(std::string buttonPath);
     ~MenuSelector();
 
     int GetSelected();
