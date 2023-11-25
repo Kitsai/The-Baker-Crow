@@ -1,21 +1,22 @@
 #include "Game.h"
 #include "Sprite.h"
-#include "UIButton.h"
+#include "Button.h"
 #include "selectors/LoadGameSelector.h"
 #include "InputManager.h"
 #include <memory>
 
-LoadGameSelector::LoadGameSelector() : selected(0), nButtons(2){
+LoadGameSelector::LoadGameSelector(GameObject& assoc) : Component(assoc), selected(0), nButtons(2){
     
-    UIButton* buttonGame1 = new UIButton(Vec2(0, 300),"resources/img/MenuButton.png", "LOAD GAME 1");
-    UIButton* buttonGame2 = new UIButton(Vec2(400, 300),"resources/img/MenuButton.png", "LOAD GAME 2");
-    UIButton* buttonGame3 = new UIButton(Vec2(800, 300),"resources/img/MenuButton.png", "LOAD GAME 3");
+    Button* buttonGame1 = new Button(Vec2(0, 300),"resources/img/MenuButton.png", "LOAD GAME 1");
+    Button* buttonGame2 = new Button(Vec2(400, 300),"resources/img/MenuButton.png", "LOAD GAME 2");
+    Button* buttonGame3 = new Button(Vec2(800, 300),"resources/img/MenuButton.png", "LOAD GAME 3");
 
-    buttons.emplace_back( buttonGame1);
-    buttons.emplace_back( buttonGame2);
-    buttons.emplace_back( buttonGame3);
+    buttons.push_back((std::shared_ptr<Button>) buttonGame1);
+    buttons.push_back((std::shared_ptr<Button>) buttonGame2);
+    buttons.push_back((std::shared_ptr<Button>) buttonGame3);
 
-    buttons[selected]->Choose();
+    selectedButton = buttons[0];
+    selectedButton->Choose();
 }
 
 LoadGameSelector::~LoadGameSelector() {
@@ -25,26 +26,34 @@ LoadGameSelector::~LoadGameSelector() {
 void LoadGameSelector::Update(float dt) {
     
     if (InputManager::GetInstance().KeyPress(LEFT_ARROW_KEY) && selected == 0) {
-        buttons[selected]->UnChoose();
         selected = nButtons;
-        buttons[selected]->Choose();
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
     }
     
     else if (InputManager::GetInstance().KeyPress(LEFT_ARROW_KEY) && selected > 0) {
-        buttons[selected]->UnChoose();
         selected--;
-        buttons[selected]->Choose();
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
     }
     else if (InputManager::GetInstance().KeyPress(RIGHT_ARROW_KEY) && selected < nButtons) {
-        buttons[selected]->UnChoose();
         selected++;
-        buttons[selected]->Choose();
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
     }
     
     else if (InputManager::GetInstance().KeyPress(RIGHT_ARROW_KEY) && selected == nButtons) {
-        buttons[selected]->UnChoose();
         selected = 0;
-        buttons[selected]->Choose();
+
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
     }
 }
 

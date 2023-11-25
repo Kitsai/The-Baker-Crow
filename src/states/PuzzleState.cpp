@@ -8,17 +8,16 @@
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(){
     GameObject* ui = new GameObject();
-    ui->AddComponent(new Sprite(*ui,"resources/img/ui_puzzle.png"));
+    ui->AddComponent((std::shared_ptr<Sprite>)new Sprite(*ui,"resources/img/puzzle/ui/Exemplo.png"));
     ui->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
     AddObject(ui);
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap();
 
-    // load music
+    backGraundMusic = new Music("resources/music/MusicPuzzle.flac");
 
     CreateSelector();
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
 }
 
 PuzzleState::~PuzzleState(){
@@ -37,7 +36,7 @@ void PuzzleState::Update(float dt){
 
     if ((InputManager::GetInstance().KeyPress(SPACE_KEY))){
         popRequested = true;
-        backGroundMusic->Stop();
+        backGraundMusic->Stop();
     }
 
     if(iM.QuitRequested()) quitRequested = true;
@@ -50,9 +49,10 @@ void PuzzleState::Update(float dt){
     for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
         // deletes selector if ESCAPE_KEY has been pressed, creates selector
         if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece") != nullptr){
+            FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").get());
+            if (foodPiece->IsLocked()) continue;
+            
             objectArray[i]->RequestDelete();
-
-            FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece"));
             std::vector<std::weak_ptr<GameObject>> pieces = foodPiece->GetPieces();
             for (int i = 0; i < (int)pieces.size(); i++){
                 pieces[i].lock()->RequestDelete();
@@ -69,19 +69,20 @@ void PuzzleState::Update(float dt){
                 pieces->box.y = 170;
 
                 // substituir por pegar do inventário depois
-                FoodItem* item;
-                if (objectArray[i].get()->box.y == 32) item =  new FoodItem(*pieces, "morango");
-                else if (objectArray[i]->box.y == 187) item =  new FoodItem(*pieces, "mel");
-                else if (objectArray[i]->box.y == 342) item =  new FoodItem(*pieces, "acucar");
-                else if (objectArray[i]->box.y == 505) item =  new FoodItem(*pieces, "chocolate");
+                std::shared_ptr<FoodItem> item;
+                if (objectArray[i].get()->box.y == 32) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "morango");
+                else if (objectArray[i].get()->box.y == 187) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "mel");
+                else if (objectArray[i].get()->box.y == 342) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "acucar");
+                else if (objectArray[i].get()->box.y == 505) item = (std::shared_ptr<FoodItem>) new FoodItem(*pieces, "chocolate");
                 pieces->AddComponent(item);
                 AddObject(pieces);
             }
 
             // checks whether piece can be locked; if so, creates a selector
             if(objectArray[i]->GetComponent("FoodPiece") != nullptr){
-                locked = puzzle->AddFoodPiece(*(FoodPiece*)objectArray[i]->GetComponent("FoodPiece"));
-                if (!locked) {
+                FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").get());
+                if (foodPiece->GetStatus()){ // only checks if piece is waiting to be evaluated
+                    bool locked = puzzle->AddFoodPiece(*foodPiece, {objectArray[i]->box.x, objectArray[i]->box.y});
                     objectArray[i]->UnrequestDelete();
                     if (!locked) continue;
                     
@@ -90,8 +91,6 @@ void PuzzleState::Update(float dt){
                     CreateSelector();
                     continue;
                 }
-                
-                CreateSelector();
             }
             
             objectArray.erase(objectArray.begin()+i);
@@ -103,7 +102,7 @@ void PuzzleState::Start(){
     LoadAssets();
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    backGraundMusic->Play();
 }
 
 void PuzzleState::Pause(){}
@@ -111,7 +110,7 @@ void PuzzleState::Pause(){}
 void PuzzleState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGroundMusic->Play();
+    backGraundMusic->Play();
 }
 
 void PuzzleState::LoadMap(){
@@ -119,10 +118,10 @@ void PuzzleState::LoadMap(){
     for(int i = 2; i < (int)map.size(); i++){
         for(int j = 0; j < (int)map[i].size(); j++){
             GameObject* go = new GameObject();
-            go->box.x = 415+(67*j);
-            go->box.y = 170+(67*(i-2));
-            if (map[i][j] == '1') go->AddComponent(new Sprite(*go,"resources/img/puzzleTile_ph.png"));
-            else if (map[i][j] == '0') go->AddComponent(new Sprite(*go,"resources/img/puzzleTilec_ph.png"));
+            go->box.x = 415+(60*j);
+            go->box.y = 170+(60*(i-2));
+            if (map[i][j] == '1') go->AddComponent((std::shared_ptr<Sprite>)new Sprite(*go,"resources/img/puzzleTile_ph.png"));
+            else if (map[i][j] == '0') go->AddComponent((std::shared_ptr<Sprite>)new Sprite(*go,"resources/img/puzzleTilec_ph.png"));
             AddObject(go);
         }
     }
@@ -130,7 +129,7 @@ void PuzzleState::LoadMap(){
 
 void PuzzleState::CreateSelector(){
     GameObject* selector = new GameObject();
-    selector->AddComponent(new Selector(*selector));
+    selector->AddComponent((std::shared_ptr<Selector>)new Selector(*selector));
     selector->box.x = 15;
     selector->box.y = 32;
     AddObject(selector);

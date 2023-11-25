@@ -1,10 +1,11 @@
 #include "Game.h"
-#include "states/PuzzleState.h"
+#include "states/StartState.h"
+#include "states/BakeryState.h"
 
 int main(int argc, char** argv) {
     
     Game& game = Game::GetInstance();
-    game.Push(new PuzzleState(3));
+    game.Push(new BakeryState());
     game.Run();
     
     return 0;
