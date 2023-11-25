@@ -9,7 +9,7 @@ MenuState::MenuState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
 
-    std::shared_ptr<Sprite> titleImage = std::make_shared<Sprite>(*titleObj, "resources/img/MainMenu.jpg");
+    Sprite* titleImage = new Sprite(*titleObj, "resources/img/MainMenu.jpg");
     titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);

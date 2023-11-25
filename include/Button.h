@@ -20,9 +20,9 @@ class Button {
     
     private:
         GameObject* textObj;
-        std::shared_ptr<Text> text;
+        Text* text;
 
         GameObject* imageObj;
-        std::shared_ptr<Sprite> buttonImage;
+        Sprite* buttonImage;
 };
 #endif

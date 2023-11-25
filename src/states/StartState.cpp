@@ -11,7 +11,7 @@ StartState::StartState(): State(){
     GameObject* titleObj = new GameObject();
 
     Sprite *titleImage= new Sprite(*titleObj, "resources/img/StartImage.jpg");
-    titleObj->AddComponent((std::shared_ptr<Sprite>)  titleImage);
+    titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
     
@@ -19,7 +19,7 @@ StartState::StartState(): State(){
     std::string texto = "PRESS SPACEBAR OR ENTER TO PLAY";
     
     Text* startText = new Text(*textObj, "resources/font/Base.ttf", 64, TextStyle::BLENDED,texto, {255, 255, 255, 255},{0, 0, 0, 0},  true);
-    textObj->AddComponent((std::shared_ptr<Text>) startText);
+    textObj->AddComponent( startText);
     textObj->box.SetCenter(Vec2((float)(Game::GetInstance().GetWindowWidth())/2, (float)(Game::GetInstance().GetWindowHeight())*7/8));
     
     objectArray.emplace_back(textObj);

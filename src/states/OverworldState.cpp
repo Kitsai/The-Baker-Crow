@@ -4,17 +4,17 @@ OverworldState::OverworldState(): State() {
 
     // Game& game = Game::GetInstance();
     GameObject* bg = new GameObject();
-    bg->AddComponent((std::shared_ptr<Sprite>)new Sprite(*bg,"resources/img/blackBG.jpg"));
-    bg->AddComponent((std::shared_ptr<CameraFollower>)new CameraFollower(*bg));
+    bg->AddComponent(new Sprite(*bg,"resources/img/blackBG.jpg"));
+    bg->AddComponent(new CameraFollower(*bg));
     AddObject(bg);
 
     GameObject* map = new GameObject();
     TileSet* ts = new TileSet(*map,64,64,"resources/img/placeholder.png");
-    map->AddComponent((std::shared_ptr<TileMap>)new TileMap(*map,"resources/map/placeholder.txt",ts));
+    map->AddComponent(new TileMap(*map,"resources/map/placeholder.txt",ts));
     AddObject(map);
 
     GameObject* tuki = new GameObject();
-    tuki->AddComponent((std::shared_ptr<TukiOW>)new TukiOW(*tuki));
+    tuki->AddComponent(new TukiOW(*tuki));
     AddObject(tuki);
 
     Camera::Follow(tuki);

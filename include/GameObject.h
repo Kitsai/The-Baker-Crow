@@ -14,7 +14,7 @@
 class GameObject {
     private:
         /// @brief A vector that keeps unique pointers to the components of this object.
-        std::vector<std::shared_ptr<Component>> components;
+        std::vector<std::shared_ptr<Component>> componentArray;
         /// @brief keeps a flag that tells the game whether this object should be deleted.
         bool isDead;
         /// @brief Flag that keeps the information if this object has already been started. Useful for knowing when to start components that are added latter or not.
@@ -52,14 +52,14 @@ class GameObject {
 
         /// @brief Adds a given component to the component vector.
         /// @param cpt A raw pointer to the component that should be added.
-        void AddComponent(std::shared_ptr<Component> cpt);
+        std::weak_ptr<Component> AddComponent(Component* cpt); 
         /// @brief Removes a specific component from the component vector.
         /// @param cpt A raw pointer to the component that should be removed.
-        void RemoveComponent(std::shared_ptr<Component> cpt);   
+        void RemoveComponent(Component* cpt); 
         /// @brief A Getter for a component of given type.
         /// @param type The type of Component that is being looked for.
         /// @return Raw pointer to the component of desired type.
-        std::shared_ptr<Component> GetComponent(std::string type);
+        std::weak_ptr<Component> GetComponent(std::string type);
         /// @brief A Getter for all components of given type. NOTE: Only use  = when instantiating a new vector. if you need to use in an existing vector use .swap on the returning vector.
         /// @param type The type of Component that is being looked for.
         /// @return A vector of Component pointers.
