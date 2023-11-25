@@ -13,6 +13,7 @@
 #include "states/PuzzleState.h"
 #include "defines/DefineInput.h"
 #include "states/OverworldState.h"
+#include "states/BakeryState.h"
 
 class NewGameState : public State {
     
@@ -29,6 +30,6 @@ class NewGameState : public State {
         void Resume();
     
     private:
-    std::unique_ptr<NewGameSelector> selector;
+    std::shared_ptr<NewGameSelector> selector;
 };
 #endif
