@@ -4,23 +4,23 @@ OverworldState::OverworldState(): State() {
 
     // Game& game = Game::GetInstance();
     GameObject* bg = new GameObject();
-    bg->AddComponent((std::shared_ptr<Sprite>)new Sprite(*bg,"resources/img/blackBG.jpg"));
-    bg->AddComponent((std::shared_ptr<CameraFollower>)new CameraFollower(*bg));
+    bg->AddComponent(new Sprite(*bg,"resources/img/blackBG.jpg"));
+    bg->AddComponent(new CameraFollower(*bg));
     AddObject(bg);
 
     GameObject* map = new GameObject();
     TileSet* ts = new TileSet(*map,64,64,"resources/img/placeholder.png");
-    map->AddComponent((std::shared_ptr<TileMap>)new TileMap(*map,"resources/map/placeholder.txt",ts));
+    map->AddComponent(new TileMap(*map,"resources/map/placeholder.txt",ts));
     AddObject(map);
 
     GameObject* tuki = new GameObject();
-    tuki->AddComponent((std::shared_ptr<TukiOW>)new TukiOW(*tuki));
+    tuki->AddComponent(new TukiOW(*tuki));
     AddObject(tuki);
 
     Camera::Follow(tuki);
 
     GameData::playerAlive = true;
-    backGraundMusic = new Music("resources/music/MusicWorld.flac");
+    backGroundMusic =  std::make_unique<Music>("resources/music/MusicWorld.flac");
 }
 
 OverworldState::~OverworldState() {
@@ -41,7 +41,7 @@ void OverworldState::Update(float dt) {
     } 
     else if (iM.KeyPress(ESCAPE_KEY)){
         popRequested = true;
-        backGraundMusic->Stop();
+        backGroundMusic->Stop();
 
     } 
     
@@ -60,7 +60,7 @@ void OverworldState::Start() {
     LoadAssets();
     StartArray();
     started = true;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }
 
 void OverworldState::Pause() {
@@ -70,5 +70,5 @@ void OverworldState::Pause() {
 void OverworldState::Resume() {
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }

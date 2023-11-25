@@ -57,13 +57,6 @@ void NewGameSelector::Update(float dt) {
     }
 }
 
-void NewGameSelector::Render() {
-}
-
-bool NewGameSelector::Is(std::string type) {
-    return type == "NewGameSelector";
-}
-
 int NewGameSelector::GetSelected(){
     return selected;
 }
