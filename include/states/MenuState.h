@@ -13,6 +13,7 @@
 #include "states/PuzzleState.h"
 #include "defines/DefineInput.h"
 #include "states/OverworldState.h"
+#include <memory>
 
 class MenuState : public State {
     
@@ -29,7 +30,6 @@ class MenuState : public State {
         void Resume();
     
     private:
-    std::shared_ptr<Music> backGraundMusic;
-    std::shared_ptr<MenuSelector> selector;
+    std::unique_ptr<MenuSelector> selector;
 };
 #endif
