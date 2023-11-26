@@ -156,6 +156,6 @@ int Game::GetWindowHeight() {
 
 void Game::CalculateDeltaTime() {
     unsigned t = SDL_GetTicks();
-    dt = (float)(t-frameStart)*0.0001F;
+    dt = (float)(t-frameStart)*0.001F;
     frameStart = t;
 }
