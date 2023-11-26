@@ -1,13 +1,18 @@
 #include "Enemy.h"
 
-Enemy::Enemy(GameObject& associated,int hp): Component(associated) {
-    this->hp = hp;
+Enemy::Enemy(GameObject& associated,int hp): Component(associated), hp(hp) {
+    associated.AddComponent(new Collider(associated));
 }
+
 
 void Enemy::Update(float dt) {
     if(hp<=0) {
-        associated.RequestDelete();
+        Defeated();
     }
+}
+
+void Enemy::Render() {
+
 }
 
 bool Enemy::Is(std::string type) {
