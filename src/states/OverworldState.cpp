@@ -41,7 +41,7 @@ void OverworldState::Update(float dt) {
     } 
     else if (iM.KeyPress(ESCAPE_KEY)){
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
 
     } 
     

@@ -37,7 +37,7 @@ void StartState::Update(float dt){
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) || InputManager::GetInstance().KeyPress(SPACE_KEY)){
         MenuState* newState = new MenuState();
         Game::GetInstance().Push(newState);
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
