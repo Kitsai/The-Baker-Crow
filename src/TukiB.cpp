@@ -1,7 +1,7 @@
 #include "TukiB.h"
 
 TukiB::TukiB(GameObject& associated): Player(associated) {
-    associated.AddComponent((std::shared_ptr<Sprite>)new Sprite(associated, "resources/img/try.png"));
+    associated.AddComponent(new Sprite(associated, "resources/img/try.png"));
     Player::player = this;
     floor = 0;
 }
@@ -35,7 +35,7 @@ void TukiB::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        Collider* hitbox = (Collider*)associated.GetComponent("Collider").get();
+        Collider* hitbox = (Collider*)associated.GetComponent("Collider");
         hitbox->active = false;
         hitbox->SetColor(COLOR_BLUE);
     }
@@ -51,7 +51,7 @@ void TukiB::Update(float dt) {
             state = WALKING;
             //playerTimer.Restart();
 
-            Collider* hitbox = (Collider*)associated.GetComponent("Collider").get();
+            Collider* hitbox = (Collider*)associated.GetComponent("Collider");
             hitbox->active = true;
             hitbox->SetColor(COLOR_RED);
         }

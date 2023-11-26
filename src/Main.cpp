@@ -1,5 +1,4 @@
 #include "Game.h"
-#include "states/StartState.h"
 #include "states/BakeryState.h"
 
 int main(int argc, char** argv) {

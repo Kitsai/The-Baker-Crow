@@ -6,19 +6,19 @@ BakeryState::BakeryState() : State() {
     floor = 0;
 
     GameObject* bedroom = new GameObject();
-    bedroom->AddComponent((std::shared_ptr<Sprite>) new Sprite(*bedroom, "resources/img/bedroom_ph.png"));
+    bedroom->AddComponent(new Sprite(*bedroom, "resources/img/bedroom_ph.png"));
     bedroom->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
     AddObject(bedroom);
 
     GameObject* tuki = new GameObject();
-    tuki->AddComponent((std::shared_ptr<TukiB>)new TukiB(*tuki));
+    tuki->AddComponent(new TukiB(*tuki));
     tuki->box.SetCenter({500,525});
     AddObject(tuki);
 
     Camera::Follow(tuki);
 
     GameData::playerAlive = true;
-    backGraundMusic = new Music("resources/music/MusicWorld.flac");
+    backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
 }
 
 BakeryState::~BakeryState() {
@@ -53,13 +53,13 @@ void BakeryState::Start() {
     LoadAssets();
     StartArray();
     started = true;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }
 
 void BakeryState::Pause() {
-    backGraundMusic->Stop();
+    backGroundMusic->Stop();
 }
 
 void BakeryState::Resume() {
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }
