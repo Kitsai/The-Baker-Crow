@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Component.h"
 #include <vector>
 #include <algorithm>
 #include <iostream>
@@ -43,7 +44,7 @@ void GameObject::UnrequestDelete() {
     isDead = false;
 }
 
-void GameObject::AddComponent(std::shared_ptr<Component> cpt){
+void GameObject::AddComponent(Component* cpt) {
     components.emplace_back(cpt);
     if (started) {
         cpt->Start();
@@ -51,20 +52,20 @@ void GameObject::AddComponent(std::shared_ptr<Component> cpt){
 }
 
 
-void GameObject::RemoveComponent(std::shared_ptr<Component> cpt){
+void GameObject::RemoveComponent(Component* cpt){
     for (std::vector<int>::size_type i = 0; i < components.size(); i++){
-        if (components[i] == cpt){
+        if (components[i].get() == cpt){
             components.erase(components.begin() + i);
         }
     }
 }
 
 
-std::shared_ptr<Component> GameObject::GetComponent(std::string type){
+Component* GameObject::GetComponent(std::string type){
     for (std::vector<int>::size_type i = 0; i < components.size(); i++){
         if (components[i]->Is(type))
         {
-            return components[i];
+            return components[i].get();
         }
     }
 

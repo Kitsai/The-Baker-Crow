@@ -139,7 +139,7 @@ void FoodPiece::RenderPieces(){
                 Sprite* sprite = new Sprite(*go,"resources/img/puzzle/pieces/"+foodItemTypeToString[type]+".png");
                 sprite->SetScale(2,2);
 
-                go->AddComponent(std::shared_ptr<Sprite>(sprite));
+                go->AddComponent(sprite);
                 go->box.x = associated.box.x + x;
                 go->box.y = associated.box.y + y;
                 Game::GetInstance().GetCurrentState().AddObject(go);

@@ -2,6 +2,7 @@
 #define Component_h_
 
 #include <string>
+#include <memory>
 
 class GameObject;
 

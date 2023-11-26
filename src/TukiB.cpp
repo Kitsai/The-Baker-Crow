@@ -1,34 +1,22 @@
-#include "TukiOW.h"
+#include "TukiB.h"
 
-TukiOW::TukiOW(GameObject& associated): Player(associated) {
+TukiB::TukiB(GameObject& associated): Player(associated) {
     associated.AddComponent(new Sprite(associated, "resources/img/try.png"));
+    Player::player = this;
+    floor = 0;
 }
 
-TukiOW::~TukiOW() {
+TukiB::~TukiB() {
 
 }
 
-void TukiOW::Update(float dt) {
+void TukiB::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
     State& currState = Game::GetInstance().GetCurrentState();
 
     if(hp <= 0) {
         associated.RequestDelete();
         GameData::playerAlive = false;
-    }
-
-    if(iM.KeyPress(X_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
-        
-        GameObject* attk = new GameObject();
-        attk->AddComponent(new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1.0F,0));
-        attk->angleDeg = speed.incl();
-        attk->box.SetCenter(Vec2(32,0).GetRotated(speed.incl()) + associated.box.GetCenter());
-        state = PlayerState::ATTACKING;
-        currState.AddObject(attk);
-    }
-
-    if(PlayerState::ATTACKING == state && attack.expired()) {
-        state = PlayerState::WALKING;
     }
 
     if(iM.KeyPress(Z_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
@@ -40,7 +28,7 @@ void TukiOW::Update(float dt) {
             if(iM.IsKeyDown(UP_ARROW_KEY)) direction.y -= 1;
             if(iM.IsKeyDown(DOWN_ARROW_KEY)) direction.y += 1;
             if(iM.IsKeyDown(LEFT_ARROW_KEY)) direction.x -= 1;
-            if(iM.IsKeyDown(RIGHT_ARROW_KEY)) direction.x += 1;   
+            if(iM.IsKeyDown(RIGHT_ARROW_KEY)) direction.x += 1;
         } 
         else
             direction = speed;
@@ -78,9 +66,8 @@ void TukiOW::Update(float dt) {
     }
 } 
 
-void TukiOW::Move(float dt) {
+void TukiB::Move(float dt) {
     CalcSpeed(dt);
-    std::cout << speed.magnitude() << std::endl;
     if(state == PlayerState::STANDING) {
         speed = speed*TOW_DAMP_STATIC;
     } 
@@ -94,12 +81,12 @@ void TukiOW::Move(float dt) {
     CalcSpeed(dt);
 }
  
-void TukiOW::CalcSpeed(float dt) {
+void TukiB::CalcSpeed(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
     if(state == PlayerState::DODGING)
         return;
-
+    
     if(iM.IsKeyDown(LEFT_ARROW_KEY)) {
         speed.x -= TOW_A*dt;
     } 
@@ -117,6 +104,14 @@ void TukiOW::CalcSpeed(float dt) {
         speed = norm * TOW_SPEED_LIM;
 }
 
-bool TukiOW::Is(std::string type) {
-    return type == "TukiOW" || Player::Is(type);
+bool TukiB::Is(std::string type) {
+    return type == "TukiB" || Player::Is(type);
+}
+
+void TukiB::SetFloor(int floor) {
+    this->floor = floor;
+}
+
+int TukiB::GetFloor() {
+    return floor;
 }

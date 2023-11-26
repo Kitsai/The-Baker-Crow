@@ -15,7 +15,7 @@
 /// @brief Abstract class for a state of the game.
 class State {
     protected:
-        Music* backGraundMusic;
+        std::unique_ptr<Music> backGroundMusic;
         /// @brief flag that tells whether this state should be popped from the stack.
         bool popRequested;
         /// @brief flag that talls whether the game should be quitted.
