@@ -41,7 +41,7 @@ void PuzzleState::Update(float dt){
 
     if ((InputManager::GetInstance().KeyPress(SPACE_KEY))){
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
 
     if(iM.QuitRequested()) quitRequested = true;
