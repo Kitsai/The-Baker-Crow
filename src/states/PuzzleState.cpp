@@ -70,10 +70,10 @@ void PuzzleState::Update(float dt){
                 // substituir por pegar do inventário depois
 
                 FoodItem* item;
-                if (objectArray[i].get()->box.y == 32) item =  new FoodItem(*pieces, "morango");
-                else if (objectArray[i]->box.y == 187) item =  new FoodItem(*pieces, "mel");
-                else if (objectArray[i]->box.y == 342) item =  new FoodItem(*pieces, "acucar");
-                else if (objectArray[i]->box.y == 505) item =  new FoodItem(*pieces, "chocolate");
+                if (objectArray[i].get()->box.y == 32) item =  new FoodItem(*pieces, FoodItemType::morango);
+                else if (objectArray[i]->box.y == 187) item =  new FoodItem(*pieces, FoodItemType::mel);
+                else if (objectArray[i]->box.y == 342) item =  new FoodItem(*pieces, FoodItemType::acucar);
+                else if (objectArray[i]->box.y == 505) item =  new FoodItem(*pieces, FoodItemType::chocolate);
 
                 pieces->AddComponent(item);
                 AddObject(pieces);
