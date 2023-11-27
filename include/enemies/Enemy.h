@@ -1,7 +1,9 @@
 #ifndef Enemy_h_
 #define Enemy_h_
 
-#include "GameObject.h"
+#include "Component.h"
+#include "Collider.h"
+#include "Player.h"
 
 /// @brief Abstract class that identifies an Enemy.
 class Enemy: public Component {
@@ -11,6 +13,9 @@ class Enemy: public Component {
         /// @param hp the enemy hp.
         Enemy(GameObject& associated,int hp = 100);
 
+        /// @brief Destructor for Enemy.
+        virtual ~Enemy();
+
         /// @brief Updates the component. If hp <= 0 request deletion.
         /// @param dt Delta Time.
         void virtual Update(float dt);
@@ -19,12 +24,29 @@ class Enemy: public Component {
         /// @brief Returns whether the object is of a certain type.
         /// @param type Type to be checked.
         /// @return True if type matches with the passed argument.
-        bool Is(std::string type);
+        bool virtual Is(std::string type);
     protected:
+        enum EnemyState {MOVING, ATTACKING, IDLE};
+
         int hp;
+        EnemyState state;
+
+        Vec2 speed;
+        Vec2 moveTarget;
+                                                                                                                    
+        Timer timer;
+        float idleTime;
 
         void virtual Defeated();
+
+        void virtual Move(float dt);  
+        void virtual CalcSpeed(float dt);
+
+        void virtual Attack();
         
+        void virtual SetState(EnemyState state) = 0;
+
+        void virtual DeathAnimation() = 0;
 };
 
 #endif

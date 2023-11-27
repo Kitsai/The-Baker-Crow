@@ -28,6 +28,10 @@ bool Player::Is(std::string type) {
     return type == "Player";
 }
 
+Vec2 Player::GetPlayerPos() {
+    return associated.box.GetCenter();
+}
+
 bool Player::IsInTile(int index, Vec2 pos, int tileSize) {
     return IsInTile(index) && IsInTile(pos,tileSize);
 }
