@@ -1,7 +1,9 @@
 #include "TukiOW.h"
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
-    associated.AddComponent(new Sprite(associated, "resources/img/try.png"));
+    Sprite* sprite = new Sprite(associated, "resources/img/try.png");
+    sprite->SetScale(1.2,1.2);
+    associated.AddComponent(sprite);
 }
 
 TukiOW::~TukiOW() {
