@@ -43,7 +43,7 @@ void Text::Update(float dt) {
 }
 
 void Text::Render(){
-    if (Text::elapsedTime) {
+    if (this->texture) {
         SDL_Rect clipRect = {0, 0,(int) associated.box.w,(int) associated.box.h};
         SDL_Rect destRect = {
             (int)(associated.box.x),
