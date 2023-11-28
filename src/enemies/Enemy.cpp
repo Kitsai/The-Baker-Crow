@@ -10,7 +10,6 @@ idleTime((rand()%7001)*0.001F)
     associated.box.SetCenter(moveTarget);
     associated.AddComponent(new Collider(associated));
     moveTarget = 200;
-    //precisa verificar onde pode spawnar
 }
 
 Enemy::~Enemy() {
@@ -32,17 +31,7 @@ void Enemy::Render() {
 void Enemy::Defeated() {
     associated.RequestDelete();
     DeathAnimation();
-}
-
-
-void Enemy::Move(float dt) {
-    CalcSpeed(dt);
-    associated.box += speed*dt;
-    CalcSpeed(dt);
-}
-
-void Enemy::CalcSpeed(float dt) {
-    speed = Vec2(0,0);
+    DropItems();
 }
 
 void Enemy::Attk() {

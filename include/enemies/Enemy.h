@@ -44,14 +44,16 @@ class Enemy: public Component {
 
         void virtual Defeated();
 
-        void virtual Move(float dt);  
-        void virtual CalcSpeed(float dt);
+        void virtual Move(float dt) = 0;  
+        void virtual CalcSpeed(float dt) =0 ;
 
         void virtual Attk();
         
         void virtual SetState(EnemyState state) = 0;
 
         void virtual DeathAnimation() = 0;
+
+        void virtual DropItems() = 0;
 };
 
 #endif
