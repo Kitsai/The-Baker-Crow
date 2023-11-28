@@ -2,8 +2,11 @@
 #define Enemy_h_
 
 #include "Component.h"
-#include "Collider.h"
+
+#include "Attack.h"
 #include "Player.h"
+
+#include "defines/DefinesInclude.h"
 
 /// @brief Abstract class that identifies an Enemy.
 class Enemy: public Component {
@@ -37,12 +40,14 @@ class Enemy: public Component {
         Timer timer;
         float idleTime;
 
+        std::weak_ptr<GameObject> attack;
+
         void virtual Defeated();
 
         void virtual Move(float dt);  
         void virtual CalcSpeed(float dt);
 
-        void virtual Attack();
+        void virtual Attk();
         
         void virtual SetState(EnemyState state) = 0;
 

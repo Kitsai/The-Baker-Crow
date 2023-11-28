@@ -17,6 +17,7 @@ class Vec2 {
 
 
         void operator = (const Vec2& v);
+        void operator = (float f);
         Vec2 operator + (const Vec2& v);
         Vec2 operator - (const Vec2& v);
         void operator += (const Vec2& v);

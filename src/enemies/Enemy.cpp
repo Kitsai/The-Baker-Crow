@@ -1,16 +1,16 @@
 #include "enemies/Enemy.h"
+#include "Game.h"
 
 Enemy::Enemy(GameObject& associated,int hp): 
 Component(associated),
 hp(hp), 
-speed(),
-moveTarget(200,200),
-idleTime(0)
+state(IDLE),
+idleTime((rand()%7001)*0.001F)
 {
     associated.box.SetCenter(moveTarget);
     associated.AddComponent(new Collider(associated));
+    moveTarget = 200;
     //precisa verificar onde pode spawnar
-    SetState(IDLE);
 }
 
 Enemy::~Enemy() {
@@ -23,24 +23,6 @@ void Enemy::Update(float dt) {
     }
 
     timer.Update(dt);
-
-    switch (state)
-    {
-    case IDLE:
-        if(timer.Get() > idleTime) {
-            SetState(MOVING);
-        }
-        break;
-    case MOVING:
-        Move(dt);
-        break;
-
-    case ATTACKING:
-        Attack();
-        break;
-    default:
-        break;
-    }
 }
 
 void Enemy::Render() {
@@ -63,14 +45,22 @@ void Enemy::CalcSpeed(float dt) {
     speed = Vec2(0,0);
 }
 
-void Enemy::Attack() {
+void Enemy::Attk() {
     if (Player::player == nullptr) return;
+
+    State& currState = Game::GetInstance().GetCurrentState();
 
     Vec2 playerPos = Player::player->GetPlayerPos();
 
-    // float limit = associated.box
+    float playerDist = playerPos.distVec2(associated.box.GetCenter());
 
-    // if()
+    if (playerDist < ENEMY_ATACK_DIST) {
+        GameObject* ao = new GameObject();
+        float playerInc = playerPos.inclVec2(associated.box.GetCenter());
+        ao->box.SetCenter(Vec2(60,0).GetRotated(playerInc) + associated.box.GetCenter());
+        ao->AddComponent(new Attack(*ao,currState.GetObjectPtr(&associated),10));
+        attack = currState.AddObject(ao);
+    }
 }
 
 bool Enemy::Is(std::string type) {

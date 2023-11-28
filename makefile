@@ -20,6 +20,7 @@ RFLAGS = -O3 -mtune=native
 
 INC_PATH = include
 SRC_PATH = src
+SRC_SUBDIRS = $(wildcard $(SRC_PATH)/*/)
 STATES_PATH = src/states
 SELECTORS_PATH = src/selectors
 ENEMIES_PATH = src/enemies
@@ -81,18 +82,12 @@ $(DEP_PATH)/%.d: $(SRC_PATH)/%.cpp | folders
 
 $(BIN_PATH)/%.o: $(ENEMIES_PATH)/%.cpp | folders
 	$(COMPILER) $(INC_PATHS) $(addprefix $(ENEMIES_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
-$(DEP_PATH)/%.d: $(ENEMIES_PATH)/%.cpp | folders
-	$(COMPILER) $(INC_PATHS) $< $(DEP_FLAGS) $(FLAGS)
 
 $(BIN_PATH)/%.o: $(SELECTORS_PATH)/%.cpp | folders
 	$(COMPILER) $(INC_PATHS) $(addprefix $(SELECTORS_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
-$(DEP_PATH)/%.d: $(SELECTORS_PATH)/%.cpp | folders
-	@$(COMPILER) $(INC_PATHS) $< $(DEP_FLAGS) $(FLAGS)
+
 $(BIN_PATH)/%.o: $(STATES_PATH)/%.cpp | folders
 	$(COMPILER) $(INC_PATHS) $(addprefix $(STATES_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
-
-$(DEP_PATH)/%.d: $(STATES_PATH)/%.cpp | folders
-	@$(COMPILER) $(INC_PATHS) $< $(DEP_FLAGS) $(FLAGS)
 clean:
 	$(RMDIR) $(DEP_PATH)
 	$(RMDIR) $(BIN_PATH)
