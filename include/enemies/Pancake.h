@@ -9,6 +9,8 @@ class Pancake: public Enemy {
 
         ~Pancake();
 
+        void Update(float dt);
+
         bool Is(std::string type);
     private:
         void Move(float dt);  

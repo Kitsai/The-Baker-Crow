@@ -45,7 +45,7 @@ void TukiOW::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
+        std::shared_ptr<Collider> hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
         hitbox->active = false;
         hitbox->SetColor(COLOR_BLUE);
     }
@@ -60,7 +60,7 @@ void TukiOW::Update(float dt) {
             state = WALKING;
             //playerTimer.Restart();
 
-            Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
+            std::shared_ptr<Collider> hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
             hitbox->active = true;
             hitbox->SetColor(COLOR_RED);
         }

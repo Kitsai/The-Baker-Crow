@@ -34,8 +34,9 @@ class Enemy: public Component {
         int hp;
         EnemyState state;
 
-        Vec2 speed;
         Vec2 moveTarget;
+        float speed;
+        float moveAngle;
                                                                                                                     
         Timer timer;
         float idleTime;
@@ -50,6 +51,7 @@ class Enemy: public Component {
         void virtual Attk();
         
         void virtual SetState(EnemyState state) = 0;
+        void virtual ChangeSprite(std::string file, int frameCount = 1, float frameTime = 1);
 
         void virtual DeathAnimation() = 0;
 

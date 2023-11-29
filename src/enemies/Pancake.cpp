@@ -10,8 +10,45 @@ Pancake::~Pancake() {
 
 }
 
+void Pancake::Update(float dt) {
+    Enemy::Update(dt);
+
+    switch (state) {
+        case MOVING:
+            Move(dt);
+            break;
+        case ATTACKING:
+            if (attack.expired()) {
+                SetState(IDLE);
+            }
+            break;
+        case IDLE:
+            idleTime -= dt;
+            if (idleTime <= 0) {
+                SetState(MOVING);
+            }
+            break;
+        default:
+            break;
+    }
+}
+
 bool Pancake::Is(std::string type) {
     return type == "Pancake" || Enemy::Is(type);
+}
+
+void Pancake::Move (float dt) {
+    if (moveTarget.distVec2(associated.box.GetCenter()) < 5) {
+        SetState(IDLE);
+    } else {
+        CalcSpeed(dt);
+        associated.box += speed*dt ;
+        CalcSpeed(dt);
+    }
+}
+
+void Pancake::CalcSpeed(float dt) {
+
 }
 
 void Pancake::SetState(EnemyState state) {
@@ -19,7 +56,9 @@ void Pancake::SetState(EnemyState state) {
 
     switch (state) {
         case MOVING:
-            moveTarget = associated.box.GetCenter() + Vec2(rand()%500,rand()%500);
+            moveTarget = associated.box.GetCenter() + Vec2(rand()%301,rand()%301);
+            moveAngle = moveTarget.inclVec2(associated.box.GetCenter());
+            ChangeSprite("../../resources/img/pancake_anim.png",8,.15F);
             break;
         case ATTACKING:
             Attk();
@@ -27,9 +66,13 @@ void Pancake::SetState(EnemyState state) {
         case IDLE:
             idleTime = rand()%5001*0.001F + 2;
             speed = 0;
+            ChangeSprite("../../resources/img/pancake_idle.png");
             break;
-        deffault:
+        default:
             break;
     }
 }
 
+void Pancake::DeathAnimation() {
+
+}
