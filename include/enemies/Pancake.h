@@ -6,24 +6,17 @@
 class Pancake: public Enemy {
     public:
         Pancake(GameObject& associated,int hp = 100);
+
         ~Pancake();
 
-        void Update(float dt);
-
-        void Render();
-
         bool Is(std::string type);
-
     private:
-        void Move(float dt);
-
+        void Move(float dt);  
         void CalcSpeed(float dt);
 
         void SetState(EnemyState state);
 
         void DeathAnimation();
-
-        void DropItems();
 };
 
 #endif

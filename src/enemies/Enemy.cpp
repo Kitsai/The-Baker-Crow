@@ -9,7 +9,8 @@ idleTime((rand()%7001)*0.001F)
 {
     associated.box.SetCenter(moveTarget);
     associated.AddComponent(new Collider(associated));
-    moveTarget = 200;
+    moveTarget = associated.box.GetCenter();
+    //precisa verificar onde pode spawnar
 }
 
 Enemy::~Enemy() {

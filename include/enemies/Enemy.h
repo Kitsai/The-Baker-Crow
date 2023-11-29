@@ -45,7 +45,7 @@ class Enemy: public Component {
         void virtual Defeated();
 
         void virtual Move(float dt) = 0;  
-        void virtual CalcSpeed(float dt) =0 ;
+        void virtual CalcSpeed(float dt) = 0;
 
         void virtual Attk();
         
