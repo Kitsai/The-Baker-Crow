@@ -13,7 +13,6 @@ Player::Player(GameObject& associated): Component(associated) {
 
     Game& game = Game::GetInstance();
     associated.AddComponent(new Collider(associated));
-    associated.box.SetCenter(Vec2(game.GetWindowWidth(),game.GetWindowHeight()) * 0.5F);
 }
 
 Player::~Player() {

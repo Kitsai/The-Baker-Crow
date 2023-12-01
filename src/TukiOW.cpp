@@ -1,4 +1,5 @@
 #include "TukiOW.h"
+#include <iostream>
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
     Sprite* sprite = new Sprite(associated, "resources/img/try.png");
@@ -84,11 +85,13 @@ void TukiOW::Move(float dt) {
     CalcSpeed(dt);
     // std::cout << speed.magnitude() << std::endl;
     if(state == PlayerState::STANDING) {
-        speed = speed*TOW_DAMP_STATIC;
+        speed = speed*DAMP_STATIC;
     } else {
-        speed = speed*TOW_DAMP_MOVING;
+        speed = speed*DAMP_MOVING;
     }
     associated.box += speed*dt;
+    Vec2 pos = associated.box.GetCenter();
+    std::cout << "x: " << pos.x << " y: "<< pos.y << std::endl;
     CalcSpeed(dt);
 }
  

@@ -19,6 +19,8 @@ class Pancake: public Enemy {
         void SetState(EnemyState state);
 
         void DeathAnimation();
+
+        void DropItems();
 };
 
 #endif
