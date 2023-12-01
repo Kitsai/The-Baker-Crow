@@ -6,13 +6,14 @@
 #include "Collider.h"
 #include "Sprite.h"
 
+
 class Attack: public Component {
     public:
         Attack(GameObject& associated,
             std::weak_ptr<GameObject> origin,
             int damage,
             bool friendly = false, 
-            float duration = 0,
+            float duration = .5F,
             float speed = 0 
         );
         

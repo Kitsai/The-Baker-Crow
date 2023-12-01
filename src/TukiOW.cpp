@@ -1,7 +1,10 @@
 #include "TukiOW.h"
+#include <iostream>
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
-    associated.AddComponent(new Sprite(associated, "resources/img/try.png"));
+    Sprite* sprite = new Sprite(associated, "resources/img/try.png");
+    sprite->SetScale(1.2,1.2);
+    associated.AddComponent(sprite);
 }
 
 TukiOW::~TukiOW() {
@@ -43,7 +46,7 @@ void TukiOW::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
+        std::shared_ptr<Collider> hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
         hitbox->active = false;
         hitbox->SetColor(COLOR_BLUE);
     }
@@ -58,7 +61,7 @@ void TukiOW::Update(float dt) {
             state = WALKING;
             //playerTimer.Restart();
 
-            Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
+            std::shared_ptr<Collider> hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
             hitbox->active = true;
             hitbox->SetColor(COLOR_RED);
         }
@@ -82,11 +85,13 @@ void TukiOW::Move(float dt) {
     CalcSpeed(dt);
     // std::cout << speed.magnitude() << std::endl;
     if(state == PlayerState::STANDING) {
-        speed = speed*TOW_DAMP_STATIC;
+        speed = speed*DAMP_STATIC;
     } else {
-        speed = speed*TOW_DAMP_MOVING;
+        speed = speed*DAMP_MOVING;
     }
     associated.box += speed*dt;
+    // Vec2 pos = associated.box.GetCenter();
+    // std::cout << "x: " << pos.x << " y: "<< pos.y << std::endl;
     CalcSpeed(dt);
 }
  

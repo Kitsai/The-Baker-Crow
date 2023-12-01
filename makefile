@@ -20,12 +20,14 @@ RFLAGS = -O3 -mtune=native
 
 INC_PATH = include
 SRC_PATH = src
+SRC_SUBDIRS = $(wildcard $(SRC_PATH)/*/)
 STATES_PATH = src/states
 SELECTORS_PATH = src/selectors
+ENEMIES_PATH = src/enemies
 BIN_PATH = bin
 DEP_PATH = dep
 
-CPP_FILES = $(wildcard $(SRC_PATH)/*.cpp) $(wildcard $(SELECTORS_PATH)/*.cpp) $(wildcard $(STATES_PATH)/*.cpp)
+CPP_FILES = $(wildcard $(SRC_PATH)/*.cpp) $(wildcard $(SELECTORS_PATH)/*.cpp) $(wildcard $(STATES_PATH)/*.cpp) $(wildcard $(ENEMIES_PATH)/*.cpp)
 INC_FILES = $(wildcard $(SRC_PATH)/*.hpp) 
 FILE_NAMES = $(sort $(notdir $(CPP_FILES:.cpp=)) $(notdir $(INC_FILES:.h=)))
 DEP_FILES = $(addprefix $(DEP_PATH)/,$(addsuffix .d,$(FILE_NAMES)))
@@ -68,17 +70,9 @@ all: $(EXEC)
 $(EXEC): $(OBJ_FILES)
 	$(COMPILER) -o $@ $^ $(LINK_PATH) $(LIBS) $(FLAGS)
 
-$(BIN_PATH)/%.o: $(SELECTORS_PATH)/%.cpp | folders
-	$(COMPILER) $(SDL_INC_PATH) -I$(INC_PATH) -c $(FLAGS) -o $@ $<
 
-$(DEP_PATH)/%.d: $(SELECTORS_PATH)/%.cpp | folders
-	@$(COMPILER) $(SDL_INC_PATH) -I$(INC_PATH) -M -MT '$(BIN_PATH)/$(*F).o'
 
-$(BIN_PATH)/%.o: $(STATES_PATH)/%.cpp | folders
-	$(COMPILER) $(SDL_INC_PATH) -I$(INC_PATH) -c $(FLAGS) -o $@ $<
 
-$(DEP_PATH)/%.d: $(STATES_PATH)/%.cpp | folders
-	@$(COMPILER) $(SDL_INC_PATH) -I$(INC_PATH) -M -MT '$(BIN_PATH)/$(*F).o'
 
 $(BIN_PATH)/%.o: $(DEP_PATH)/%.d | folders
 	$(COMPILER) $(INC_PATHS) $(addprefix $(SRC_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
@@ -86,6 +80,14 @@ $(BIN_PATH)/%.o: $(DEP_PATH)/%.d | folders
 $(DEP_PATH)/%.d: $(SRC_PATH)/%.cpp | folders
 	$(COMPILER) $(INC_PATHS) $< $(DEP_FLAGS) $(FLAGS)
 
+$(BIN_PATH)/%.o: $(ENEMIES_PATH)/%.cpp | folders
+	$(COMPILER) $(INC_PATHS) $(addprefix $(ENEMIES_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
+
+$(BIN_PATH)/%.o: $(SELECTORS_PATH)/%.cpp | folders
+	$(COMPILER) $(INC_PATHS) $(addprefix $(SELECTORS_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
+
+$(BIN_PATH)/%.o: $(STATES_PATH)/%.cpp | folders
+	$(COMPILER) $(INC_PATHS) $(addprefix $(STATES_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
 clean:
 	$(RMDIR) $(DEP_PATH)
 	$(RMDIR) $(BIN_PATH)

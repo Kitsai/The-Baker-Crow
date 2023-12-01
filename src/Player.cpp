@@ -2,18 +2,17 @@
 
 #include "Game.h"
 
-Player* Player::player = nullptr;
+std::weak_ptr<GameObject> Player::player;
 
 Player::Player(GameObject& associated): Component(associated) {
     hp = 100;
     state = STANDING;
     speed = {0,0};
 
-    player = this;
+    player = std::shared_ptr<GameObject>(&associated);
 
     Game& game = Game::GetInstance();
     associated.AddComponent(new Collider(associated));
-    associated.box.SetCenter(Vec2(game.GetWindowWidth(),game.GetWindowHeight()) * 0.5F);
 }
 
 Player::~Player() {
@@ -27,6 +26,10 @@ void Player::Render() {
 bool Player::Is(std::string type) {
     return type == "Player";
 }
+
+// Vec2 Player::GetPlayerPos() {
+//     return associated.box.GetCenter();
+// }
 
 bool Player::IsInTile(int index, Vec2 pos, int tileSize) {
     return IsInTile(index) && IsInTile(pos,tileSize);

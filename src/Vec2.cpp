@@ -15,6 +15,11 @@ void Vec2::operator = (const Vec2& v) {
     this->y = v.y;
 }
 
+void Vec2::operator=(float f) {
+    this->x = f;
+    this->y = f;
+}
+
 Vec2 Vec2::operator + (const Vec2& v) {
     return Vec2(this->x +v.x,this->y+ v.y);
 }
@@ -44,7 +49,7 @@ bool Vec2::operator==(const Vec2& v) {
 }
 
 bool Vec2::operator!=(const Vec2& v) {
-    return not operator==(v);
+    return !(operator==(v));
 }
 
 bool Vec2::operator==(float f) {
