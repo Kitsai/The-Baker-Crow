@@ -80,5 +80,8 @@ void Camera::Update(float dt) {
 
         pos.x = (pos.x<0)? 0:pos.x; 
         pos.y = (pos.y<0)? 0:pos.y;
+
+        pos.x = (pos.x>574)? 574:pos.x;
+        pos.y = (pos.y>1000)? 1000:pos.y; 
     }
 }
