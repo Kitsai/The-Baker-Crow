@@ -4,6 +4,8 @@
 #include "Game.h"
 #include "Resources.h"
 
+float Text::elapsedTime = 6.0F;
+
 Text::Text(GameObject& associated,std::string fontFile,int fontSize,TextStyle style,
       std::string text,SDL_Color colorA, SDL_Color colorB, bool blinking): Component(associated), blinking(blinking) {
     this->text = text;
@@ -12,7 +14,7 @@ Text::Text(GameObject& associated,std::string fontFile,int fontSize,TextStyle st
     this->fontSize = fontSize;
     this->colorA = colorA;
     this->colorB = colorB;
-
+    
     RemakeTexture();
 }
 
@@ -25,24 +27,23 @@ Text::~Text() {
 
 void Text::Update(float dt) { 
     if(blinking){
-        
-        if(elapsedTime <= 0){
+        if(Text::elapsedTime <= 0){
             if(texture){
                 SDL_DestroyTexture(texture);
                 texture = nullptr;
-                elapsedTime = 1.0F;
+                Text::elapsedTime = 1.0F;
             }else{
                 RemakeTexture();
-                elapsedTime = 6.0F;
+                Text::elapsedTime = 6.0F;
             }
         }else{
-            elapsedTime = elapsedTime - 0.1;
+            Text::elapsedTime = Text::elapsedTime - 0.1;
         }
     }
 }
 
 void Text::Render(){
-    if (elapsedTime > 0) {
+    if (this->texture) {
         SDL_Rect clipRect = {0, 0,(int) associated.box.w,(int) associated.box.h};
         SDL_Rect destRect = {
             (int)(associated.box.x),

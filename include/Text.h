@@ -81,7 +81,7 @@ class Text: public Component {
         SDL_Color colorA;
         /// @brief color of the background.
         SDL_Color colorB;
-        float elapsedTime = 1.0F;
+        static float elapsedTime;
 };
 
 #endif
