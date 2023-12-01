@@ -26,7 +26,7 @@ constexpr float TOW_DASH_DAMP = .001F;
 
 // PANCAKE
 
-constexpr float PANCAKE_SPEED_LIM = 300;
+constexpr float PANCAKE_SPEED_LIM = 200;
 constexpr float PANCAKE_A = 1500;
 
 

@@ -32,7 +32,8 @@ void Sprite::SetFrame(int frame) {
 void Sprite::SetFrameCount(int frame) {
     frameCount = frame;
     currentFrame = 0;
-    associated.box.w = ((double)width)/frameCount; 
+    associated.box.w = ((double)width)/frameCount;
+    SetClip(0,0,width/frameCount,height); 
 }
 
 void Sprite::SetFrameTime(float frameTime) {

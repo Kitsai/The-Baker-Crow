@@ -50,6 +50,7 @@ void Pancake::Move (float dt) {
 
 void Pancake::CalcSpeed(float dt) {
     speed += PANCAKE_A*dt;
+    if(speed > PANCAKE_SPEED_LIM) speed = PANCAKE_SPEED_LIM;
 }
 
 void Pancake::SetState(EnemyState state) {
@@ -58,7 +59,7 @@ void Pancake::SetState(EnemyState state) {
 
     switch (state) {
         case MOVING:
-            moveTarget = associated.box.GetCenter() + Vec2(rand()%301,rand()%301);
+            moveTarget = associated.box.GetCenter() + Vec2(rand()%601 - 300,rand()%601 - 300);
             moveAngle = moveTarget.inclVec2(associated.box.GetCenter());
             ChangeSprite("resources/img/pancake_anim.png",8,.15F);
             break;

@@ -90,8 +90,8 @@ void TukiOW::Move(float dt) {
         speed = speed*DAMP_MOVING;
     }
     associated.box += speed*dt;
-    Vec2 pos = associated.box.GetCenter();
-    std::cout << "x: " << pos.x << " y: "<< pos.y << std::endl;
+    // Vec2 pos = associated.box.GetCenter();
+    // std::cout << "x: " << pos.x << " y: "<< pos.y << std::endl;
     CalcSpeed(dt);
 }
  
