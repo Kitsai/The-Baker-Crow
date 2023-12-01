@@ -70,16 +70,6 @@ all: $(EXEC)
 $(EXEC): $(OBJ_FILES)
 	$(COMPILER) -o $@ $^ $(LINK_PATH) $(LIBS) $(FLAGS)
 
-
-
-
-
-$(BIN_PATH)/%.o: $(DEP_PATH)/%.d | folders
-	$(COMPILER) $(INC_PATHS) $(addprefix $(SRC_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
-
-$(DEP_PATH)/%.d: $(SRC_PATH)/%.cpp | folders
-	$(COMPILER) $(INC_PATHS) $< $(DEP_FLAGS) $(FLAGS)
-
 $(BIN_PATH)/%.o: $(ENEMIES_PATH)/%.cpp | folders
 	$(COMPILER) $(INC_PATHS) $(addprefix $(ENEMIES_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
 
@@ -88,6 +78,12 @@ $(BIN_PATH)/%.o: $(SELECTORS_PATH)/%.cpp | folders
 
 $(BIN_PATH)/%.o: $(STATES_PATH)/%.cpp | folders
 	$(COMPILER) $(INC_PATHS) $(addprefix $(STATES_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
+
+$(BIN_PATH)/%.o: $(DEP_PATH)/%.d | folders
+	$(COMPILER) $(INC_PATHS) $(addprefix $(SRC_PATH)/,$(notdir $(<:.d=.cpp))) -c $(FLAGS) -o $@
+
+$(DEP_PATH)/%.d: $(SRC_PATH)/%.cpp | folders
+	$(COMPILER) $(INC_PATHS) $< $(DEP_FLAGS) $(FLAGS)
 clean:
 	$(RMDIR) $(DEP_PATH)
 	$(RMDIR) $(BIN_PATH)

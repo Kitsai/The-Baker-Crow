@@ -11,16 +11,16 @@ OverworldState::OverworldState(): State() {
     GameObject* map = new GameObject();
     map->AddComponent(new Sprite(*map, "resources/img/mapa_1_4x.jpg"));
     AddObject(map);
-
+    
     GameObject* tuki = new GameObject();
     tuki->AddComponent(new TukiOW(*tuki));
     AddObject(tuki);
     tuki->box.SetCenter(Vec2(817,2316));
-
+    /*
     GameObject* pancake = new GameObject();
     pancake->AddComponent(new Pancake(*pancake,100));
     AddObject(pancake);
-    pancake->box.SetCenter(Vec2(3463,1492));
+    pancake->box.SetCenter(Vec2(3463,1492));*/
 
     Camera::Follow(tuki);
 
