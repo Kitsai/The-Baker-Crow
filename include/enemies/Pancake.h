@@ -21,6 +21,8 @@ class Pancake: public Enemy {
         void DeathAnimation();
 
         void DropItems();
+
+        void NotifyCollision(GameObject& other);
 };
 
 #endif

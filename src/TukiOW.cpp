@@ -25,7 +25,9 @@ void TukiOW::Update(float dt) {
         GameObject* attk = new GameObject();
         attk->AddComponent(new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1.0F,0));
         attk->angleDeg = speed.incl();
-        attk->box.SetCenter(Vec2(32,0).GetRotated(attk->angleDeg) + associated.box.GetCenter());
+        attk->box = associated.box;
+        attk->box.w += 50;
+        attk->box.h += 50;
         state = ATTACKING;
         attack = currState.AddObject(attk);
     }
