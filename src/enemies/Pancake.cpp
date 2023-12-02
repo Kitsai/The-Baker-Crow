@@ -3,7 +3,7 @@
 #include "Game.h"
 
 Pancake::Pancake(GameObject& assoc, int hp): Enemy(assoc,hp) {
-    assoc.AddComponent(new Sprite(assoc, "resources/img/pancake_idle.png"));
+    assoc.AddComponent(new Sprite(assoc, "resources/img/enemies/pancake_idle.png"));
 }
 
 Pancake::~Pancake() {
@@ -62,7 +62,7 @@ void Pancake::SetState(EnemyState state) {
         case MOVING:
             moveTarget = associated.box.GetCenter() + Vec2(rand()%601 - 300,rand()%601 - 300);
             moveAngle = moveTarget.inclVec2(associated.box.GetCenter());
-            ChangeSprite("resources/img/pancake_anim.png",8,.15F);
+            ChangeSprite("resources/img/enemies/pancake_anim.png",8,.15F);
             break;
         case ATTACKING:
             Attk();
@@ -70,7 +70,7 @@ void Pancake::SetState(EnemyState state) {
         case IDLE:
             idleTime = rand()%5001*0.001F + 2;
             speed = 0;
-            ChangeSprite("resources/img/pancake_idle.png");
+            ChangeSprite("resources/img/enemies/pancake_idle.png");
             break;
         default:
             break;
@@ -79,7 +79,7 @@ void Pancake::SetState(EnemyState state) {
 
 void Pancake::DeathAnimation() {
     GameObject* go = new GameObject();
-    go->AddComponent(new Sprite(*go, "resources/img/pancake_anim_morRENDO.png",8,.15F,1.2F));
+    go->AddComponent(new Sprite(*go, "resources/img/enemies/pancake_anim_morRENDO.png",8,.15F,1.2F));
     go->box = associated.box;
     Game::GetInstance().GetCurrentState().AddObject(go);
 }

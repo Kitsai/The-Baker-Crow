@@ -60,7 +60,19 @@ void Enemy::ChangeSprite(std::string file, int frameCount, float frameTime) {
         sprite->SetFrameCount(frameCount);
         sprite->SetFrameTime(frameTime);
     }
+
+    Vec2 center = associated.box.GetCenter();
+    if(moveTarget.x > center.x) sprite->SetFlip(SDL_FLIP_HORIZONTAL);
+    else if(moveTarget.x < center.x) sprite->SetFlip(SDL_FLIP_NONE);
+    
 }
+
+// void Enemy::FlipSprite(SDL_RendererFlip flip) {
+//     std::shared_ptr<Sprite> sprite = std::static_pointer_cast<Sprite>(associated.GetComponent("Sprite").lock());
+//     if (sprite != nullptr) {
+//         sprite->SetFlip(flip);
+//     }
+// }
 
 bool Enemy::Is(std::string type) {
     if(type == "Enemy") 

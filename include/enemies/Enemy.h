@@ -52,6 +52,7 @@ class Enemy: public Component {
         
         void virtual SetState(EnemyState state) = 0;
         void virtual ChangeSprite(std::string file, int frameCount = 1, float frameTime = 1);
+        // void virtual FlipSprite(SDL_RendererFlip flip);
 
         void virtual DeathAnimation() = 0;
 

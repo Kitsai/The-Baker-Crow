@@ -14,6 +14,7 @@ Sprite::Sprite(GameObject& assoc, int frameCount, float frameTime,float secondsT
     timeElapsed = 0;
     this->frameTime = frameTime;
     this->secondsToSelfDestruct = secondsToSelfDestruct;
+    flip = SDL_FLIP_NONE;
 }
 
 Sprite::Sprite(GameObject& assoc, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct): Sprite(assoc,frameCount,frameTime,secondsToSelfDestruct) {
@@ -80,7 +81,7 @@ void Sprite::Render(int x, int y, int w, int h) {
     dstrect.h = h;
 
     if(IsOpen()) {
-        if(SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clipRect,&dstrect,associated.angleDeg*(180/M_PI),nullptr,SDL_FLIP_NONE) != 0) {
+        if(SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clipRect,&dstrect,associated.angleDeg*(180/M_PI),nullptr,flip) != 0) {
             std::cout << "Error Sprite:54 - " << SDL_GetError() << std::endl;
             exit(-1);
         }
@@ -99,9 +100,14 @@ int Sprite::GetHeight() {
     return height*scale.y;
 }
 
+void Sprite::SetFlip(SDL_RendererFlip flip) {
+    this->flip = flip;
+}
+
 void Sprite::SetScale(Vec2 scale) {
     SetScale(scale.x,scale.y);
 }
+
 
 void Sprite::SetScale(float scaleX, float scaleY){
     if (scaleX > 0){
