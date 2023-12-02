@@ -13,7 +13,7 @@ constexpr float DAMP_STATIC = .5F;
 constexpr float DAMP_MOVING = .8F;
 
 // TUKI OVERWORLD
-constexpr float TOW_SPEED_LIM = 300;
+constexpr float TOW_SPEED_LIM = 500;
 constexpr float TOW_A = 1500;
 
 

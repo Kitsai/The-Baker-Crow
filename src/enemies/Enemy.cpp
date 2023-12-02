@@ -7,7 +7,7 @@ hp(hp),
 state(IDLE),
 idleTime((rand()%7001)*0.001F)
 {
-    associated.box.SetCenter(moveTarget);
+
     associated.AddComponent(new Collider(associated));
     moveTarget = associated.box.GetCenter();
     //precisa verificar onde pode spawnar
@@ -36,11 +36,11 @@ void Enemy::Defeated() {
 }
 
 void Enemy::Attk() {
-    if (Player::player.expired()) return;
+    if (Player::player) return;
 
     State& currState = Game::GetInstance().GetCurrentState();
 
-    Vec2 playerPos = Player::player.lock()->box.GetCenter();
+    Vec2 playerPos = Player::player->GetPlayerPos();
 
     float playerDist = playerPos.distVec2(associated.box.GetCenter());
 

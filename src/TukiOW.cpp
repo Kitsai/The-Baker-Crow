@@ -1,9 +1,9 @@
 #include "TukiOW.h"
-#include <iostream>
+#include "Sprite.h"
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
-    Sprite* sprite = new Sprite(associated, "resources/img/try.png");
-    sprite->SetScale(1.2,1.2);
+    Sprite*  sprite = new Sprite(associated, "resources/img/try.png");
+    sprite->SetScale(2,2);
     associated.AddComponent(sprite);
 }
 
@@ -46,7 +46,7 @@ void TukiOW::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        std::shared_ptr<Collider> hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
+        Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
         hitbox->active = false;
         hitbox->SetColor(COLOR_BLUE);
     }
@@ -61,7 +61,7 @@ void TukiOW::Update(float dt) {
             state = WALKING;
             //playerTimer.Restart();
 
-            std::shared_ptr<Collider> hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
+            Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
             hitbox->active = true;
             hitbox->SetColor(COLOR_RED);
         }
@@ -90,8 +90,6 @@ void TukiOW::Move(float dt) {
         speed = speed*DAMP_MOVING;
     }
     associated.box += speed*dt;
-    // Vec2 pos = associated.box.GetCenter();
-    // std::cout << "x: " << pos.x << " y: "<< pos.y << std::endl;
     CalcSpeed(dt);
 }
  

@@ -14,11 +14,13 @@ class Player: public Component {
 
         enum PlayerState {STANDING, WALKING, ATTACKING, DODGING};
 
-        static std::weak_ptr<GameObject> player;
+        static Player* player;
 
         bool IsInTile(int index,Vec2 pos, int tileSize = 64);
         bool IsInTile(Vec2 pos,int tileSize = 64);
         bool IsInTile(int index);
+
+        Vec2 GetPlayerPos();
 
     protected:
         PlayerState state;
