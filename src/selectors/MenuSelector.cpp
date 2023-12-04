@@ -48,13 +48,6 @@ void MenuSelector::Update(float dt) {
     }
 }
 
-void MenuSelector::Render() {
-}
-
-bool MenuSelector::Is(std::string type) {
-    return type == "MenuSelector";
-}
-
 int MenuSelector::GetSelected(){
     return selected;
 }

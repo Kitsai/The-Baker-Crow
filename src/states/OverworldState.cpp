@@ -20,7 +20,7 @@ OverworldState::OverworldState(): State() {
     Camera::Follow(tuki);
 
     GameData::playerAlive = true;
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
+    backGroundMusic =  std::make_unique<Music>("resources/music/MusicWorld.flac");
 }
 
 OverworldState::~OverworldState() {
@@ -41,7 +41,7 @@ void OverworldState::Update(float dt) {
     } 
     else if (iM.KeyPress(ESCAPE_KEY)){
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
 
     } 
     

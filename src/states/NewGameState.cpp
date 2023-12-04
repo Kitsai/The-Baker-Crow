@@ -8,11 +8,12 @@
 NewGameState::NewGameState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
+    Sprite* titleImage = new Sprite(*titleObj, "resources/img/blackBG.jpg");
     
     titleObj->AddComponent(new Sprite(*titleObj, "resources/img/blackBG.jpg"));
 
-    AddObject(titleObj);
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicMenu.flac");
+    objectArray.emplace_back(titleObj);
+    backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 
 NewGameState::~NewGameState(){
@@ -31,22 +32,25 @@ void NewGameState::Update(float dt){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
+    }
+
+    for (int i = 0; i < (int) objectArray.size(); i++) {
+        objectArray[i]->Update(dt);
     }
     selector->Update(dt);
-    UpdateArray(dt);
 }
 
 void NewGameState::LoadAssets(){
@@ -59,7 +63,9 @@ void NewGameState::Render() {
 
 void NewGameState::Start(){
     
+
     selector = std::make_unique<NewGameSelector>();
+
 
     StartArray();
     started = true;

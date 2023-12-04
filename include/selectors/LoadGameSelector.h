@@ -10,14 +10,11 @@ class LoadGameSelector {
 
 public:
     LoadGameSelector();
-    LoadGameSelector(std::string buttonPath);
     ~LoadGameSelector();
 
-    void Update(float dt);
-    void Render();
-    bool Is(std::string type);
     int GetSelected();
-    
+    void Update(float dt);
+
     private:
         int selected;
         

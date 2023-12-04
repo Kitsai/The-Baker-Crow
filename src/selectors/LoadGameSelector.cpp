@@ -48,13 +48,6 @@ void LoadGameSelector::Update(float dt) {
     }
 }
 
-void LoadGameSelector::Render() {
-}
-
-bool LoadGameSelector::Is(std::string type) {
-    return type == "LoadGameSelector";
-}
-
 int LoadGameSelector::GetSelected(){
     return selected;
 }

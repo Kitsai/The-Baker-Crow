@@ -62,7 +62,7 @@ void PuzzleState::Update(float dt){
 
         if(objectArray[i]->IsDead()){
             // deletes selector, creates puzzle piece
-            if(objectArray[i]->GetComponent("Selector") != nullptr){
+            if(objectArray[i]->GetComponent("Selector").lock()){
                 GameObject* pieces = new GameObject();
                 pieces->box.x = 415;
                 pieces->box.y = 170;

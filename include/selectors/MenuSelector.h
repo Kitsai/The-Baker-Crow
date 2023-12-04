@@ -5,18 +5,15 @@
 #include "UIButton.h"
 #include "Component.h"
 
-class MenuSelector {
+class MenuSelector{
 
 public:
     MenuSelector();
-    MenuSelector(std::string buttonPath);
     ~MenuSelector();
 
-    void Update(float dt);
-    void Render();
-    bool Is(std::string type);
-
     int GetSelected();
+    void Update(float dt);
+    
     private:
         int selected;
         

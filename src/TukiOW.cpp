@@ -22,13 +22,9 @@ void TukiOW::Update(float dt) {
         GameObject* attk = new GameObject();
         attk->AddComponent(new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1.0F,0));
         attk->angleDeg = speed.incl();
-        attk->box.SetCenter(Vec2(32,0).GetRotated(speed.incl()) + associated.box.GetCenter());
-        state = PlayerState::ATTACKING;
-        currState.AddObject(attk);
-    }
-
-    if(PlayerState::ATTACKING == state && attack.expired()) {
-        state = PlayerState::WALKING;
+        attk->box.SetCenter(Vec2(32,0).GetRotated(attk->angleDeg) + associated.box.GetCenter());
+        state = ATTACKING;
+        attack = currState.AddObject(attk);
     }
 
     if(iM.KeyPress(Z_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
@@ -47,30 +43,34 @@ void TukiOW::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        Collider* hitbox = (Collider*)associated.GetComponent("Collider");
+        Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
         hitbox->active = false;
         hitbox->SetColor(COLOR_BLUE);
     }
 
     // simulating the calculation of the speed integral by separating the calculation in two steps.
     Move(dt);
-
+    
     if(state == PlayerState::DODGING) {
         //playerTimer.Update(dt);
-
         if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM) {
             speed = speed.normalized()*TOW_SPEED_LIM;
             state = WALKING;
             //playerTimer.Restart();
 
-            Collider* hitbox = (Collider*)associated.GetComponent("Collider");
+            Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
             hitbox->active = true;
             hitbox->SetColor(COLOR_RED);
         }
     }
+    else if(PlayerState::ATTACKING == state) {
+        if(attack.expired()) {
+            state = WALKING;
+        }
+    }
     else {
         // Switches from Walking to Standing.
-        if(speed.magnitude() < 50) {
+        if(speed.magnitude() < 1) {
             state = STANDING;
             speed = {0,0};
         }
@@ -80,17 +80,13 @@ void TukiOW::Update(float dt) {
 
 void TukiOW::Move(float dt) {
     CalcSpeed(dt);
-    std::cout << speed.magnitude() << std::endl;
+    // std::cout << speed.magnitude() << std::endl;
     if(state == PlayerState::STANDING) {
         speed = speed*TOW_DAMP_STATIC;
-    } 
-    //if(state == PlayerState::DODGING) {
-    //    speed = speed * 
-    //} 
-    else {
+    } else {
         speed = speed*TOW_DAMP_MOVING;
     }
-    associated.box += speed*dt*GLOBAL_SPEED_SCALER;
+    associated.box += speed*dt;
     CalcSpeed(dt);
 }
  
@@ -113,7 +109,7 @@ void TukiOW::CalcSpeed(float dt) {
         speed.y += TOW_A*dt;
     }
     Vec2 norm = speed.normalized();
-    if(speed.magSquare() > TOW_SPEED_LIM*TOW_SPEED_LIM) 
+    if( state != PlayerState::DODGING && speed.magnitude() > TOW_SPEED_LIM) 
         speed = norm * TOW_SPEED_LIM;
 }
 
