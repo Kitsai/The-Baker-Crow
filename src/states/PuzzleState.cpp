@@ -35,7 +35,7 @@ void PuzzleState::Update(float dt){
 
     if ((InputManager::GetInstance().KeyPress(SPACE_KEY))){
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
 
     if(iM.QuitRequested()) quitRequested = true;
@@ -47,8 +47,8 @@ void PuzzleState::Update(float dt){
 
     for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
         // deletes selector if ESCAPE_KEY has been pressed, creates selector
-        if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece") != nullptr){
-            FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece"));
+        if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
+            FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
             if (foodPiece->IsLocked()) continue;
             
             objectArray[i]->RequestDelete();
@@ -80,8 +80,8 @@ void PuzzleState::Update(float dt){
             }
             
             // checks whether piece can be locked; if so, creates a selector
-            if(objectArray[i]->GetComponent("FoodPiece") != nullptr){
-                FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece"));
+            if(objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
+                FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
                 if (foodPiece->GetStatus()){ // only checks if piece is waiting to be evaluated
                     bool locked = puzzle->AddFoodPiece(*foodPiece, {objectArray[i]->box.x, objectArray[i]->box.y});
                     objectArray[i]->UnrequestDelete();

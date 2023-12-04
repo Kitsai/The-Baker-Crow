@@ -34,6 +34,7 @@ void BakeryState::Update(float dt) {
 
     if (input.KeyPress(ESCAPE_KEY) || input.QuitRequested()) {
         quitRequested = true;
+        backGroundMusic->Stop(50);
     }
 
     if (((TukiB*)Player::player)->GetFloor() != floor) {
