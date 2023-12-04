@@ -4,13 +4,14 @@
 #include "states/StartState.h"
 #include "defines/DefineInput.h"
 #include "states/OverworldState.h"
+#include <memory>
 
 StartState::StartState(): State(){
     
     GameObject* titleObj = new GameObject();
 
     Sprite *titleImage= new Sprite(*titleObj, "resources/img/StartImage.jpg");
-    titleObj->AddComponent((std::shared_ptr<Sprite>)  titleImage);
+    titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
     
@@ -18,11 +19,11 @@ StartState::StartState(): State(){
     std::string texto = "PRESS SPACEBAR OR ENTER TO PLAY";
     
     Text* startText = new Text(*textObj, "resources/font/Base.ttf", 64, TextStyle::BLENDED,texto, {255, 255, 255, 255},{0, 0, 0, 0},  true);
-    textObj->AddComponent((std::shared_ptr<Text>) startText);
+    textObj->AddComponent( startText);
     textObj->box.SetCenter(Vec2((float)(Game::GetInstance().GetWindowWidth())/2, (float)(Game::GetInstance().GetWindowHeight())*7/8));
     
     objectArray.emplace_back(textObj);
-    backGraundMusic = new Music("resources/music/MusicStart.flac");
+    backGroundMusic = std::make_unique<Music>("resources/music/MusicStart.flac");
 }
 
 StartState::~StartState(){
@@ -36,7 +37,7 @@ void StartState::Update(float dt){
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) || InputManager::GetInstance().KeyPress(SPACE_KEY)){
         MenuState* newState = new MenuState();
         Game::GetInstance().Push(newState);
-        backGraundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
@@ -59,7 +60,7 @@ void StartState::Start(){
     for (int i = 0; i < (int)objectArray.size(); i++){
         objectArray[i]->Start();
     }
-    backGraundMusic->Play(-1);
+    backGroundMusic->Play(-1);
     started = true;
 }
 
@@ -70,5 +71,5 @@ void StartState::Pause(){
 void StartState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }

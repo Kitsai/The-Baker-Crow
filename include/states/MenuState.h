@@ -29,7 +29,6 @@ class MenuState : public State {
         void Resume();
     
     private:
-    std::shared_ptr<Music> backGraundMusic;
-    std::shared_ptr<MenuSelector> selector;
+    std::unique_ptr<MenuSelector> selector;
 };
 #endif

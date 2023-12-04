@@ -5,7 +5,7 @@
 
 Selector::Selector(GameObject& assoc) : Component(assoc) {
     selected = 0;
-    associated.AddComponent((std::shared_ptr<Sprite>)new Sprite(associated, "resources/img/circleselection_puzzle.png"));
+    associated.AddComponent(new Sprite(associated, "resources/img/circleselection_puzzle.png"));
 }
 
 Selector::~Selector() {}

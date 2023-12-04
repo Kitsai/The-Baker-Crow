@@ -5,18 +5,16 @@
 #include "Button.h"
 #include "Component.h"
 
-class NewGameSelector : public Component {
+class NewGameSelector{
 
 public:
-    NewGameSelector(GameObject& assoc);
-    NewGameSelector(GameObject& assoc, std::string buttonPath);
+    NewGameSelector();
+
     ~NewGameSelector();
 
-    void Update(float dt);
-    void Render();
-    bool Is(std::string type);
-
     int GetSelected();
+    void Update(float dt);
+
     private:
         int selected;
         std::shared_ptr<Button> selectedButton;

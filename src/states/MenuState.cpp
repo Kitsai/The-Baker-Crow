@@ -9,11 +9,12 @@ MenuState::MenuState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
 
-    std::shared_ptr<Sprite> titleImage = std::make_shared<Sprite>(*titleObj, "resources/img/MainMenu.jpg");
+    Sprite* titleImage = new Sprite(*titleObj, "resources/img/MainMenu.jpg");
     titleObj->AddComponent(titleImage);
 
+
     objectArray.emplace_back(titleObj);
-    backGraundMusic = std::make_shared<Music>("resources/music/MusicMenu.flac");
+    backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 
 MenuState::~MenuState(){
@@ -32,17 +33,18 @@ void MenuState::Update(float dt){
         NewGameState* newState = new NewGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGraundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         LoadGameState* newState = new LoadGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGraundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
-    }   
+    }
+    selector->Update(dt);
 }
 
 void MenuState::LoadAssets(){
@@ -58,17 +60,13 @@ void MenuState::Render() {
 
 void MenuState::Start(){
     
-    GameObject* selectorObj = new GameObject();
-    selector = std::make_shared<MenuSelector>(*selectorObj);
-    selectorObj->AddComponent(selector);
-    
-    objectArray.emplace_back(selectorObj);
+    selector = std::make_unique<MenuSelector>();
 
     for (int i = 0; i < (int)objectArray.size(); i++){
         objectArray[i]->Start();
     }
     started = true;
-    backGraundMusic->Play();
+    backGroundMusic->Play();
 }
 
 void MenuState::Pause(){}
@@ -76,5 +74,6 @@ void MenuState::Pause(){}
 void MenuState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGraundMusic->Play();
+
+    backGroundMusic->Play();
 }
