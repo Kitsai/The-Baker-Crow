@@ -10,7 +10,7 @@ NewGameState::NewGameState(): State(), selector(nullptr){
     GameObject* titleObj = new GameObject();
     Sprite* titleImage = new Sprite(*titleObj, "resources/img/blackBG.jpg");
     
-    titleObj->AddComponent(new Sprite(*titleObj, "resources/img/blackBG.jpg"));
+    titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
     backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
@@ -28,7 +28,7 @@ void NewGameState::Update(float dt){
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 0)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
@@ -77,6 +77,6 @@ void NewGameState::Pause(){}
 void NewGameState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
+
     backGroundMusic->Play();
 }
-
