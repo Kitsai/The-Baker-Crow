@@ -8,6 +8,8 @@ class PuzzleState: public State {
     private:
         FoodPuzzle* puzzle;
         void LoadMap();
+        void CreateSelector();
+        void CreatePiece();
     public:
         PuzzleState(int puzzleNumber);
         ~PuzzleState();

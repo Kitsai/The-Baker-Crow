@@ -1,20 +1,25 @@
-#ifndef BakeryState_h_
-#define BakeryState_h_
+#ifndef BakeryState_H
+#define BakeryState_H
 
 #include "State.h"
 
-class BakeryState: public State {
+class BakeryState : public State {
+        
     public:
         BakeryState();
         ~BakeryState();
-
-        void LoadAssets();
-        void Update(float dt);
+    
         void Render();
-
-        void Start();
+        void Update(float dt);
+        void LoadAssets();
+            
         void Pause();
+        void Start();
         void Resume();
+        
+    private:
+        int floor;
+
 };
 
 #endif

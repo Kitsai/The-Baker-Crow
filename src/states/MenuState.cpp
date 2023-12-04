@@ -4,6 +4,7 @@
 #include "states/NewGameState.h"
 #include "states/LoadGameState.h"
 #include "selectors/MenuSelector.h"
+#include <memory>
 
 MenuState::MenuState(): State(), selector(nullptr){
 
@@ -29,7 +30,7 @@ void MenuState::Update(float dt){
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 0)){
         NewGameState* newState = new NewGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
@@ -52,19 +53,14 @@ void MenuState::LoadAssets(){
 }
 
 void MenuState::Render() {
-    
-    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
-        objectArray[i]->Render();
-    }
+    RenderArray();
 }
 
 void MenuState::Start(){
     
     selector = std::make_unique<MenuSelector>();
 
-    for (int i = 0; i < (int)objectArray.size(); i++){
-        objectArray[i]->Start();
-    }
+    StartArray();
     started = true;
     backGroundMusic->Play();
 }

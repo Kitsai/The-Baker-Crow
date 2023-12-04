@@ -3,6 +3,7 @@
 #include "defines/DefineInput.h"
 #include "states/LoadGameState.h"
 #include "selectors/LoadGameSelector.h"
+#include <memory>
 
 LoadGameState::LoadGameState(): State(), selector(nullptr){
 
@@ -56,11 +57,8 @@ void LoadGameState::LoadAssets(){
     
 }
 
-void LoadGameState::Render() {
-    
-    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
-        objectArray[i]->Render();
-    }
+void LoadGameState::Render() { 
+    RenderArray();
 }
 
 void LoadGameState::Start(){
