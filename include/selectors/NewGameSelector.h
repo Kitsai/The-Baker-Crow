@@ -2,10 +2,8 @@
 #define NewGameSelector_H
 
 #include <vector>
-#include "UIButton.h"
+#include "Button.h"
 #include "Component.h"
-#include "GameObject.h"
-
 
 class NewGameSelector{
 
@@ -19,8 +17,9 @@ public:
 
     private:
         int selected;
+        std::shared_ptr<Button> selectedButton;
         
         int nButtons;
-        std::vector<std::unique_ptr<UIButton>> buttons;
+        std::vector<std::shared_ptr<Button>> buttons;
 };
 #endif

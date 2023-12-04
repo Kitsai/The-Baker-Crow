@@ -2,7 +2,7 @@
 #define MenuSelector_H
 
 #include <vector>
-#include "UIButton.h"
+#include "Button.h"
 #include "Component.h"
 
 class MenuSelector{
@@ -16,9 +16,10 @@ public:
     
     private:
         int selected;
+        std::shared_ptr<Button> selectedButton;
         
         int nButtons;
-        std::vector<std::unique_ptr<UIButton>> buttons;
+        std::vector<std::shared_ptr<Button>> buttons;
 };
 
 #endif

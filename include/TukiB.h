@@ -5,7 +5,6 @@
 
 #include "GameData.h"
 #include "InputManager.h"
-#include "Attack.h"
 
 #include "Game.h"
 

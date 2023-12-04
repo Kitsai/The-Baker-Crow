@@ -1,9 +1,8 @@
 #ifndef LoadGameSelector_H
 #define LoadGameSelector_H
 
-#include <memory>
 #include <vector>
-#include "UIButton.h"
+#include "Button.h"
 #include "Component.h"
 
 class LoadGameSelector {
@@ -17,8 +16,9 @@ public:
 
     private:
         int selected;
+        std::shared_ptr<Button> selectedButton;
         
         int nButtons;
-        std::vector<std::unique_ptr<UIButton>> buttons;
+        std::vector<std::shared_ptr<Button>> buttons;
 };
 #endif
