@@ -33,7 +33,7 @@ void Sprite::SetFrame(int frame) {
 void Sprite::SetFrameCount(int frame) {
     frameCount = frame;
     currentFrame = 0;
-    associated.box.w = ((double)width)/frameCount;
+    associated.box.w = ((double)width)/frameCount * scale.x;
     SetClip(0,0,width/frameCount,height); 
 }
 
@@ -54,8 +54,8 @@ void Sprite::Open(std::string file) {
         exit(-1);
     }
     SetClip(0,0,width/frameCount,height);
-    associated.box.w = ((double)width)/frameCount;
-    associated.box.h = height;
+    associated.box.w = (((double)width)/frameCount) * scale.x;
+    associated.box.h = height * scale.y;
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
@@ -112,11 +112,11 @@ void Sprite::SetScale(Vec2 scale) {
 void Sprite::SetScale(float scaleX, float scaleY){
     if (scaleX > 0){
         this->scale.x = scaleX;
-        associated.box.w = associated.box.w * scale.x;
+        associated.box.w = width/frameCount * scale.x;
     }
     if (scaleY > 0){
         this->scale.y = scaleY;
-        associated.box.h = associated.box.h * scale.y;
+        associated.box.h = height * scale.y;
     }
 }
 

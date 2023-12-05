@@ -33,7 +33,7 @@ OverworldState::~OverworldState() {
 }
 
 void OverworldState::LoadAssets() {
-
+    
 }
 
 void OverworldState::Update(float dt) {

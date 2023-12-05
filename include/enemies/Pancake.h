@@ -3,6 +3,8 @@
 
 #include "Enemy.h"
 
+#include "TukiOW.h"
+
 class Pancake: public Enemy {
     public:
         Pancake(GameObject& associated,int hp = 100);

@@ -18,11 +18,9 @@ constexpr float TOW_A = 1500;
 
 
 constexpr float TOW_DASH_M = 10;
-constexpr float TOW_DASH_SPEED = 1250;
+constexpr float TOW_DASH_SPEED = 2500;
 constexpr float TOW_DASH_TIME = 0.5F;
 constexpr float TOW_DASH_DAMP = .001F;
-
-
 
 // PANCAKE
 

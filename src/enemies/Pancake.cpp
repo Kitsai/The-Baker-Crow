@@ -3,7 +3,9 @@
 #include "Game.h"
 
 Pancake::Pancake(GameObject& assoc, int hp): Enemy(assoc,hp) {
-    assoc.AddComponent(new Sprite(assoc, "resources/img/enemies/pancake_idle.png"));
+    Sprite* sprite = new Sprite(assoc, "resources/img/enemies/pancake_idle.png");
+    sprite->SetScale(2,2);
+    assoc.AddComponent(sprite);
 }
 
 Pancake::~Pancake() {
@@ -79,7 +81,9 @@ void Pancake::SetState(EnemyState state) {
 
 void Pancake::DeathAnimation() {
     GameObject* go = new GameObject();
-    go->AddComponent(new Sprite(*go, "resources/img/enemies/pancake_anim_morRENDO.png",8,.15F,1.2F));
+    Sprite* sprite = new Sprite(*go, "resources/img/enemies/pancake_anim_morRENDO.png",8,.15F,1.2F);
+    sprite->SetScale(2,2);
+    go->AddComponent(sprite);
     go->box = associated.box;
     Game::GetInstance().GetCurrentState().AddObject(go);
 }
@@ -89,9 +93,8 @@ void Pancake::DropItems() {
 }
 
 void Pancake::NotifyCollision(GameObject& other) {
-    if(other.GetComponent("Attack").lock()) {
-        auto attk = std::static_pointer_cast<Attack>(other.GetComponent("Attack").lock());
-        hp -= attk->GetDamage();
-        other.RequestDelete();
+    if(other.GetComponent("TukiOW").lock()) {
+        auto tuki = Player::player->GetPlayerState();;
+        if(tuki == Player::PlayerState::ATTACKING) hp -= 50;
     }
 }

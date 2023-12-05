@@ -21,8 +21,11 @@ class TukiOW: public Player {
     private:
         void Move(float dt);
         void CalcSpeed(float dt);
-        std::weak_ptr<GameObject> attack;
 
+        float attackCooldown;
+        // std::weak_ptr<GameObject> attack;
+
+        void SetPlayerState(PlayerState state);
 };
 
 #endif
