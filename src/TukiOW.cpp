@@ -5,6 +5,8 @@ TukiOW::TukiOW(GameObject& associated): Player(associated) {
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
     sprite->SetScale(2,2);
     associated.AddComponent(sprite);
+
+    faceDirection = DOWN;
 }
 
 TukiOW::~TukiOW() {
@@ -74,7 +76,7 @@ void TukiOW::Update(float dt) {
                 SetPlayerState(STANDING);
             speed = {0,0};
         }
-        else SetPlayerState(WALKING);
+        else if(GetPlayerState() == STANDING) SetPlayerState(WALKING);
     }
 
     // if(attackCooldown > 0) attackCooldown -= dt;
@@ -107,9 +109,17 @@ void TukiOW::CalcSpeed(float dt) {
     }
     if(iM.IsKeyDown(UP_ARROW_KEY)) {
         speed.y -= TOW_A*dt;
+        if(GetPlayerState() == WALKING && faceDirection == DOWN) {
+            ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
+            faceDirection = UP;
+        }
     }
     if(iM.IsKeyDown(DOWN_ARROW_KEY)) {
         speed.y += TOW_A*dt;
+        if(GetPlayerState() == WALKING && faceDirection == UP) {
+            ChangeSprite("resources/img/Tuki_anim2.png",8,.2F);
+            faceDirection = DOWN;
+        }
     }
     Vec2 norm = speed.normalized();
     if( GetPlayerState() != DODGING && speed.magnitude() > TOW_SPEED_LIM) 
@@ -126,10 +136,16 @@ void TukiOW::SetPlayerState(PlayerState state) {
     switch (state)
     {
     case STANDING:
-        ChangeSprite("resources/img/Tuki_idle_front.png",1,1);
+        if(faceDirection == DOWN)
+            ChangeSprite("resources/img/Tuki_idle_front.png",1,1);
+        else if(faceDirection == UP)
+            ChangeSprite("resources/img/Tuki_idle_costas.png",1,1);
         break;
     case WALKING:
-        ChangeSprite("resources/img/Tuki_anim2.png",8,.2F);
+        if(faceDirection == DOWN)
+            ChangeSprite("resources/img/Tuki_anim2.png",8,.2F);
+        else if(faceDirection == UP)
+            ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
         break;
     case ATTACKING:
         ChangeSprite("resources/img/tuki_anim_attac.png",4,.1F);

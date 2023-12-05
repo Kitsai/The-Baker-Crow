@@ -23,7 +23,9 @@ class TukiOW: public Player {
         void CalcSpeed(float dt);
 
         float attackCooldown;
-        // std::weak_ptr<GameObject> attack;
+
+        enum faceDirectionEnum {UP, DOWN, LEFT, RIGHT};
+        faceDirectionEnum faceDirection;
 
         void SetPlayerState(PlayerState state);
 };

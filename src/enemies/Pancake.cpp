@@ -94,7 +94,9 @@ void Pancake::DropItems() {
 
 void Pancake::NotifyCollision(GameObject& other) {
     if(other.GetComponent("TukiOW").lock()) {
-        auto tuki = Player::player->GetPlayerState();;
-        if(tuki == Player::PlayerState::ATTACKING) hp -= 50;
+        auto tuki = Player::player;
+        if(tuki->GetPlayerState() == Player::PlayerState::ATTACKING) {
+            hp -= 50;
+        }
     }
 }
