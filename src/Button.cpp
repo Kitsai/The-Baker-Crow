@@ -5,16 +5,16 @@
 #include "Vec2.h"
 #include <memory>
 
-Button::Button(Vec2 vetor, std::string buttonPath, std::string name) : blinkingText(false), name(name){
+Button::Button(Vec2 vetor, std::string buttonPath, std::string name, int size) : blinkingText(false), name(name), size(size){
     
     this->imageObj = new GameObject();
-    this->buttonImage = new Sprite(*imageObj, "resources/img/MenuButton.png");
+    this->buttonImage = new Sprite(*imageObj, buttonPath);
     this->imageObj->AddComponent(buttonImage);
     this->imageObj->box.x = vetor.x;
     this->imageObj->box.y = vetor.y;
 
     this->textObj = new GameObject();
-    this->text = new Text(*textObj, std::string("resources/font/Base.ttf"), 32, TextStyle::BLENDED, std::string(name), SDL_Color{255, 255, 255, 255}, SDL_Color{0, 0, 0, 0}, blinkingText);
+    this->text = new Text(*textObj, std::string("resources/font/Base.ttf"), size, TextStyle::BLENDED, std::string(name), SDL_Color{255, 255, 255, 255}, SDL_Color{0, 0, 0, 0}, blinkingText);
 
     this->textObj->AddComponent(this->text);
     this->textObj->box.x = vetor.x + (imageObj->box.w)/4;

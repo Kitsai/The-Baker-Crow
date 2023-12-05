@@ -1,4 +1,7 @@
 #include "states/OverworldState.h"
+#include "states/ResumeState.h"
+#include "states/ResumeState.h"
+#include "defines/DefineInput.h"
 
 OverworldState::OverworldState(): State() {
 
@@ -43,12 +46,14 @@ void OverworldState::Update(float dt) {
         popRequested = true;
         backGroundMusic->Stop(50);
 
+    }
+    else if(iM.KeyPress(P_KEY)){
+        ResumeState* newState = new ResumeState();
+        Game::GetInstance().Push(newState);
     } 
     
     UpdateArray(dt);
-
     CheckCollisions();
-
     DeleteObjects();
 }
 
@@ -68,7 +73,4 @@ void OverworldState::Pause() {
 }
 
 void OverworldState::Resume() {
-    Camera::pos.x = 0;
-    Camera::pos.y = 0;
-    backGroundMusic->Play();
 }

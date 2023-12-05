@@ -7,9 +7,9 @@
 
 LoadGameSelector::LoadGameSelector() : selected(0), nButtons(2){
     
-    Button* buttonGame1 = new Button(Vec2(0, 300),"resources/img/MenuButton.png", "LOAD GAME 1");
-    Button* buttonGame2 = new Button(Vec2(400, 300),"resources/img/MenuButton.png", "LOAD GAME 2");
-    Button* buttonGame3 = new Button(Vec2(800, 300),"resources/img/MenuButton.png", "LOAD GAME 3");
+    Button* buttonGame1 = new Button(Vec2(0, 300),"resources/img/MenuButton.png", "LOAD GAME 1", 36);
+    Button* buttonGame2 = new Button(Vec2(400, 300),"resources/img/MenuButton.png", "LOAD GAME 2", 36);
+    Button* buttonGame3 = new Button(Vec2(800, 300),"resources/img/MenuButton.png", "LOAD GAME 3", 36);
 
     buttons.push_back((std::shared_ptr<Button>) buttonGame1);
     buttons.push_back((std::shared_ptr<Button>) buttonGame2);
