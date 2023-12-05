@@ -1,4 +1,5 @@
 #include "GameObject.h"
+#include "Component.h"
 #include <vector>
 #include <algorithm>
 #include <iostream>

@@ -4,6 +4,7 @@
 #include "states/NewGameState.h"
 #include "states/LoadGameState.h"
 #include "selectors/MenuSelector.h"
+#include <memory>
 
 MenuState::MenuState(): State(), selector(nullptr){
 
@@ -11,6 +12,7 @@ MenuState::MenuState(): State(), selector(nullptr){
 
     Sprite* titleImage = new Sprite(*titleObj, "resources/img/MainMenu.jpg");
     titleObj->AddComponent(titleImage);
+
 
     objectArray.emplace_back(titleObj);
     backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
@@ -28,17 +30,17 @@ void MenuState::Update(float dt){
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 0)){
         NewGameState* newState = new NewGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         LoadGameState* newState = new LoadGameState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
@@ -51,19 +53,14 @@ void MenuState::LoadAssets(){
 }
 
 void MenuState::Render() {
-    
-    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
-        objectArray[i]->Render();
-    }
+    RenderArray();
 }
 
 void MenuState::Start(){
     
     selector = std::make_unique<MenuSelector>();
 
-    for (int i = 0; i < (int)objectArray.size(); i++){
-        objectArray[i]->Start();
-    }
+    StartArray();
     started = true;
     backGroundMusic->Play();
 }
@@ -73,5 +70,6 @@ void MenuState::Pause(){}
 void MenuState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
+
     backGroundMusic->Play();
 }

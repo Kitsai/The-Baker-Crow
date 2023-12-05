@@ -13,6 +13,7 @@
 #include "states/PuzzleState.h"
 #include "defines/DefineInput.h"
 #include "states/OverworldState.h"
+#include <memory>
 
 class MenuState : public State {
     

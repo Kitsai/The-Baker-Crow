@@ -3,6 +3,7 @@
 #include "defines/DefineInput.h"
 #include "states/LoadGameState.h"
 #include "selectors/LoadGameSelector.h"
+#include <memory>
 
 LoadGameState::LoadGameState(): State(), selector(nullptr){
 
@@ -26,25 +27,25 @@ void LoadGameState::Update(float dt){
     }
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
         PuzzleState* newState = new PuzzleState(1);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         PuzzleState* newState = new PuzzleState(2);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         PuzzleState* newState = new PuzzleState(3);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop();
+        backGroundMusic->Stop(50);
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
@@ -56,11 +57,8 @@ void LoadGameState::LoadAssets(){
     
 }
 
-void LoadGameState::Render() {
-    
-    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
-        objectArray[i]->Render();
-    }
+void LoadGameState::Render() { 
+    RenderArray();
 }
 
 void LoadGameState::Start(){
