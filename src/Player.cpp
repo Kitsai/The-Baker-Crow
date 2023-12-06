@@ -51,3 +51,27 @@ bool Player::IsInTile(Vec2 pos,int tileSize) {
 Player::PlayerState Player::GetPlayerState() {
     return state;
 }
+
+Vec2 Player::GetPlayerPos() {
+    return associated.box.GetCenter();
+}
+
+void Player::SetPlayerState(PlayerState state) {
+    this->state = state;
+}
+
+void Player::ChangeSprite(std::string file, int frameCount, float frameTime, SDL_RendererFlip flip) {
+    Vec2 center = associated.box.GetCenter();
+    auto sprite = std::static_pointer_cast<Sprite>(associated.GetComponent("Sprite").lock());
+    sprite->Open(file);
+    sprite->SetFrameCount(frameCount);
+    sprite->SetFrameTime(frameTime);
+    sprite->SetFlip(flip);
+    associated.box.SetCenter(center);
+}
+
+void Player::SetCollider(SDL_Color color, bool active) {
+    auto collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
+    collider->active = active;
+    collider->SetColor(color);
+}

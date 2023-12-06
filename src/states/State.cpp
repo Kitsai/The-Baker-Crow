@@ -57,12 +57,13 @@ void State::RenderArray() {
 
 void State::CheckCollisions() {
 	for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
-		Collider* colliderA = (Collider*)objectArray[i]->GetComponent("Collider").lock().get();
+		auto colliderA = std::static_pointer_cast<Collider>(objectArray[i]->GetComponent("Collider").lock());
 
 		if(colliderA != nullptr && colliderA->active) {
 			for(std::vector<int>::size_type j=i;j<objectArray.size();++j) {
-				Collider* colliderB = (Collider*)objectArray[j]->GetComponent("Collider").lock().get();
-				if(	colliderB != nullptr 
+				auto colliderB = std::static_pointer_cast<Collider>(objectArray[j]->GetComponent("Collider").lock());
+				if(	colliderB != nullptr
+					&& colliderA != colliderB
 					&& colliderB->active 
 					&& Collision::IsColliding(colliderA->box, colliderB->box,objectArray[i]->angleDeg,objectArray[j]->angleDeg)
 				) {

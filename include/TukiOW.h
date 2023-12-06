@@ -21,8 +21,13 @@ class TukiOW: public Player {
     private:
         void Move(float dt);
         void CalcSpeed(float dt);
-        std::weak_ptr<GameObject> attack;
 
+        float attackCooldown;
+
+        enum faceDirectionEnum {UP, DOWN, LEFT, RIGHT};
+        faceDirectionEnum faceDirection;
+
+        void SetPlayerState(PlayerState state);
 };
 
 #endif

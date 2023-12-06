@@ -14,6 +14,7 @@ Sprite::Sprite(GameObject& assoc, int frameCount, float frameTime,float secondsT
     timeElapsed = 0;
     this->frameTime = frameTime;
     this->secondsToSelfDestruct = secondsToSelfDestruct;
+    flip = SDL_FLIP_NONE;
 }
 
 Sprite::Sprite(GameObject& assoc, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct): Sprite(assoc,frameCount,frameTime,secondsToSelfDestruct) {
@@ -32,7 +33,8 @@ void Sprite::SetFrame(int frame) {
 void Sprite::SetFrameCount(int frame) {
     frameCount = frame;
     currentFrame = 0;
-    associated.box.w = ((double)width)/frameCount; 
+    associated.box.w = ((double)width)/frameCount * scale.x;
+    SetClip(0,0,width/frameCount,height); 
 }
 
 void Sprite::SetFrameTime(float frameTime) {
@@ -52,8 +54,8 @@ void Sprite::Open(std::string file) {
         exit(-1);
     }
     SetClip(0,0,width/frameCount,height);
-    associated.box.w = ((double)width)/frameCount;
-    associated.box.h = height;
+    associated.box.w = (((double)width)/frameCount) * scale.x;
+    associated.box.h = height * scale.y;
 }
 
 void Sprite::SetClip(int x, int y, int w, int h) {
@@ -79,7 +81,7 @@ void Sprite::Render(int x, int y, int w, int h) {
     dstrect.h = h;
 
     if(IsOpen()) {
-        if(SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clipRect,&dstrect,associated.angleDeg*(180/M_PI),nullptr,SDL_FLIP_NONE) != 0) {
+        if(SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clipRect,&dstrect,associated.angleDeg*(180/M_PI),nullptr,flip) != 0) {
             std::cout << "Error Sprite:54 - " << SDL_GetError() << std::endl;
             exit(-1);
         }
@@ -98,25 +100,30 @@ int Sprite::GetHeight() {
     return height*scale.y;
 }
 
+void Sprite::SetFlip(SDL_RendererFlip flip) {
+    this->flip = flip;
+}
+
 void Sprite::SetScale(Vec2 scale) {
     SetScale(scale.x,scale.y);
 }
 
+
 void Sprite::SetScale(float scaleX, float scaleY){
     if (scaleX > 0){
         this->scale.x = scaleX;
-        associated.box.w = associated.box.w * scale.x;
+        associated.box.w = width/frameCount * scale.x;
     }
     if (scaleY > 0){
         this->scale.y = scaleY;
-        associated.box.h = associated.box.h * scale.y;
+        associated.box.h = height * scale.y;
     }
 }
 
 void Sprite::SetFocus(float escalarX, float escalarY) {
     if (escalarX > 0 && escalarY > 0) {
-        float difX = (associated.box.w - associated.box.w * escalarX) * 0.5f;
-        float difY = (associated.box.h - associated.box.h * escalarY) * 0.5f;
+        float difX = (associated.box.w - associated.box.w * escalarX) / 2.0f;
+        float difY = (associated.box.h - associated.box.h * escalarY) / 2.0f;
         
         this->scale.x = escalarX;
         this->scale.y = escalarY;
@@ -133,8 +140,8 @@ void Sprite::UnSetFocus() {
     float originalW = associated.box.w / scale.x;
     float originalH = associated.box.h / scale.y;
 
-    float difX = (originalW - associated.box.w) * 0.5F;
-    float difY = (originalH - associated.box.h) * 0.5F;
+    float difX = (originalW - associated.box.w) / 2.0f;
+    float difY = (originalH - associated.box.h) / 2.0f;
 
     this->scale.x = 1.0f;
     this->scale.y = 1.0f;

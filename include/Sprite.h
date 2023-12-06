@@ -35,6 +35,8 @@ class Sprite: public Component {
         Timer selfDestructCount;
         /// @brief time to object be destroyed.
         float secondsToSelfDestruct;
+
+        SDL_RendererFlip flip;
     public:
         /// @brief Constructor for Sprite component. Starts all members.
         /// @param assoc Object the component is part off.
@@ -91,6 +93,8 @@ class Sprite: public Component {
         /// @return int corresponding to image height.
         int GetHeight();
 
+
+        void SetFlip(SDL_RendererFlip flip);
         /// @brief Sets the scale to the the given coordinates.
         /// @param scale Vector containing the scale for both axis.
         void SetScale(Vec2 scale);

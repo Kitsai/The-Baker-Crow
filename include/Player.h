@@ -12,7 +12,7 @@ class Player: public Component {
         virtual void Render();
         virtual bool Is(std::string type);
 
-        enum PlayerState {STANDING, WALKING, ATTACKING, DODGING};
+        enum PlayerState {STANDING, WALKING, ATTACKING, DODGING, DAMAGED};
 
         static Player* player;
 
@@ -20,13 +20,20 @@ class Player: public Component {
         bool IsInTile(Vec2 pos,int tileSize = 64);
         bool IsInTile(int index);
 
+        Vec2 GetPlayerPos();
+        PlayerState GetPlayerState(); 
+
     protected:
-        PlayerState state;
         char hp;
         Timer playerTimer;
         Vec2 speed;
 
-        PlayerState GetPlayerState();
+
+        void virtual SetPlayerState(PlayerState state);
+        void ChangeSprite(std::string file, int frameCount, float frameTime, SDL_RendererFlip flip = SDL_FLIP_NONE);
+        void SetCollider(SDL_Color color = COLOR_RED, bool active = true);
+    private:
+        PlayerState state;
 }; 
 
 #endif
