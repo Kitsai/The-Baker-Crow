@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "states/BakeryState.h"
 #include "states/MenuState.h"
 #include "defines/DefineInput.h"
 #include "states/NewGameState.h"
@@ -38,6 +39,12 @@ void MenuState::Update(float dt){
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         LoadGameState* newState = new LoadGameState();
+        Game::GetInstance().Push(newState);
+        popRequested = true;
+        backGroundMusic->Stop(50);
+    }
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
+        BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         backGroundMusic->Stop(50);
