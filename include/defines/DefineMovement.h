@@ -15,6 +15,8 @@ constexpr float DAMP_MOVING = .8F;
 // TUKI OVERWORLD
 constexpr float TOW_SPEED_LIM = 500;
 constexpr float TOW_A = 1500;
+constexpr float TOW_DAMP_STATIC = .5F;
+constexpr float TOW_DAMP_MOVING = .8F;
 
 
 constexpr float TOW_DASH_M = 10;

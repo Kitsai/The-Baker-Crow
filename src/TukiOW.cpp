@@ -5,7 +5,6 @@ TukiOW::TukiOW(GameObject& associated): Player(associated) {
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
     sprite->SetScale(2,2);
     associated.AddComponent(sprite);
-
     faceDirection = DOWN;
 }
 

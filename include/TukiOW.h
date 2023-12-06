@@ -17,7 +17,9 @@ class TukiOW: public Player {
         void Update(float dt);
 
         bool Is(std::string type);
-        
+
+        void SetPlayerState(PlayerState state);
+    
     private:
         void Move(float dt);
         void CalcSpeed(float dt);
@@ -26,8 +28,6 @@ class TukiOW: public Player {
 
         enum faceDirectionEnum {UP, DOWN, LEFT, RIGHT};
         faceDirectionEnum faceDirection;
-
-        void SetPlayerState(PlayerState state);
 };
 
 #endif
