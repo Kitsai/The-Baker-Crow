@@ -1,5 +1,8 @@
+#include "GameData.h"
+#include "defines/DefineInput.h"
 #include "enemies/Pancake.h"
 #include "states/OverworldState.h"
+#include "states/ResumeState.h"
 
 OverworldState::OverworldState(): State() {
 
@@ -30,11 +33,9 @@ OverworldState::OverworldState(): State() {
 }
 
 OverworldState::~OverworldState() {
-
 }
 
-void OverworldState::LoadAssets() {
-    
+void OverworldState::LoadAssets() {    
 }
 
 void OverworldState::Update(float dt) {
@@ -42,18 +43,17 @@ void OverworldState::Update(float dt) {
 
     Camera::Update(dt);
 
-    if(iM.QuitRequested()){
-        quitRequested = true;
-    } 
-    else if (iM.KeyPress(ESCAPE_KEY)){
-        popRequested = true;
-        backGroundMusic->Stop(50);
-    } 
-    
+    if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
+        ResumeState* newState = new ResumeState();
+        Game::GetInstance().Push(newState);
+    }
+    if(GameData::quitOWState){
+        popRequested = true; 
+        GameData::quitOWState = false;
+    }
+
     UpdateArray(dt);
-
     CheckCollisions();
-
     DeleteObjects();
 }
 
@@ -69,11 +69,7 @@ void OverworldState::Start() {
 }
 
 void OverworldState::Pause() {
-
 }
 
 void OverworldState::Resume() {
-    Camera::pos.x = 0;
-    Camera::pos.y = 0;
-    backGroundMusic->Play();
 }

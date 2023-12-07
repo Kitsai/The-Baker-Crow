@@ -21,15 +21,24 @@ ResumeState::~ResumeState(){
 
 void ResumeState::Update(float dt){
 
-    if (InputManager::GetInstance().QuitRequested()){
+    if (InputManager::GetInstance().QuitRequested() || 
+        InputManager::GetInstance().KeyPress(ESCAPE_KEY) || 
+        (InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 0))){
         popRequested = true;
     }
-    else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
-        popRequested = true;
+    
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
     }
+    
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
+        popRequested = true;
+        GameData::quitOWState = true;
+    }
+    
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
     }
+    
     selector->Update(dt);
 }
 
@@ -45,6 +54,8 @@ void ResumeState::Render() {
 }
 
 void ResumeState::Start(){
+    Camera::pos.x = 0;
+    Camera::pos.y = 0;
     selector = std::make_unique<ResumeSelector>();
     for (int i = 0; i < (int)objectArray.size(); i++){
         objectArray[i]->Start();
@@ -54,6 +65,4 @@ void ResumeState::Start(){
 void ResumeState::Pause(){}
 
 void ResumeState::Resume(){
-    Camera::pos.x = 0;
-    Camera::pos.y = 0;
 }

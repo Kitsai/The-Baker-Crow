@@ -115,6 +115,7 @@ void Game::Run() {
         if(GetCurrentState().PopRequested()) {
             stateStack.pop();
             if(stateStack.size()) GetCurrentState().Resume();
+            else return;
         }
         if(storedState != nullptr) {
             GetCurrentState().Pause();
