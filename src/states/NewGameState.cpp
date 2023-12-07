@@ -77,6 +77,5 @@ void NewGameState::Pause(){}
 void NewGameState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-
     backGroundMusic->Play();
 }

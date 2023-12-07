@@ -11,7 +11,7 @@ MenuState::MenuState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
 
-    Sprite* titleImage = new Sprite(*titleObj, "resources/img/MainMenu.jpg");
+    Sprite* titleImage = new Sprite(*titleObj, "resources/img/MenuBackground.png");
     titleObj->AddComponent(titleImage);
 
 
@@ -29,25 +29,19 @@ void MenuState::Update(float dt){
         quitRequested = true;
     }
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
-        popRequested = true;
+        quitRequested = true;
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 0)){
         NewGameState* newState = new NewGameState();
         Game::GetInstance().Push(newState);
-        popRequested = true;
-        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         LoadGameState* newState = new LoadGameState();
         Game::GetInstance().Push(newState);
-        popRequested = true;
-        backGroundMusic->Stop(50);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
-        popRequested = true;
-        backGroundMusic->Stop(50);
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
@@ -72,11 +66,12 @@ void MenuState::Start(){
     backGroundMusic->Play();
 }
 
-void MenuState::Pause(){}
+void MenuState::Pause(){
+    backGroundMusic->Stop(50);
+}
 
 void MenuState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-
     backGroundMusic->Play();
 }

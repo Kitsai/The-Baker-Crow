@@ -1,29 +1,27 @@
 #include "Game.h"
 #include "Sprite.h"
 #include "Button.h"
-#include "selectors/MenuSelector.h"
+#include "selectors/ResumeSelector.h"
 #include "InputManager.h"
 #include <memory>
 
-MenuSelector::MenuSelector() : selected(0), nButtons(2){
-    
-    Button* buttonNewGame = new Button(Vec2(500, 200),"resources/img/MenuButton.png", "NEW GAME",36);
-    Button* buttonLoadGame = new Button(Vec2(500, 400),"resources/img/MenuButton.png", "LOAD GAME",36);
-    Button* buttonCreditsGame = new Button(Vec2(500, 600),"resources/img/MenuButton.png", "CREDITS",36);
+ResumeSelector::ResumeSelector() : selected(0), nButtons(2){
+    Button* buttonResumeGame = new Button(Vec2(500, 250),"resources/img/ResumeButton.png", "Resume",24);
+    Button* buttonSaveGame = new Button(Vec2(500, 400),"resources/img/ResumeButton.png", "Save Game", 24);
+    Button* buttonExitsGame = new Button(Vec2(500, 550),"resources/img/ResumeButton.png", "Exit", 24);
 
-    buttons.push_back((std::shared_ptr<Button>) buttonNewGame);
-    buttons.push_back((std::shared_ptr<Button>) buttonLoadGame);
-    buttons.push_back((std::shared_ptr<Button>) buttonCreditsGame);
-
+    buttons.push_back((std::shared_ptr<Button>) buttonResumeGame);
+    buttons.push_back((std::shared_ptr<Button>) buttonSaveGame);
+    buttons.push_back((std::shared_ptr<Button>) buttonExitsGame);
     selectedButton = buttons[0];
     selectedButton->Choose();
 }
 
-MenuSelector::~MenuSelector() {
+ResumeSelector::~ResumeSelector() {
     buttons.clear();
 }
 
-void MenuSelector::Update(float dt) {
+void ResumeSelector::Update(float dt) {
     
     if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected == 0) {
         selected = nButtons;
@@ -57,6 +55,6 @@ void MenuSelector::Update(float dt) {
     }
 }
 
-int MenuSelector::GetSelected(){
+int ResumeSelector::GetSelected(){
     return selected;
 }
