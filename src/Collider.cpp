@@ -13,6 +13,7 @@ Collider::Collider(GameObject& associated, Vec2 scale, Vec2 offSet, SDL_Color co
 	this->scale = scale;
 	offset = offSet;
 	this->color = color;
+	this->active = true;
 }
 
 void Collider::Update(float dt) {

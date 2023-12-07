@@ -17,12 +17,17 @@ class TukiOW: public Player {
         void Update(float dt);
 
         bool Is(std::string type);
-        
+
+        void SetPlayerState(PlayerState state);
+    
     private:
         void Move(float dt);
         void CalcSpeed(float dt);
-        std::weak_ptr<GameObject> attack;
 
+        float attackCooldown;
+
+        enum faceDirectionEnum {UP, DOWN, LEFT, RIGHT};
+        faceDirectionEnum faceDirection;
 };
 
 #endif

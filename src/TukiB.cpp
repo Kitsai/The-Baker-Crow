@@ -2,7 +2,6 @@
 
 TukiB::TukiB(GameObject& associated): Player(associated) {
     associated.AddComponent(new Sprite(associated, "resources/img/try.png"));
-    Player::player = this;
     floor = 0;
 }
 
@@ -18,9 +17,9 @@ void TukiB::Update(float dt) {
         GameData::playerAlive = false;
     }
 
-    if(iM.KeyPress(Z_KEY) && state != PlayerState::DODGING) {
+    if(iM.KeyPress(Z_KEY) && Player::GetPlayerState() != PlayerState::DODGING) {
         //Sets the state to dodging sets the speed and deactivates the hitbox.
-        state = PlayerState::DODGING;
+        Player::SetPlayerState(PlayerState::DODGING);
 
         Vec2 direction;
         if(iM.IsKeyDown(UP_ARROW_KEY) || iM.IsKeyDown(DOWN_ARROW_KEY) || iM.IsKeyDown(LEFT_ARROW_KEY) || iM.IsKeyDown(RIGHT_ARROW_KEY)) {
@@ -42,11 +41,11 @@ void TukiB::Update(float dt) {
     // simulating the calculation of the speed integral by separating the calculation in two steps.
     Move(dt);
     
-    if(state == PlayerState::DODGING) {
+    if(Player::GetPlayerState() == PlayerState::DODGING) {
         //playerTimer.Update(dt);
         if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM) {
             speed = speed.normalized()*TOW_SPEED_LIM;
-            state = WALKING;
+            Player::SetPlayerState(PlayerState::WALKING);
             //playerTimer.Restart();
 
             Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
@@ -57,17 +56,17 @@ void TukiB::Update(float dt) {
     else {
         // Switches from Walking to Standing.
         if(speed.magnitude() < 1) {
-            state = STANDING;
+            Player::SetPlayerState(PlayerState::STANDING);
             speed = {0,0};
         }
-        else state = WALKING;
+        else Player::SetPlayerState(PlayerState::WALKING);
     }
 } 
 
 void TukiB::Move(float dt) {
     CalcSpeed(dt);
     // std::cout << speed.magnitude() << std::endl;
-    if(state == PlayerState::STANDING) {
+    if(Player::GetPlayerState() == PlayerState::STANDING) {
         speed = speed*TOW_DAMP_STATIC;
     } else {
         speed = speed*TOW_DAMP_MOVING;
@@ -79,7 +78,7 @@ void TukiB::Move(float dt) {
 void TukiB::CalcSpeed(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
-    if(state == PlayerState::DODGING)
+    if(Player::GetPlayerState() == PlayerState::DODGING)
         return;
 
     if(iM.IsKeyDown(LEFT_ARROW_KEY)) {
@@ -95,7 +94,7 @@ void TukiB::CalcSpeed(float dt) {
         speed.y += TOW_A*dt;
     }
     Vec2 norm = speed.normalized();
-    if( state != PlayerState::DODGING && speed.magnitude() > TOW_SPEED_LIM) 
+    if( Player::GetPlayerState() != PlayerState::DODGING && speed.magnitude() > TOW_SPEED_LIM) 
         speed = norm * TOW_SPEED_LIM;
 }
 

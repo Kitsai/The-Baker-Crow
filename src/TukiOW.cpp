@@ -1,7 +1,11 @@
 #include "TukiOW.h"
+#include "Sprite.h"
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
-    associated.AddComponent(new Sprite(associated, "resources/img/try.png"));
+    Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
+    sprite->SetScale(2,2);
+    associated.AddComponent(sprite);
+    faceDirection = DOWN;
 }
 
 TukiOW::~TukiOW() {
@@ -10,26 +14,19 @@ TukiOW::~TukiOW() {
 
 void TukiOW::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
-    State& currState = Game::GetInstance().GetCurrentState();
 
     if(hp <= 0) {
         associated.RequestDelete();
         GameData::playerAlive = false;
     }
 
-    if(iM.KeyPress(X_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
-        
-        GameObject* attk = new GameObject();
-        attk->AddComponent(new Attack(*attk,currState.GetObjectPtr(&associated),50,true,1.0F,0));
-        attk->angleDeg = speed.incl();
-        attk->box.SetCenter(Vec2(32,0).GetRotated(attk->angleDeg) + associated.box.GetCenter());
-        state = ATTACKING;
-        attack = currState.AddObject(attk);
+    if(iM.KeyPress(X_KEY) && GetPlayerState() != DODGING && GetPlayerState() != ATTACKING) {
+        SetPlayerState(ATTACKING);
     }
 
-    if(iM.KeyPress(Z_KEY) && state != PlayerState::DODGING && state != PlayerState::ATTACKING) {
+    if(iM.KeyPress(Z_KEY) && GetPlayerState() != DODGING && GetPlayerState() != ATTACKING) {
         //Sets the state to dodging sets the speed and deactivates the hitbox.
-        state = PlayerState::DODGING;
+        SetPlayerState(DODGING);
 
         Vec2 direction;
         if(iM.IsKeyDown(UP_ARROW_KEY) || iM.IsKeyDown(DOWN_ARROW_KEY) || iM.IsKeyDown(LEFT_ARROW_KEY) || iM.IsKeyDown(RIGHT_ARROW_KEY)) {
@@ -43,48 +40,55 @@ void TukiOW::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
-        hitbox->active = false;
-        hitbox->SetColor(COLOR_BLUE);
+        SetCollider(COLOR_BLUE,false);
     }
 
     // simulating the calculation of the speed integral by separating the calculation in two steps.
     Move(dt);
     
-    if(state == PlayerState::DODGING) {
+    if(GetPlayerState() == DODGING) {
         //playerTimer.Update(dt);
         if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM) {
             speed = speed.normalized()*TOW_SPEED_LIM;
-            state = WALKING;
+            SetPlayerState(WALKING);
             //playerTimer.Restart();
 
-            Collider* hitbox = (Collider*)associated.GetComponent("Collider").lock().get();
+            auto hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
             hitbox->active = true;
             hitbox->SetColor(COLOR_RED);
         }
     }
-    else if(PlayerState::ATTACKING == state) {
-        if(attack.expired()) {
-            state = WALKING;
+    else if(ATTACKING == GetPlayerState()) {
+        playerTimer.Update(dt);
+        if(playerTimer.Get() > TOW_ATTACK_TIME) {
+            SetPlayerState(STANDING);
+            SetCollider(COLOR_RED);
+            playerTimer.Restart();
+            // attackCooldown = TOW_ATTACK_COOLDOWN;
         }
+
     }
     else {
         // Switches from Walking to Standing.
         if(speed.magnitude() < 1) {
-            state = STANDING;
+            if(GetPlayerState() == WALKING) 
+                SetPlayerState(STANDING);
             speed = {0,0};
         }
-        else state = WALKING;
+        else if(GetPlayerState() == STANDING) SetPlayerState(WALKING);
     }
+
+    // if(attackCooldown > 0) attackCooldown -= dt;
+    
 } 
 
 void TukiOW::Move(float dt) {
     CalcSpeed(dt);
     // std::cout << speed.magnitude() << std::endl;
-    if(state == PlayerState::STANDING) {
-        speed = speed*TOW_DAMP_STATIC;
+    if(GetPlayerState() == STANDING) {
+        speed = speed*DAMP_STATIC;
     } else {
-        speed = speed*TOW_DAMP_MOVING;
+        speed = speed*DAMP_MOVING;
     }
     associated.box += speed*dt;
     CalcSpeed(dt);
@@ -93,7 +97,7 @@ void TukiOW::Move(float dt) {
 void TukiOW::CalcSpeed(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
-    if(state == PlayerState::DODGING)
+    if(GetPlayerState() == DODGING)
         return;
 
     if(iM.IsKeyDown(LEFT_ARROW_KEY)) {
@@ -104,15 +108,55 @@ void TukiOW::CalcSpeed(float dt) {
     }
     if(iM.IsKeyDown(UP_ARROW_KEY)) {
         speed.y -= TOW_A*dt;
+        if(GetPlayerState() == WALKING && faceDirection == DOWN) {
+            ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
+            faceDirection = UP;
+        }
     }
     if(iM.IsKeyDown(DOWN_ARROW_KEY)) {
         speed.y += TOW_A*dt;
+        if(GetPlayerState() == WALKING && faceDirection == UP) {
+            ChangeSprite("resources/img/Tuki_anim2.png",8,.2F);
+            faceDirection = DOWN;
+        }
     }
     Vec2 norm = speed.normalized();
-    if( state != PlayerState::DODGING && speed.magnitude() > TOW_SPEED_LIM) 
+    if( GetPlayerState() != DODGING && speed.magnitude() > TOW_SPEED_LIM) 
         speed = norm * TOW_SPEED_LIM;
 }
 
 bool TukiOW::Is(std::string type) {
     return type == "TukiOW" || Player::Is(type);
+}
+
+void TukiOW::SetPlayerState(PlayerState state) {
+    Player::SetPlayerState(state);
+
+    switch (state)
+    {
+    case STANDING:
+        if(faceDirection == DOWN)
+            ChangeSprite("resources/img/Tuki_idle_front.png",1,1);
+        else if(faceDirection == UP)
+            ChangeSprite("resources/img/Tuki_idle_costas.png",1,1);
+        break;
+    case WALKING:
+        if(faceDirection == DOWN)
+            ChangeSprite("resources/img/Tuki_anim2.png",8,.2F);
+        else if(faceDirection == UP)
+            ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
+        break;
+    case ATTACKING:
+        ChangeSprite("resources/img/tuki_anim_attac.png",4,.1F);
+        SetCollider(COLOR_GREEN);
+        break;
+    case DODGING:
+        ChangeSprite("resources/img/try.png",1,1);
+        break;
+    case DAMAGED:
+        ChangeSprite("resources/img/tuki_anim_dano.png",4,.15F);
+        break;
+    default:
+        break;
+    }
 }
