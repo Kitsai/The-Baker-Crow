@@ -24,7 +24,7 @@ class Player: public Component {
         PlayerState GetPlayerState(); 
 
     protected:
-        char hp;
+        int hp;
         Timer playerTimer;
         Vec2 speed;
 

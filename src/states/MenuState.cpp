@@ -40,8 +40,7 @@ void MenuState::Update(float dt){
         Game::GetInstance().Push(newState);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
-        BakeryState* newState = new BakeryState();
-        Game::GetInstance().Push(newState);
+        quitRequested = true;
     }
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);

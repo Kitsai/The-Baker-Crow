@@ -10,6 +10,7 @@ class GameData {
         static bool playerAlive;
         static bool quitOWState;
 
+        static int playerLife;
         static Vec2 lastSafePosition;
 };
 

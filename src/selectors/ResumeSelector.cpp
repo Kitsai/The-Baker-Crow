@@ -6,9 +6,9 @@
 #include <memory>
 
 ResumeSelector::ResumeSelector() : selected(0), nButtons(2){
-    Button* buttonResumeGame = new Button(Vec2(500, 250),"resources/img/ResumeButton.png", "Resume",24);
-    Button* buttonSaveGame = new Button(Vec2(500, 400),"resources/img/ResumeButton.png", "Save Game", 24);
-    Button* buttonExitsGame = new Button(Vec2(500, 550),"resources/img/ResumeButton.png", "Exit", 24);
+    Button* buttonResumeGame = new Button(Vec2(500, 180),"resources/img/ResumeButton.png", "Resume",36);
+    Button* buttonSaveGame = new Button(Vec2(500, 290),"resources/img/ResumeButton.png", "Save Game", 36);
+    Button* buttonExitsGame = new Button(Vec2(500, 400),"resources/img/ResumeButton.png", "Exit Game", 36);
 
     buttons.push_back((std::shared_ptr<Button>) buttonResumeGame);
     buttons.push_back((std::shared_ptr<Button>) buttonSaveGame);

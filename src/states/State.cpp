@@ -23,6 +23,15 @@ std::weak_ptr<GameObject> State::AddObject(GameObject* go) {
 	return goWPtr;
 }
 
+void State::RemoveObject(GameObject* go) {
+    for (auto it = objectArray.begin(); it != objectArray.end(); ++it) {
+        if (it->get() == go) {
+            objectArray.erase(it);
+            break;
+        }
+    }
+}
+
 std::weak_ptr<GameObject> State::GetObjectPtr(GameObject* go) {
     std::weak_ptr<GameObject> retPrt;
 

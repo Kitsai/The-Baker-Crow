@@ -4,7 +4,7 @@
 #include "states/OverworldState.h"
 #include "states/ResumeState.h"
 
-OverworldState::OverworldState(): State() {
+OverworldState::OverworldState(): State(), shadowObj(nullptr) {
 
     // Game& game = Game::GetInstance();
     GameObject* bg = new GameObject();
@@ -44,6 +44,12 @@ void OverworldState::Update(float dt) {
     Camera::Update(dt);
 
     if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
+        shadowObj = new GameObject();        
+        Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
+        shadow->SetAlpha(128);
+        shadowObj->AddComponent(shadow);
+        AddObject(shadowObj);
+        
         ResumeState* newState = new ResumeState();
         Game::GetInstance().Push(newState);
     }
@@ -72,4 +78,8 @@ void OverworldState::Pause() {
 }
 
 void OverworldState::Resume() {
+    if(shadowObj){
+        RemoveObject(shadowObj);
+        shadowObj = nullptr;
+    }
 }
