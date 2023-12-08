@@ -9,9 +9,6 @@ HeartBar::Heart::Heart(GameObject& associated, Sprite* sprite, Vec2 pos, bool vi
     GoHeart->box.y = pos.y;
 }
 
-HeartBar::Heart::~Heart() {
-    delete GoHeart;
-}
 
 void HeartBar::Heart::Update(int i) {
     if(!visible){
@@ -19,20 +16,14 @@ void HeartBar::Heart::Update(int i) {
     }else{
         spriteHeart = new Sprite(*this->GoHeart, "resources/img/HEART.png");
     }
-    this->GoHeart->box.x = bar->associated->box.x + 50*i;
-    this->GoHeart->box.y = bar->associated->box.y;
+    this->GoHeart->box.x = bar->associated->box.x + 125 + 55*i;
+    this->GoHeart->box.y = bar->associated->box.y + 60;
 }
 
-HeartBar::HeartBar(GameObject& associated) : Component(associated), associated(&associated), sprite(nullptr) {
+HeartBar::HeartBar(GameObject& associated) : Component(associated), sprite(nullptr), associated(&associated) {
     sprite = new Sprite(associated, "resources/img/HEALTH_BAR.png");
+    associated.AddComponent(sprite);
     CreateHearts(3, "resources/img/HEART.png");
-}
-
-HeartBar::~HeartBar() {
-    delete sprite;
-    for (auto& heart : hearts) {
-        delete heart;
-    }
 }
 
 void HeartBar::CreateHearts(int initialHealth, const std::string& heartSpriteFile) {
@@ -40,7 +31,9 @@ void HeartBar::CreateHearts(int initialHealth, const std::string& heartSpriteFil
     
     for (int i = 0; i < initialHealth; ++i) {
         GameObject* heartObj = new GameObject();
+
         Sprite* heartSprite   = new Sprite(*heartObj, heartSpriteFile);
+        heartObj->AddComponent(heartSprite);
 
         Heart* heart = new Heart(*heartObj, heartSprite, startPos, true, this);
         
@@ -62,11 +55,11 @@ void HeartBar::Update(float dt) {
     this->associated->box.x = playerPos.x;
     this->associated->box.y = playerPos.y;
 
-    for (int i = 0; i < hearts.size(); ++i) {
-        hearts[i]->visible = (i < playerLife);
+    for (std::vector<int>::size_type i = 0; i < hearts.size(); ++i) {
+        hearts[i]->visible = ((int) i < playerLife);
     }
 
-    for (int i; i < hearts.size(); i++) {
+    for (std::vector<int>::size_type i = 0; i < hearts.size(); i++) {
         hearts[i]->Update(i);
     }
 }

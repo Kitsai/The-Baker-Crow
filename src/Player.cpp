@@ -54,7 +54,7 @@ Player::PlayerState Player::GetPlayerState() {
 }
 
 Vec2 Player::GetPlayerPos() {
-    return Vec2(associated.box.x, associated.box.y);
+    return GetPlayerCenterPos() - Vec2(Game::GetInstance().GetWindowWidth()*0.5,Game::GetInstance().GetWindowHeight()*0.5);
 }
 
 Vec2 Player::GetPlayerCenterPos() {
