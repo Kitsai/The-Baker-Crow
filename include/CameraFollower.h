@@ -23,6 +23,8 @@ class CameraFollower: public Component {
         /// @return 
         /// True if type matches with the passed argument.
         bool Is(std::string type);
+    private:
+        Vec2 startPos;
 };
 
 #endif

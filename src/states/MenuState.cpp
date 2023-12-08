@@ -21,6 +21,7 @@ MenuState::MenuState(): State(), selector(nullptr){
 
 MenuState::~MenuState(){
     objectArray.clear();
+    backGroundMusic->Stop(0);
 }
 
 void MenuState::Update(float dt){

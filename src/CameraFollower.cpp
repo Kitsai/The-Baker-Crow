@@ -2,11 +2,11 @@
 #include <algorithm>
 
 CameraFollower::CameraFollower(GameObject& go): Component(go) {
-
+    startPos = associated.box.GetPos();
 }
 
 void CameraFollower::Update(float dt) {
-    associated.box = Camera::pos;
+    associated.box = startPos + Camera::pos;
 }
 
 void CameraFollower::Render() {

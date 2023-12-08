@@ -1,3 +1,4 @@
+#include "CameraFollower.h"
 #include "Component.h"
 #include "GameData.h"
 #include "HeartBar.h"
@@ -6,8 +7,9 @@
 #include "enemies/Pancake.h"
 #include "states/OverworldState.h"
 #include "states/ResumeState.h"
+#include "HealthBar.h"
 
-OverworldState::OverworldState(): State(), shadowObj(nullptr) {
+OverworldState::OverworldState(): State(), shadowObj() {
 
     // Game& game = Game::GetInstance();
     GameObject* bg = new GameObject();
@@ -30,20 +32,27 @@ OverworldState::OverworldState(): State(), shadowObj(nullptr) {
     pancake->box.SetCenter(Vec2(3463,1492));
 
     Camera::Follow(tuki);
+    GameData::playerAlive = true;
+    
+    GameObject* healthbar = new GameObject();
+    healthbar->AddComponent(new HealthBar(*healthbar));
+    AddObject(healthbar);
 
     GameData::playerAlive = true;
     backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
 }
 
 OverworldState::~OverworldState() {
+    backGroundMusic->Stop(0);
 }
 
 void OverworldState::LoadAssets() {
+    /*
     GameObject* heartBarObj = new GameObject();
     AddObject(heartBarObj);
     
     HeartBar* heartBar = new HeartBar(*heartBarObj); 
-    heartBarObj->AddComponent(heartBar);
+    heartBarObj->AddComponent(heartBar);*/
 }
 
 void OverworldState::Update(float dt) {
@@ -51,14 +60,22 @@ void OverworldState::Update(float dt) {
 
     Camera::Update(dt);
 
-    if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
-        shadowObj = new GameObject();        
-        Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
+    if(iM.QuitRequested()) quitRequested = true;
+
+    if(!GameData::playerAlive) {
+        timer.Update(dt);
+        if(timer.Get() > 1.0) {
+            popRequested = true;
+        }
+    }
+
+    if (iM.KeyPress(ESCAPE_KEY) ||  iM.KeyPress(P_KEY)){
+        GameObject* go = new GameObject();        
+        Sprite* shadow = new  Sprite(*go,"resources/img/Shadow.png");
         shadow->SetAlpha(128);
-        shadowObj->box.x =Player::player->GetPlayerPos().x;
-        shadowObj->box.y =Player::player->GetPlayerPos().y;
-        shadowObj->AddComponent(shadow);
-        AddObject(shadowObj);
+        go->AddComponent(shadow);
+        go->AddComponent(new CameraFollower(*go));
+        AddObject(go);
         
         ResumeState* newState = new ResumeState();
         Game::GetInstance().Push(newState);
@@ -88,8 +105,7 @@ void OverworldState::Pause() {
 }
 
 void OverworldState::Resume() {
-    if(shadowObj){
-        RemoveObject(shadowObj);
-        shadowObj = nullptr;
-    }
+    auto ptr = shadowObj.lock();
+
+    if(ptr) RemoveObject(ptr.get());
 }

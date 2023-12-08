@@ -1,5 +1,7 @@
 #include "TukiOW.h"
 #include "Sprite.h"
+#include "defines/DefineInput.h"
+#include <SDL2/SDL_render.h>
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
@@ -67,6 +69,13 @@ void TukiOW::Update(float dt) {
             // attackCooldown = TOW_ATTACK_COOLDOWN;
         }
 
+    } else if(DAMAGED == GetPlayerState()) {
+        playerTimer.Update(dt);
+        if(playerTimer.Get() > TOW_DAMAGED_TIME) {
+            SetPlayerState(STANDING);
+            SetCollider(COLOR_RED,true);
+            playerTimer.Restart();
+        }
     }
     else {
         // Switches from Walking to Standing.
@@ -77,6 +86,8 @@ void TukiOW::Update(float dt) {
         }
         else if(GetPlayerState() == STANDING) SetPlayerState(WALKING);
     }
+
+    if(iM.KeyPress(K_KEY)) SetPlayerState(DAMAGED);
 
     // if(attackCooldown > 0) attackCooldown -= dt;
     
@@ -148,12 +159,16 @@ void TukiOW::SetPlayerState(PlayerState state) {
         break;
     case ATTACKING:
         ChangeSprite("resources/img/tuki_anim_attac.png",4,.1F);
+        speed = 0;
         SetCollider(COLOR_GREEN);
         break;
     case DODGING:
         ChangeSprite("resources/img/try.png",1,1);
         break;
     case DAMAGED:
+        SetCollider(COLOR_RED, false);
+        speed = 0;
+        hp--;
         ChangeSprite("resources/img/tuki_anim_dano.png",4,.15F);
         break;
     default:
