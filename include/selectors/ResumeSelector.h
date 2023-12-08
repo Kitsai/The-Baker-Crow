@@ -1,19 +1,18 @@
-#ifndef NewGameSelector_H
-#define NewGameSelector_H
+#ifndef ResumeSelector_H
+#define ResumeSelector_H
 
 #include <vector>
 #include "Button.h"
 #include "Component.h"
 
-class NewGameSelector{
-
+class ResumeSelector{
 public:
-    NewGameSelector();
-    ~NewGameSelector();
+    ResumeSelector();
+    ~ResumeSelector();
 
     int GetSelected();
     void Update(float dt);
-
+    
     private:
         int selected;
         std::shared_ptr<Button> selectedButton;
@@ -21,4 +20,5 @@ public:
         int nButtons;
         std::vector<std::shared_ptr<Button>> buttons;
 };
+
 #endif

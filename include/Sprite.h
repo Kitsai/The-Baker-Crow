@@ -37,6 +37,7 @@ class Sprite: public Component {
         float secondsToSelfDestruct;
 
         SDL_RendererFlip flip;
+        Uint8 alpha;
     public:
         /// @brief Constructor for Sprite component. Starts all members.
         /// @param assoc Object the component is part off.
@@ -93,7 +94,7 @@ class Sprite: public Component {
         /// @return int corresponding to image height.
         int GetHeight();
 
-
+        void SetAlpha(Uint8 alpha);
         void SetFlip(SDL_RendererFlip flip);
         /// @brief Sets the scale to the the given coordinates.
         /// @param scale Vector containing the scale for both axis.

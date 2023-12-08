@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-Sprite::Sprite(GameObject& assoc, int frameCount, float frameTime,float secondsToSelfDestruct): Component(assoc)  {
+Sprite::Sprite(GameObject& assoc, int frameCount, float frameTime,float secondsToSelfDestruct): Component(assoc), alpha(255)  {
     texture = nullptr;
     scale = {1,1};
     this->frameCount = frameCount;
@@ -80,17 +80,21 @@ void Sprite::Render(int x, int y, int w, int h) {
     dstrect.w = w;
     dstrect.h = h;
 
-    if(IsOpen()) {
-        if(SDL_RenderCopyEx(Game::GetInstance().GetRenderer(),texture.get(),&clipRect,&dstrect,associated.angleDeg*(180/M_PI),nullptr,flip) != 0) {
+   if (IsOpen()) {
+
+        SDL_SetTextureAlphaMod(texture.get(), alpha);
+
+        if (SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture.get(), &clipRect, &dstrect, associated.angleDeg * (180 / M_PI), nullptr, flip) != 0) {
             std::cout << "Error Sprite:54 - " << SDL_GetError() << std::endl;
             exit(-1);
         }
-    }
-    else {
+        SDL_SetTextureAlphaMod(texture.get(), 255);
+    } else {
         std::cout << "Error Sprite:57 -  " << SDL_GetError() << std::endl;
         exit(-1);
     }
 }
+
 
 int Sprite::GetWidth() {
     return (width*scale.x)/frameCount;
@@ -108,11 +112,14 @@ void Sprite::SetScale(Vec2 scale) {
     SetScale(scale.x,scale.y);
 }
 
+void Sprite::SetAlpha(Uint8 alpha){
+    this->alpha = alpha;
+}
 
 void Sprite::SetScale(float scaleX, float scaleY){
     if (scaleX > 0){
         this->scale.x = scaleX;
-        associated.box.w = width/frameCount * scale.x;
+        associated.box.w = (double)width/frameCount * scale.x;
     }
     if (scaleY > 0){
         this->scale.y = scaleY;

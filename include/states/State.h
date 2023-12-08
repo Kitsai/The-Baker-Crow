@@ -63,6 +63,7 @@ class State {
         /// @param go Raw pointer to the object that should be added.
         /// @return  A weak pointer to the added object.
         virtual std::weak_ptr<GameObject> AddObject(GameObject* go);
+        void RemoveObject(GameObject* go);
         /// @brief Gets an object on the object vector.
         /// @param go Raw pointer to the object that should be searched.
         /// @return  A weak pointer to the searched object.

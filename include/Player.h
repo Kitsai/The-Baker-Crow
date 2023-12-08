@@ -21,10 +21,12 @@ class Player: public Component {
         bool IsInTile(int index);
 
         Vec2 GetPlayerPos();
+        Vec2 GetPlayerCenterPos();
+        int GetPlayerHp();
         PlayerState GetPlayerState(); 
 
     protected:
-        char hp;
+        int hp;
         Timer playerTimer;
         Vec2 speed;
 

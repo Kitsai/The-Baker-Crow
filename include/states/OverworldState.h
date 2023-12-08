@@ -18,6 +18,8 @@ class OverworldState: public State {
         void Start();
         void Pause();
         void Resume();
+
+        GameObject* shadowObj; 
 };
 
 #endif
