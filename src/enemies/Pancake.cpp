@@ -1,6 +1,7 @@
 #include "enemies/Pancake.h"
 
 #include "Game.h"
+#include "defines/DefineColor.h"
 
 Pancake::Pancake(GameObject& assoc, int hp): Enemy(assoc,hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/pancake_idle.png");
@@ -30,6 +31,13 @@ void Pancake::Update(float dt) {
                 SetState(MOVING);
             }
             break;
+        case DAMAGED:
+            if (timer.Get() > 0.5F) {
+                SetCollider(COLOR_RED, true);
+                SetState(IDLE);
+            }
+            break;
+
         default:
             break;
     }
@@ -64,15 +72,17 @@ void Pancake::SetState(EnemyState state) {
         case MOVING:
             moveTarget = associated.box.GetCenter() + Vec2(rand()%601 - 300,rand()%601 - 300);
             moveAngle = moveTarget.inclVec2(associated.box.GetCenter());
-            ChangeSprite("resources/img/enemies/pancake_anim.png",8,.15F);
-            break;
-        case ATTACKING:
-            Attk();
+            ChangeSprite("resources/img/enemies/pancake_anim(200).png",8,.15F);
             break;
         case IDLE:
             idleTime = rand()%5001*0.001F + 2;
             speed = 0;
             ChangeSprite("resources/img/enemies/pancake_idle.png");
+            break;
+        case DAMAGED:
+            speed = 0;
+            SetCollider(COLOR_BLUE, false);
+            timer.Restart();
             break;
         default:
             break;
@@ -97,6 +107,7 @@ void Pancake::NotifyCollision(GameObject& other) {
         auto tuki = Player::player;
         if(tuki->GetPlayerState() == Player::PlayerState::ATTACKING) {
             hp -= 50;
+            SetState(DAMAGED);
         }
     }
 }

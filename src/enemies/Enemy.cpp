@@ -36,7 +36,7 @@ void Enemy::Defeated() {
 }
 
 void Enemy::Attk() {
-    if (Player::player) return;
+    if (!Player::player) return;
 
     State& currState = Game::GetInstance().GetCurrentState();
 
@@ -45,11 +45,7 @@ void Enemy::Attk() {
     float playerDist = playerPos.distVec2(associated.box.GetCenter());
 
     if (playerDist < ENEMY_ATACK_DIST) {
-        GameObject* ao = new GameObject();
-        float playerInc = playerPos.inclVec2(associated.box.GetCenter());
-        ao->box.SetCenter(Vec2(60,0).GetRotated(playerInc) + associated.box.GetCenter());
-        ao->AddComponent(new Attack(*ao,currState.GetObjectPtr(&associated),10));
-        attack = currState.AddObject(ao);
+        SetState(ATTACKING);
     }
 }
 
@@ -65,6 +61,14 @@ void Enemy::ChangeSprite(std::string file, int frameCount, float frameTime) {
     if(moveTarget.x > center.x) sprite->SetFlip(SDL_FLIP_HORIZONTAL);
     else if(moveTarget.x < center.x) sprite->SetFlip(SDL_FLIP_NONE);
     
+}
+
+void Enemy::SetCollider(SDL_Color color, bool active) {
+    std::shared_ptr<Collider> collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
+    if (collider != nullptr) {
+        collider->SetColor(color);
+        collider->active = active;
+    }
 }
 
 

@@ -29,7 +29,7 @@ class Enemy: public Component {
         /// @return True if type matches with the passed argument.
         bool virtual Is(std::string type);
     protected:
-        enum EnemyState {MOVING, ATTACKING, IDLE};
+        enum EnemyState {MOVING, ATTACKING, IDLE, DAMAGED};
 
         int hp;
         EnemyState state;
@@ -52,6 +52,7 @@ class Enemy: public Component {
         
         void virtual SetState(EnemyState state) = 0;
         void virtual ChangeSprite(std::string file, int frameCount = 1, float frameTime = 1);
+        void virtual SetCollider(SDL_Color color, bool active = true);
         // void virtual FlipSprite(SDL_RendererFlip flip);
 
         void virtual DeathAnimation() = 0;
