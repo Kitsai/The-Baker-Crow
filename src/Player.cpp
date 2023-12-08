@@ -1,11 +1,12 @@
 #include "Player.h"
 
 #include "Game.h"
+#include "Vec2.h"
 
 Player* Player::player = nullptr;
 
 Player::Player(GameObject& associated): Component(associated) {
-    hp = 100;
+    hp = 3;
     state = STANDING;
     speed = {0,0};
 
@@ -53,6 +54,10 @@ Player::PlayerState Player::GetPlayerState() {
 }
 
 Vec2 Player::GetPlayerPos() {
+    return Vec2(associated.box.x, associated.box.y);
+}
+
+Vec2 Player::GetPlayerCenterPos() {
     return associated.box.GetCenter();
 }
 
@@ -74,4 +79,8 @@ void Player::SetCollider(SDL_Color color, bool active) {
     auto collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
     collider->active = active;
     collider->SetColor(color);
+}
+
+int Player::GetPlayerHp() {
+    return this->hp;
 }

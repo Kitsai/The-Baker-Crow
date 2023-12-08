@@ -40,7 +40,7 @@ void Enemy::Attk() {
 
     State& currState = Game::GetInstance().GetCurrentState();
 
-    Vec2 playerPos = Player::player->GetPlayerPos();
+    Vec2 playerPos = Player::player->GetPlayerCenterPos();
 
     float playerDist = playerPos.distVec2(associated.box.GetCenter());
 

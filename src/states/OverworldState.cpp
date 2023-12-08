@@ -48,8 +48,8 @@ void OverworldState::Update(float dt) {
         shadowObj = new GameObject();        
         Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
         shadow->SetAlpha(128);
-        shadowObj->box.x =Player::player->GetPlayerPos().x -640;
-        shadowObj->box.y =Player::player->GetPlayerPos().y -360;
+        shadowObj->box.x =Player::player->GetPlayerPos().x;
+        shadowObj->box.y =Player::player->GetPlayerPos().y;
         shadowObj->AddComponent(shadow);
         AddObject(shadowObj);
         
