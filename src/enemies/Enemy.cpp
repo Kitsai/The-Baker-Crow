@@ -35,10 +35,8 @@ void Enemy::Defeated() {
     DropItems();
 }
 
-void Enemy::Attk() {
-    if (!Player::player) return;
-
-    State& currState = Game::GetInstance().GetCurrentState();
+bool Enemy::Attk() {
+    if (!Player::player) return false;
 
     Vec2 playerPos = Player::player->GetPlayerCenterPos();
 
@@ -46,7 +44,9 @@ void Enemy::Attk() {
 
     if (playerDist < ENEMY_ATACK_DIST) {
         SetState(ATTACKING);
+        return true;
     }
+    return false;
 }
 
 void Enemy::ChangeSprite(std::string file, int frameCount, float frameTime) {
@@ -71,6 +71,17 @@ void Enemy::SetCollider(SDL_Color color, bool active) {
     }
 }
 
+void Enemy::Move(float dt) {
+    if (moveTarget.distVec2(associated.box.GetCenter()) < 5) {
+        associated.box.SetCenter(moveTarget);
+        SetState(IDLE);
+    } else {
+        CalcSpeed(dt);
+        speed = speed*DAMP_MOVING;
+        associated.box.SetCenter(associated.box.GetCenter() + Vec2(cos(moveAngle),sin(moveAngle))*dt*speed);
+        CalcSpeed(dt);
+    }
+}
 
 
 bool Enemy::Is(std::string type) {
@@ -78,4 +89,15 @@ bool Enemy::Is(std::string type) {
         return true;
     else
         return false; 
+}
+
+
+void Enemy::NotifyCollision(GameObject& other) {
+    if(other.GetComponent("TukiOW").lock()) {
+        auto tuki = Player::player;
+        if(tuki->GetPlayerState() == Player::PlayerState::ATTACKING) {
+            hp -= 50;
+            SetState(DAMAGED);
+        }
+    }
 }

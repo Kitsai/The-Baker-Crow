@@ -28,8 +28,10 @@ class Enemy: public Component {
         /// @param type Type to be checked.
         /// @return True if type matches with the passed argument.
         bool virtual Is(std::string type);
-    protected:
+
         enum EnemyState {MOVING, ATTACKING, IDLE, DAMAGED};
+        EnemyState GetState();
+    protected:
 
         int hp;
         EnemyState state;
@@ -45,10 +47,10 @@ class Enemy: public Component {
 
         void virtual Defeated();
 
-        void virtual Move(float dt) = 0;  
+        void virtual Move(float dt);  
         void virtual CalcSpeed(float dt) = 0;
 
-        void virtual Attk();
+        bool virtual Attk();
         
         void virtual SetState(EnemyState state) = 0;
         void virtual ChangeSprite(std::string file, int frameCount = 1, float frameTime = 1);
@@ -58,6 +60,8 @@ class Enemy: public Component {
         void virtual DeathAnimation() = 0;
 
         void virtual DropItems() = 0;
+
+        void virtual NotifyCollision(GameObject& other);
 };
 
 #endif
