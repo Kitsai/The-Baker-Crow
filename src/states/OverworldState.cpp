@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "defines/DefineInput.h"
 #include "enemies/Pancake.h"
+#include "enemies/Pavao.h"
 #include "states/OverworldState.h"
 #include "states/ResumeState.h"
 
@@ -23,13 +24,19 @@ OverworldState::OverworldState(): State(), shadowObj(nullptr) {
     tuki->AddComponent(new TukiOW(*tuki));
     AddObject(tuki);
     tuki->box.SetCenter(Vec2(817,2316));
+
+    Camera::Follow(tuki);
     
     GameObject* pancake = new GameObject();
     pancake->AddComponent(new Pancake(*pancake,100));
     AddObject(pancake);
     pancake->box.SetCenter(Vec2(3463,1492));
 
-    Camera::Follow(tuki);
+    GameObject* pavao = new GameObject();
+    pavao->AddComponent(new Pavao(*pavao,100));
+    pavao->box.SetCenter(Vec2(3427,652));
+    AddObject(pavao);
+
 
     GameData::playerAlive = true;
     backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
@@ -50,6 +57,11 @@ void OverworldState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
     Camera::Update(dt);
+
+    if(!GameData::playerAlive) {
+        popRequested = true;
+        GameData::playerAlive = true;
+    }
 
     if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
         shadowObj = new GameObject();        

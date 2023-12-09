@@ -1,19 +1,18 @@
-#ifndef Pancake_h_
-#define Pancake_h_
+#ifndef Pavao_h_
+#define Pavao_h_
 
+#include "Component.h"
 #include "Enemy.h"
 
-#include "TukiOW.h"
-
-class Pancake: public Enemy {
+class Pavao: public Enemy {
     public:
-        Pancake(GameObject& associated,int hp = 100);
-
-        ~Pancake();
+        Pavao(GameObject& associated, int hp = 100);
+        ~Pavao();
 
         // void Update(float dt);
 
         bool Is(std::string type);
+
     private:
         void CalcSpeed(float dt);
 
@@ -21,8 +20,7 @@ class Pancake: public Enemy {
 
         void DeathAnimation();
 
-        void DropItems();
-
+        void DropItems();      
 };
-
-#endif
+ 
+#endif  
