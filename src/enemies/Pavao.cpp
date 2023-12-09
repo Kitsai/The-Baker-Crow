@@ -1,29 +1,34 @@
-#include "enemies/Pancake.h"
-
+#include "enemies/Pavao.h"
+#include "GameObject.h"
 #include "Game.h"
-#include "defines/DefineColor.h"
 
-Pancake::Pancake(GameObject& assoc, int hp): Enemy(assoc,hp) {
-    Sprite* sprite = new Sprite(assoc, "resources/img/enemies/pancake_idle.png");
+Pavao::Pavao(GameObject& assoc, int hp): Enemy(assoc,hp) {
+    Sprite* sprite = new Sprite(assoc, "resources/img/enemies/pavao_idle.png");
     sprite->SetScale(2,2);
     assoc.AddComponent(sprite);
 }
 
-Pancake::~Pancake() {
+Pavao::~Pavao() {
 
 }
 
-void Pancake::Update(float dt) {
+void Pavao::Update(float dt) {
     Enemy::Update(dt);
 
     switch (state) {
         case MOVING:
             Move(dt);
             break;
+        case ATTACKING:
+            if(timer.Get() > .9F) {
+                SetState(IDLE);
+            }
+            break;
         case IDLE:
             idleTime -= dt;
             if (idleTime <= 0) {
-                SetState(MOVING);
+            
+                
             }
             break;
         case DAMAGED:
@@ -38,30 +43,32 @@ void Pancake::Update(float dt) {
     }
 }
 
-bool Pancake::Is(std::string type) {
-    return type == "Pancake" || Enemy::Is(type);
+bool Pavao::Is(std::string type) {
+    return type == "Pavao" || Enemy::Is(type);
 }
 
-
-void Pancake::CalcSpeed(float dt) {
-    speed += PANCAKE_A*dt;
-    if(speed > PANCAKE_SPEED_LIM) speed = PANCAKE_SPEED_LIM;
+void Pavao::CalcSpeed(float dt) {
+    speed += PAVAO_A*dt;
+    if(speed > PAVAO_SPEED_LIM) speed = PAVAO_SPEED_LIM;
 }
 
-void Pancake::SetState(EnemyState state) {
-
+void Pavao::SetState(EnemyState state) {
     this->state = state;
 
     switch (state) {
         case MOVING:
             moveTarget = associated.box.GetCenter() + Vec2(rand()%601 - 300,rand()%601 - 300);
             moveAngle = moveTarget.inclVec2(associated.box.GetCenter());
-            ChangeSprite("resources/img/enemies/pancake_anim(200).png",8,.15F);
+            ChangeSprite("resources/img/enemies/pavao_anim(150).png",6,.15F);
             break;
         case IDLE:
             idleTime = rand()%5001*0.001F + 2;
             speed = 0;
-            ChangeSprite("resources/img/enemies/pancake_idle.png");
+            ChangeSprite("resources/img/enemies/pavao_idle.png");
+            break;
+        case ATTACKING:
+            speed = 0;
+            ChangeSprite("resources/enemies/pavao_attac(150).png",6,.15F);
             break;
         case DAMAGED:
             speed = 0;
@@ -73,7 +80,7 @@ void Pancake::SetState(EnemyState state) {
     }
 }
 
-void Pancake::DeathAnimation() {
+void Pavao::DeathAnimation() {
     GameObject* go = new GameObject();
     Sprite* sprite = new Sprite(*go, "resources/img/enemies/pancake_anim_morRENDO.png",8,.15F,1.2F);
     sprite->SetScale(2,2);
@@ -82,6 +89,6 @@ void Pancake::DeathAnimation() {
     Game::GetInstance().GetCurrentState().AddObject(go);
 }
 
-void Pancake::DropItems() {
+void Pavao::DropItems() {
 
 }
