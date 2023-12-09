@@ -9,7 +9,7 @@ class Pavao: public Enemy {
         Pavao(GameObject& associated, int hp = 100);
         ~Pavao();
 
-        void Update(float dt);
+        // void Update(float dt);
 
         bool Is(std::string type);
 
@@ -20,9 +20,7 @@ class Pavao: public Enemy {
 
         void DeathAnimation();
 
-        void DropItems();
-
-        void NotifyCollision(GameObject& other);       
+        void DropItems();      
 };
  
 #endif  

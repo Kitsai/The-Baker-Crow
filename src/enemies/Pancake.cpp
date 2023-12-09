@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "defines/DefineColor.h"
 
-Pancake::Pancake(GameObject& assoc, int hp): Enemy(assoc,hp) {
+Pancake::Pancake(GameObject& assoc, int hp): Enemy(assoc, false, hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/pancake_idle.png");
     sprite->SetScale(2,2);
     assoc.AddComponent(sprite);
@@ -11,31 +11,6 @@ Pancake::Pancake(GameObject& assoc, int hp): Enemy(assoc,hp) {
 
 Pancake::~Pancake() {
 
-}
-
-void Pancake::Update(float dt) {
-    Enemy::Update(dt);
-
-    switch (state) {
-        case MOVING:
-            Move(dt);
-            break;
-        case IDLE:
-            idleTime -= dt;
-            if (idleTime <= 0) {
-                SetState(MOVING);
-            }
-            break;
-        case DAMAGED:
-            if (timer.Get() > 0.5F) {
-                SetCollider(COLOR_RED, true);
-                SetState(IDLE);
-            }
-            break;
-
-        default:
-            break;
-    }
 }
 
 bool Pancake::Is(std::string type) {
@@ -49,8 +24,7 @@ void Pancake::CalcSpeed(float dt) {
 }
 
 void Pancake::SetState(EnemyState state) {
-
-    this->state = state;
+    Enemy::SetState(state);
 
     switch (state) {
         case MOVING:

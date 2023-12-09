@@ -11,7 +11,7 @@ class Pancake: public Enemy {
 
         ~Pancake();
 
-        void Update(float dt);
+        // void Update(float dt);
 
         bool Is(std::string type);
     private:
@@ -23,7 +23,6 @@ class Pancake: public Enemy {
 
         void DropItems();
 
-        void NotifyCollision(GameObject& other);
 };
 
 #endif
