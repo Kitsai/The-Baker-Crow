@@ -75,7 +75,7 @@ void OverworldState::Update(float dt) {
         shadow->SetAlpha(128);
         go->AddComponent(shadow);
         go->AddComponent(new CameraFollower(*go));
-        AddObject(go);
+        shadowObj = AddObject(go);
         
         ResumeState* newState = new ResumeState();
         Game::GetInstance().Push(newState);
@@ -107,5 +107,5 @@ void OverworldState::Pause() {
 void OverworldState::Resume() {
     auto ptr = shadowObj.lock();
 
-    if(ptr) RemoveObject(ptr.get());
+    if(ptr) ptr->RequestDelete();
 }

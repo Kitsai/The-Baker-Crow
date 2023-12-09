@@ -17,8 +17,6 @@ HealthBar::~HealthBar() {
 
 void HealthBar::Update(float dt) {
     const int hp = (Player::player)? Player::player->GetPlayerHp():0;
-    std::cout << "HP: " << hp << std::endl;
-    std::cout << "Size: " << hearts.size() << std::endl;
 
     while(hp < (int)hearts.size() && hearts.size() > 0) {
         Game::GetInstance().GetCurrentState().RemoveObject(hearts.top().lock().get());
