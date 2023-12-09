@@ -29,7 +29,6 @@ void Enemy::Update(float dt) {
             Move(dt);
             break;
         case ATTACKING:
-            std::cout << "atacking " << timer.Get() << std::endl;
             if(timer.Get() > .9F) {
                 SetCollider(COLOR_RED);
                 if(rand()%10 < 7) SetState(IDLE);

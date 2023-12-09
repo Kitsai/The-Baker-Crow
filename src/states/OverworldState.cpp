@@ -58,6 +58,11 @@ void OverworldState::Update(float dt) {
 
     Camera::Update(dt);
 
+    if(!GameData::playerAlive) {
+        popRequested = true;
+        GameData::playerAlive = true;
+    }
+
     if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
         shadowObj = new GameObject();        
         Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
