@@ -64,6 +64,8 @@ Vec2 Player::GetPlayerCenterPos() {
 
 void Player::SetPlayerState(PlayerState state) {
     this->state = state;
+
+    playerTimer.Restart();
 }
 
 void Player::ChangeSprite(std::string file, int frameCount, float frameTime, SDL_RendererFlip flip) {
@@ -77,9 +79,11 @@ void Player::ChangeSprite(std::string file, int frameCount, float frameTime, SDL
 }
 
 void Player::SetCollider(SDL_Color color, bool active) {
-    auto collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
-    collider->active = active;
-    collider->SetColor(color);
+    std::shared_ptr<Collider> collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
+    if (collider != nullptr) {
+        collider->SetColor(color);
+        collider->active = active;
+    }
 }
 
 int Player::GetPlayerHp() {
@@ -87,11 +91,11 @@ int Player::GetPlayerHp() {
 }
 
 void Player::NotifyCollision(GameObject& other) {
-    if(other.GetComponent("Enemy").lock()) {
+    if(other.GetComponent("Enemy").lock() && state != DAMAGED && state != DODGING) {
 
         auto enemy = std::static_pointer_cast<Enemy>(other.GetComponent("Enemy").lock());
         if(enemy->GetState() == Enemy::EnemyState::ATTACKING) {
-            hp--;
+            std::cout << "Player::NotifyCollision: Enemy attacking" << std::endl;
             SetPlayerState(DAMAGED);
         }
     }

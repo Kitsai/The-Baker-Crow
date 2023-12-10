@@ -14,8 +14,12 @@ TukiOW::~TukiOW() {
 
 }
 
+std::string e2s[5] = {"STANDING","WALKING","ATTACKING","DODGING","DAMAGED"};
+
 void TukiOW::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
+
+    playerTimer.Update(dt);
 
     if(hp <= 0) {
         associated.RequestDelete();
@@ -42,7 +46,7 @@ void TukiOW::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        SetCollider(COLOR_BLUE,false);
+        SetCollider(COLOR_BLUE);
     }
 
     // simulating the calculation of the speed integral by separating the calculation in two steps.
@@ -53,28 +57,20 @@ void TukiOW::Update(float dt) {
         if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM) {
             speed = speed.normalized()*TOW_SPEED_LIM;
             SetPlayerState(WALKING);
-            //playerTimer.Restart();
 
-            auto hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
-            hitbox->active = true;
-            hitbox->SetColor(COLOR_RED);
+            SetCollider(COLOR_RED);
         }
     }
     else if(ATTACKING == GetPlayerState()) {
-        playerTimer.Update(dt);
         if(playerTimer.Get() > TOW_ATTACK_TIME) {
             SetPlayerState(STANDING);
             SetCollider(COLOR_RED);
-            playerTimer.Restart();
-            // attackCooldown = TOW_ATTACK_COOLDOWN;
         }
 
     } else if(DAMAGED == GetPlayerState()) {
-        playerTimer.Update(dt);
         if(playerTimer.Get() > TOW_DAMAGED_TIME) {
             SetPlayerState(STANDING);
-            SetCollider(COLOR_RED,true);
-            playerTimer.Restart();
+            SetCollider(COLOR_RED);
         }
     }
     else {
@@ -141,7 +137,6 @@ bool TukiOW::Is(std::string type) {
 }
 
 void TukiOW::SetPlayerState(PlayerState state) {
-    Player::SetPlayerState(state);
 
     switch (state)
     {
@@ -166,12 +161,17 @@ void TukiOW::SetPlayerState(PlayerState state) {
         ChangeSprite("resources/img/try.png",1,1);
         break;
     case DAMAGED:
-        SetCollider(COLOR_RED, false);
+        if(this->GetPlayerState() == DAMAGED) break;
         speed = 0;
         hp--;
         ChangeSprite("resources/img/tuki_anim_dano.png",4,.15F);
+        SetCollider(COLOR_BLUE);
         break;
     default:
         break;
     }
+
+    Player::SetPlayerState(state);
+
+    std::cout << "Player state: " << e2s[state] << std::endl;
 }

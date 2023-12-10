@@ -39,6 +39,10 @@ OverworldState::OverworldState(): State(), shadowObj() {
     pavao->box.SetCenter(Vec2(3427,652));
     AddObject(pavao);
 
+    GameObject* healthBarObj = new GameObject();
+    healthBarObj->AddComponent(new HealthBar(*healthBarObj));
+    AddObject(healthBarObj);
+
     GameData::playerAlive = true;
     backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
 }
