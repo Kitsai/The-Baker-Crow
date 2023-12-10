@@ -7,9 +7,8 @@
 #include "states/InventoryState.h"
 #include "states/OverworldState.h"
 
-OverworldState::OverworldState(): State(), shadowObj(nullptr) {
+OverworldState::OverworldState(): State(){
 
-    // Game& game = Game::GetInstance();
     GameObject* bg = new GameObject();
     bg->AddComponent(new Sprite(*bg,"resources/img/blackBG.jpg"));
     bg->AddComponent(new CameraFollower(*bg));
@@ -104,21 +103,4 @@ void OverworldState::LoadAssets() {
     HeartBar* heartBar = new HeartBar(*heartBarObj); 
     heartBarObj->AddComponent(heartBar);
     
-}
-
-void OverworldState::LoadShadow() {
-
-    shadowObj = new GameObject();        
-    Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
-    shadow->SetAlpha(128);
-            
-    shadowObj->box = Player::player->GetPlayerPos();
-            
-    shadowObj->AddComponent(shadow);
-    AddObject(shadowObj);
-}
-
-void OverworldState::LoadNewState(State* newState) {
-    LoadShadow();
-    Game::GetInstance().Push(newState);
 }

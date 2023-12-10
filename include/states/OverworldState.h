@@ -13,8 +13,6 @@ class OverworldState: public State {
         ~OverworldState();
 
         void LoadAssets();
-        void LoadShadow();
-        void LoadNewState(State* newState);
         void Update(float dt);
         void Render();
 
@@ -24,7 +22,6 @@ class OverworldState: public State {
     
     private:
         Timer timer;
-        GameObject* shadowObj; 
 };
 
 #endif
