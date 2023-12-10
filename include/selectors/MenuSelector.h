@@ -4,22 +4,15 @@
 #include <vector>
 #include "Button.h"
 #include "Component.h"
+#include "selectors/Selector.h"
 
-class MenuSelector{
+class MenuSelector : public Selector{
 
-public:
-    MenuSelector();
-    ~MenuSelector();
-
-    int GetSelected();
-    void Update(float dt);
-    
-    private:
-        int selected;
-        std::shared_ptr<Button> selectedButton;
+    public:
+        MenuSelector();
+        ~MenuSelector();
         
-        int nButtons;
-        std::vector<std::shared_ptr<Button>> buttons;
+    private:
 };
 
 #endif

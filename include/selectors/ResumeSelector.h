@@ -4,21 +4,15 @@
 #include <vector>
 #include "Button.h"
 #include "Component.h"
+#include "selectors/Selector.h"
 
-class ResumeSelector{
-public:
-    ResumeSelector();
-    ~ResumeSelector();
-
-    int GetSelected();
-    void Update(float dt);
+class ResumeSelector : public Selector{
     
-    private:
-        int selected;
-        std::shared_ptr<Button> selectedButton;
+    public:
+        ResumeSelector();
+        ~ResumeSelector();
         
-        int nButtons;
-        std::vector<std::shared_ptr<Button>> buttons;
+    private:
 };
 
 #endif

@@ -1,11 +1,6 @@
-#include "Game.h"
-#include "Sprite.h"
-#include "Button.h"
 #include "selectors/LoadGameSelector.h"
-#include "InputManager.h"
-#include <memory>
 
-LoadGameSelector::LoadGameSelector() : selected(0), nButtons(2){
+LoadGameSelector::LoadGameSelector() :Selector(){
     
     Button* buttonGame1 = new Button(Vec2(0, 300),"resources/img/MenuButton.png", "LOAD GAME 1", 36);
     Button* buttonGame2 = new Button(Vec2(400, 300),"resources/img/MenuButton.png", "LOAD GAME 2", 36);
@@ -21,42 +16,4 @@ LoadGameSelector::LoadGameSelector() : selected(0), nButtons(2){
 
 LoadGameSelector::~LoadGameSelector() {
     buttons.clear();
-}
-
-void LoadGameSelector::Update(float dt) {
-    
-    if (InputManager::GetInstance().KeyPress(LEFT_ARROW_KEY) && selected == 0) {
-        selected = nButtons;
-        
-        selectedButton->UnChoose();
-        selectedButton = buttons[selected];
-        selectedButton->Choose();
-    }
-    
-    else if (InputManager::GetInstance().KeyPress(LEFT_ARROW_KEY) && selected > 0) {
-        selected--;
-        
-        selectedButton->UnChoose();
-        selectedButton = buttons[selected];
-        selectedButton->Choose();
-    }
-    else if (InputManager::GetInstance().KeyPress(RIGHT_ARROW_KEY) && selected < nButtons) {
-        selected++;
-        
-        selectedButton->UnChoose();
-        selectedButton = buttons[selected];
-        selectedButton->Choose();
-    }
-    
-    else if (InputManager::GetInstance().KeyPress(RIGHT_ARROW_KEY) && selected == nButtons) {
-        selected = 0;
-
-        selectedButton->UnChoose();
-        selectedButton = buttons[selected];
-        selectedButton->Choose();
-    }
-}
-
-int LoadGameSelector::GetSelected(){
-    return selected;
 }

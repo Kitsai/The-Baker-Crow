@@ -1,18 +1,23 @@
 #ifndef Selector_H
 #define Selector_H
 
+#include <vector>
+#include "Button.h"
 #include "Component.h"
 
-class Selector : public Component {
-    int selected;
-    void RenderSelected();
+class Selector{
 public:
-    Selector(GameObject& assoc);
-    ~Selector();
+    Selector();
+    virtual ~Selector();
 
-    void Update(float dt);
-    void Render();
-    bool Is(std::string type);
+    virtual int GetSelected();
+    virtual void Update(float dt);
+    
+    protected:
+        int selected;
+        std::shared_ptr<Button> selectedButton;
+        
+        int nButtons;
+        std::vector<std::shared_ptr<Button>> buttons;
 };
-
 #endif

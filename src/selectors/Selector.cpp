@@ -1,49 +1,50 @@
-#include "selectors/Selector.h"
+#include "Game.h"
 #include "Sprite.h"
+#include "Button.h"
 #include "InputManager.h"
-#include <iostream>
+#include "selectors/Selector.h"
 
-Selector::Selector(GameObject& assoc) : Component(assoc) {
-    selected = 0;
-    associated.AddComponent(new Sprite(associated, "resources/img/circleselection_puzzle.png"));
+Selector::Selector() : selected(0), nButtons(2){
 }
 
-Selector::~Selector() {}
+Selector::~Selector() {
+    buttons.clear();
+}
 
 void Selector::Update(float dt) {
-    if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
+    
+    if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected == 0) {
+        selected = nButtons;
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
+    }
+    
+    else if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
         selected--;
-        RenderSelected();
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
     }
-    if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected < 3) {
+    else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected < nButtons) {
         selected++;
-        RenderSelected();
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
     }
-    if (InputManager::GetInstance().KeyPress(ENTER_KEY)) associated.RequestDelete();
+    
+    else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected == nButtons) {
+        selected = 0;
+
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
+    }
 }
 
-void Selector::Render() {}
-
-bool Selector::Is(std::string type) {
-    return type == "Selector";
-}
-
-void Selector::RenderSelected(){
-    switch(selected){
-        case 0:
-            associated.box.y = 32;
-            break;
-        case 1:
-            associated.box.y = 187;
-            break;
-        case 2:
-            associated.box.y = 342;
-            break;
-        case 3:
-            associated.box.y = 505;
-            break;
-        default:
-            associated.box.y = 32;
-            break;
-    }
+int Selector::GetSelected(){
+    return selected;
 }
