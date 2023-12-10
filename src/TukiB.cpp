@@ -109,7 +109,6 @@ int TukiB::GetFloor() {
 }
 
 void TukiB::SetPlayerState(PlayerState state) {
-    Player::SetPlayerState(state);
 
     switch (state)
     {
@@ -125,19 +124,11 @@ void TukiB::SetPlayerState(PlayerState state) {
         else if(faceDirection == UP)
             ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
         break;
-    case ATTACKING:
-        ChangeSprite("resources/img/tuki_anim_attac.png",4,.1F);
-        SetCollider(COLOR_GREEN);
-        break;
-    case DODGING:
-        ChangeSprite("resources/img/try.png",1,1);
-        break;
-    case DAMAGED:
-        ChangeSprite("resources/img/tuki_anim_dano.png",4,.15F);
-        break;
     default:
         break;
     }
+
+    Player::SetPlayerState(state);
 }
 
 void TukiB::Talk(std::string file, float time){

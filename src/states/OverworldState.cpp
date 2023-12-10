@@ -42,7 +42,6 @@ OverworldState::OverworldState(): State(), shadowObj() {
     Camera::Follow(tuki);
     GameData::playerAlive = true;
 
-    GameData::playerAlive = true;
     backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 

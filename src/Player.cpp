@@ -11,7 +11,7 @@ Player::Player(GameObject& associated): Component(associated) {
     state = STANDING;
     speed = {0,0};
 
-    player = this;
+    Player::player = this;
 
     Game& game = Game::GetInstance();
     associated.AddComponent(new Collider(associated));
@@ -19,7 +19,6 @@ Player::Player(GameObject& associated): Component(associated) {
 }
 
 Player::~Player() {
-    player = nullptr;
 }
 
 void Player::Render() {
@@ -87,6 +86,7 @@ void Player::SetCollider(SDL_Color color, bool active) {
 }
 
 int Player::GetPlayerHp() {
+    std::cout << "teste";
     return this->hp;
 }
 

@@ -125,11 +125,9 @@ void BakeryState::Update(float dt) {
         }
         objectArray[1]->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
         if (floor == 2) {
-            Player::player = nullptr;
             OverworldState* overworld = new OverworldState();
             Game::GetInstance().Push(overworld);
             popRequested = true;
-            GameData::quitOWState = false;
             backGroundMusic->Stop(50);
         }
     }
