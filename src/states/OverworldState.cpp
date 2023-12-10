@@ -8,7 +8,6 @@
 #include "enemies/Pavao.h"
 #include "states/OverworldState.h"
 #include "states/ResumeState.h"
-#include "HealthBar.h"
 
 OverworldState::OverworldState(): State(), shadowObj() {
 
@@ -39,9 +38,9 @@ OverworldState::OverworldState(): State(), shadowObj() {
     pavao->box.SetCenter(Vec2(3427,652));
     AddObject(pavao);
 
-    GameObject* healthBarObj = new GameObject();
-    healthBarObj->AddComponent(new HealthBar(*healthBarObj));
-    AddObject(healthBarObj);
+
+    Camera::Follow(tuki);
+    GameData::playerAlive = true;
 
     GameData::playerAlive = true;
     backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
@@ -52,12 +51,12 @@ OverworldState::~OverworldState() {
 }
 
 void OverworldState::LoadAssets() {
-    /*
+
     GameObject* heartBarObj = new GameObject();
     AddObject(heartBarObj);
-    
     HeartBar* heartBar = new HeartBar(*heartBarObj); 
-    heartBarObj->AddComponent(heartBar);*/
+    heartBarObj->AddComponent(heartBar);
+    
 }
 
 void OverworldState::Update(float dt) {

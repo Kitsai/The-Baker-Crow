@@ -9,6 +9,7 @@
 class HeartBar : public Component {
 public:
     HeartBar(GameObject& associated);
+    ~HeartBar();
 
     void Render();
     void Update(float dt);
@@ -18,18 +19,17 @@ private:
     
     class Heart {
     public:
-        Heart(GameObject& associated, Sprite* sprite, Vec2 pos, bool visible, HeartBar* bar);
+        Heart(GameObject& associated, Sprite* sprite, bool visible, HeartBar* bar);
+        ~Heart();
         void Update(int i);
         
         GameObject* GoHeart;
-        Sprite* spriteHeart;
         bool visible;
 
     private:
         HeartBar* bar;
     };
 
-    Sprite* sprite;
     GameObject* associated;
     std::vector<Heart*> hearts;
     void CreateHearts(int initialHealth, const std::string& heartSpriteFile);
