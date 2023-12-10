@@ -4,21 +4,13 @@
 #include <vector>
 #include "Button.h"
 #include "Component.h"
+#include "selectors/Selector.h"
 
-class LoadGameSelector {
+class LoadGameSelector : public Selector {
 
-public:
-    LoadGameSelector();
-    ~LoadGameSelector();
-
-    int GetSelected();
-    void Update(float dt);
-
+    public:
+        LoadGameSelector();
+    
     private:
-        int selected;
-        std::shared_ptr<Button> selectedButton;
-        
-        int nButtons;
-        std::vector<std::shared_ptr<Button>> buttons;
 };
 #endif

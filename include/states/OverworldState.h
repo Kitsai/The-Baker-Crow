@@ -5,6 +5,7 @@
 #include "TukiOW.h"
 #include "GameData.h"
 #include "InputManager.h"
+#include <memory>
 
 class OverworldState: public State {
     public:
@@ -19,7 +20,9 @@ class OverworldState: public State {
         void Pause();
         void Resume();
 
-        GameObject* shadowObj; 
+        std::weak_ptr<GameObject> shadowObj; 
+    private:
+        Timer timer;
 };
 
 #endif

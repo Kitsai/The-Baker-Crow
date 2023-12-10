@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "InputManager.h"
 #include "states/ResumeState.h"
 #include "defines/DefineInput.h"
 #include "states/NewGameState.h"
@@ -21,18 +22,19 @@ ResumeState::~ResumeState(){
 }
 
 void ResumeState::Update(float dt){
+    InputManager& iM = InputManager::GetInstance();
 
-    if (InputManager::GetInstance().QuitRequested() || 
-        InputManager::GetInstance().KeyPress(ESCAPE_KEY) || 
-        (InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 0))){
+    if(iM.QuitRequested()) quitRequested = true;
+
+    if (iM.KeyPress(ESCAPE_KEY) || 
+        (iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 0))){
         popRequested = true;
     }
     
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
-
+    else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
     }
     
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
+    else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         popRequested = true;
         GameData::quitOWState = true;
     }

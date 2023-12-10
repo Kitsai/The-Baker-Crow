@@ -1,5 +1,8 @@
 #include "TukiOW.h"
+#include "Player.h"
 #include "Sprite.h"
+#include "defines/DefineInput.h"
+#include <SDL2/SDL_render.h>
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
@@ -12,8 +15,12 @@ TukiOW::~TukiOW() {
 
 }
 
+std::string e2s[5] = {"STANDING","WALKING","ATTACKING","DODGING","DAMAGED"};
+
 void TukiOW::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
+
+    playerTimer.Update(dt);
 
     if(hp <= 0) {
         associated.RequestDelete();
@@ -40,7 +47,7 @@ void TukiOW::Update(float dt) {
 
         speed = direction.normalized() * TOW_DASH_SPEED;
 
-        SetCollider(COLOR_BLUE,false);
+        SetCollider(COLOR_BLUE);
     }
 
     // simulating the calculation of the speed integral by separating the calculation in two steps.
@@ -51,22 +58,21 @@ void TukiOW::Update(float dt) {
         if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM) {
             speed = speed.normalized()*TOW_SPEED_LIM;
             SetPlayerState(WALKING);
-            //playerTimer.Restart();
 
-            auto hitbox = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
-            hitbox->active = true;
-            hitbox->SetColor(COLOR_RED);
+            SetCollider(COLOR_RED);
         }
     }
     else if(ATTACKING == GetPlayerState()) {
-        playerTimer.Update(dt);
         if(playerTimer.Get() > TOW_ATTACK_TIME) {
             SetPlayerState(STANDING);
             SetCollider(COLOR_RED);
-            playerTimer.Restart();
-            // attackCooldown = TOW_ATTACK_COOLDOWN;
         }
 
+    } else if(DAMAGED == GetPlayerState()) {
+        if(playerTimer.Get() > TOW_DAMAGED_TIME) {
+            SetPlayerState(STANDING);
+            SetCollider(COLOR_RED);
+        }
     }
     else {
         // Switches from Walking to Standing.
@@ -77,6 +83,9 @@ void TukiOW::Update(float dt) {
         }
         else if(GetPlayerState() == STANDING) SetPlayerState(WALKING);
     }
+
+    if(iM.KeyPress(K_KEY)) SetPlayerState(DAMAGED);
+    if(iM.KeyPress(E_KEY)) if(hp < 3) this->hp++;
 
     // if(attackCooldown > 0) attackCooldown -= dt;
     
@@ -130,7 +139,6 @@ bool TukiOW::Is(std::string type) {
 }
 
 void TukiOW::SetPlayerState(PlayerState state) {
-    Player::SetPlayerState(state);
 
     switch (state)
     {
@@ -148,15 +156,24 @@ void TukiOW::SetPlayerState(PlayerState state) {
         break;
     case ATTACKING:
         ChangeSprite("resources/img/tuki_anim_attac.png",4,.1F);
+        speed = 0;
         SetCollider(COLOR_GREEN);
         break;
     case DODGING:
         ChangeSprite("resources/img/try.png",1,1);
         break;
     case DAMAGED:
+        if(this->GetPlayerState() == DAMAGED) break;
+        speed = 0;
+        hp--;
         ChangeSprite("resources/img/tuki_anim_dano.png",4,.15F);
+        SetCollider(COLOR_BLUE);
         break;
     default:
         break;
     }
+
+    Player::SetPlayerState(state);
+
+    std::cout << "Player state: " << e2s[state] << std::endl;
 }
