@@ -19,8 +19,6 @@ class OverworldState: public State {
         void Start();
         void Pause();
         void Resume();
-
-        std::weak_ptr<GameObject> shadowObj; 
     private:
         Timer timer;
 };

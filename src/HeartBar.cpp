@@ -2,13 +2,19 @@
 #include "Player.h"
 #include "HeartBar.h"
 #include "CameraFollower.h"
-#include <algorithm>
 
 HeartBar::Heart::Heart(GameObject& associated, Sprite* sprite, bool visible, HeartBar* bar) : 
                        GoHeart(&associated), visible(visible), bar(bar) {
     
     GoHeart->AddComponent(new CameraFollower(*GoHeart));
     GoHeart->AddComponent(new Sprite(*this->GoHeart, "resources/img/HEART_DEAD.png"));
+
+    GameObject* inventory = new GameObject();
+    inventory->box = Vec2(1180, -25);
+    inventory->AddComponent(new CameraFollower(*inventory));
+    inventory->AddComponent(new Sprite(*inventory,"resources/img/inventory_icon.png"));
+
+    Game::GetInstance().GetCurrentState().AddObject(inventory);
 }
 HeartBar::Heart::~Heart(){
     this->GoHeart = nullptr;

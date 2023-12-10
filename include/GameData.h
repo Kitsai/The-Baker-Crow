@@ -12,6 +12,15 @@ class GameData {
 
         static int playerLife;
         static Vec2 lastSafePosition;
+
+        static bool hasSugar;
+        static bool hasChoco;
+        static bool hasMilk;
+        static bool hasButter;
+        static bool hasHoney;
+        static bool hasStraw;
+        static bool hasEggs;
+        static bool hasWheat;
 };
 
 #endif
