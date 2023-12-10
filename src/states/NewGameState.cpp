@@ -30,6 +30,7 @@ void NewGameState::Update(float dt){
         popRequested = true;
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
+        GameData::intro = true;
         BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;

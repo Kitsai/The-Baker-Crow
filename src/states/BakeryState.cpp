@@ -25,7 +25,7 @@ BakeryState::BakeryState() : State() {
 
         tukiB->SetFloor(floor);
         tuki->AddComponent(tukiB);
-        tuki->box.SetCenter({500,525});
+        tuki->box.SetCenter({810,260});
         AddObject(tuki);
         Camera::Follow(tuki);
 
@@ -36,9 +36,11 @@ BakeryState::BakeryState() : State() {
         speakBalloon->box.x = 320;
         speakBalloon->box.y = 570;
 
-        AddObject(speakBalloon);
+        // AddObject(speakBalloon);
 
         GameData::intro = false;
+
+
     } else {
         floor = 1;
 
