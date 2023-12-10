@@ -2,16 +2,23 @@
 
 ChoiceState::ChoiceState() : State() {
 
+    GameData::requests = {"cake", "brigadeiro", "macarons"};
+
     GameObject* titleObj = new GameObject();
-    titleObj->box.x = 400;
-    titleObj->box.y = 50;
-    Sprite* titleImage = new Sprite(*titleObj, "resources/img/MenuButton.png");
-    titleImage->SetScale(3.0f, 9.0f);
+    titleObj->box.x = 450;
+    titleObj->box.y = 10;
+    Sprite* titleImage = new Sprite(*titleObj, "resources/img/recipes.png");
     titleObj->AddComponent(titleImage);
     AddObject(titleObj);
 
-    GameObject* icon = new GameObject();
-
+    for (int i = 0; i < GameData::requests.size(); i++){
+        GameObject* requestObj = new GameObject();
+        requestObj->box.x = 450;
+        requestObj->box.y = 100 + 100*i;
+        Sprite* requestImage = new Sprite(*requestObj, "resources/img/food/" + GameData::requests[i] + ".png");
+        requestObj->AddComponent(requestImage);
+        AddObject(requestObj);
+    }
 
 }
 

@@ -175,5 +175,5 @@ void TukiOW::SetPlayerState(PlayerState state) {
 
     Player::SetPlayerState(state);
 
-    std::cout << "Player state: " << e2s[state] << std::endl;
+    // std::cout << "Player state: " << e2s[state] << std::endl;
 }

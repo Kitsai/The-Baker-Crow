@@ -86,7 +86,6 @@ void Player::SetCollider(SDL_Color color, bool active) {
 }
 
 int Player::GetPlayerHp() {
-    std::cout << "teste";
     return this->hp;
 }
 
