@@ -3,6 +3,7 @@
 
 #include "State.h"
 #include "InputManager.h"
+#include "GameData.h"
 
 class ChoiceState : public State {
     public:
