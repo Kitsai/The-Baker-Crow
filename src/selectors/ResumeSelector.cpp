@@ -12,7 +12,3 @@ ResumeSelector::ResumeSelector() : Selector(){
     selectedButton = buttons[0];
     selectedButton->Choose();
 }
-
-ResumeSelector::~ResumeSelector() {
-    buttons.clear();
-}

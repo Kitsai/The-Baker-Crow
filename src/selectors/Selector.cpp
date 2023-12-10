@@ -1,14 +1,17 @@
-#include "Game.h"
-#include "Sprite.h"
-#include "Button.h"
-#include "InputManager.h"
 #include "selectors/Selector.h"
 
 Selector::Selector() : selected(0), nButtons(2){
+    
+    GameObject* soundPassObj = new GameObject();
+    soundPass = new Sound(*soundPassObj, "resources/Sound/ButtonUI.flac");
+    soundPassObj->AddComponent(soundPass);
+    
+    Game::GetInstance().GetCurrentState().AddObject(soundPassObj);
 }
 
 Selector::~Selector() {
     buttons.clear();
+    this->soundPass = nullptr;
 }
 
 void Selector::Update(float dt) {
@@ -19,6 +22,8 @@ void Selector::Update(float dt) {
         selectedButton->UnChoose();
         selectedButton = buttons[selected];
         selectedButton->Choose();
+        
+        soundPass->Play();
     }
     
     else if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
@@ -27,6 +32,8 @@ void Selector::Update(float dt) {
         selectedButton->UnChoose();
         selectedButton = buttons[selected];
         selectedButton->Choose();
+
+        soundPass->Play();
     }
     else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected < nButtons) {
         selected++;
@@ -34,6 +41,8 @@ void Selector::Update(float dt) {
         selectedButton->UnChoose();
         selectedButton = buttons[selected];
         selectedButton->Choose();
+
+        soundPass->Play();
     }
     
     else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected == nButtons) {
@@ -42,6 +51,8 @@ void Selector::Update(float dt) {
         selectedButton->UnChoose();
         selectedButton = buttons[selected];
         selectedButton->Choose();
+
+        soundPass->Play();
     }
 }
 

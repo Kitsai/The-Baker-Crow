@@ -13,7 +13,3 @@ LoadGameSelector::LoadGameSelector() :Selector(){
     selectedButton = buttons[0];
     selectedButton->Choose();
 }
-
-LoadGameSelector::~LoadGameSelector() {
-    buttons.clear();
-}

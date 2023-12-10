@@ -10,7 +10,6 @@ class ResumeSelector : public Selector{
     
     public:
         ResumeSelector();
-        ~ResumeSelector();
         
     private:
 };

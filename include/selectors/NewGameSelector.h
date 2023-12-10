@@ -10,7 +10,6 @@ class NewGameSelector : public Selector{
 
     public:
         NewGameSelector();
-        ~NewGameSelector();
     
     private:
 };

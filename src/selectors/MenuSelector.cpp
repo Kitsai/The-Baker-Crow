@@ -14,7 +14,3 @@ MenuSelector::MenuSelector() : Selector(){
     selectedButton = buttons[0];
     selectedButton->Choose();
 }
-
-MenuSelector::~MenuSelector() {
-    buttons.clear();
-}

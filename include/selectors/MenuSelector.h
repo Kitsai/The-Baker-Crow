@@ -10,7 +10,6 @@ class MenuSelector : public Selector{
 
     public:
         MenuSelector();
-        ~MenuSelector();
         
     private:
 };

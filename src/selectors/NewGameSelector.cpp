@@ -13,7 +13,3 @@ NewGameSelector::NewGameSelector() : Selector(){
     selectedButton = buttons[0];
     selectedButton->Choose();
 }
-
-NewGameSelector::~NewGameSelector() {
-    buttons.clear();
-}

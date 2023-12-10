@@ -43,7 +43,7 @@ OverworldState::OverworldState(): State(), shadowObj() {
     GameData::playerAlive = true;
 
     GameData::playerAlive = true;
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
+    backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 
 OverworldState::~OverworldState() {

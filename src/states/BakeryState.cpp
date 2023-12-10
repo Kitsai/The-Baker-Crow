@@ -18,7 +18,7 @@ BakeryState::BakeryState() : State() {
     Camera::Follow(tuki);
 
     GameData::playerAlive = true;
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
+    backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 
 BakeryState::~BakeryState() {

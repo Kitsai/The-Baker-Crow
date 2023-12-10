@@ -10,7 +10,6 @@ class LoadGameSelector : public Selector {
 
     public:
         LoadGameSelector();
-        ~LoadGameSelector();
     
     private:
 };

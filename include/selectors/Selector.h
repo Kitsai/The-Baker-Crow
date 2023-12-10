@@ -2,8 +2,12 @@
 #define Selector_H
 
 #include <vector>
+
+#include "Game.h"
+#include "Sound.h"
+#include "Sprite.h"
 #include "Button.h"
-#include "Component.h"
+#include "InputManager.h"
 
 class Selector{
 public:
@@ -19,5 +23,7 @@ public:
         
         int nButtons;
         std::vector<std::shared_ptr<Button>> buttons;
+        
+        Sound* soundPass;
 };
 #endif
