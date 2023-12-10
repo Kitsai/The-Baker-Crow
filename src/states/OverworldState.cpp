@@ -47,7 +47,6 @@ OverworldState::OverworldState(): State(), shadowObj() {
 }
 
 OverworldState::~OverworldState() {
-    backGroundMusic->Stop(0);
 }
 
 void OverworldState::LoadAssets() {
