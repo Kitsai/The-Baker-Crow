@@ -9,6 +9,7 @@ class GameData {
         /// @brief Keeps the current Victory status. Changed when win or lose conditions are met.
         static bool playerAlive;
         static bool quitOWState;
+        static bool intro;
 
         static int playerLife;
         static Vec2 lastSafePosition;
