@@ -27,6 +27,7 @@ HeartBar::HeartBar(GameObject& associated) : Component(associated), sprite(nullp
 }
 
 void HeartBar::CreateHearts(int initialHealth, const std::string& heartSpriteFile) {
+    if(!Player::player) return;
     Vec2 startPos = Player::player->GetPlayerPos();
     
     for (int i = 0; i < initialHealth; ++i) {
@@ -49,6 +50,7 @@ bool HeartBar::Is(std::string type){
 }
 
 void HeartBar::Update(float dt) {
+    if(!Player::player) return;
     int playerLife = Player::player->GetPlayerHp();
     Vec2 playerPos = Player::player->GetPlayerPos();
     

@@ -1,6 +1,7 @@
 #include "TukiB.h"
 #include "Sprite.h"
 #include "states/BakeryState.h"
+#include "states/ChoiceState.h"
 
 TukiB::TukiB(GameObject& associated): Player(associated) {
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
@@ -20,6 +21,16 @@ void TukiB::Update(float dt) {
 
     // simulating the calculation of the speed integral by separating the calculation in two steps.
     Move(dt);
+
+    if (iM.KeyPress(Z_KEY) && floor == 1) {
+        int posX = associated.box.x;
+        int posY = associated.box.y;
+
+
+        if (faceDirection == DOWN && posX < 300 && posX > 250 && posY > 450) {
+            Game::GetInstance().Push(new ChoiceState());
+        }
+    }
     
      // Switches from Walking to Standing.
     if(speed.magnitude() < 1) {

@@ -1,12 +1,17 @@
 #include "states/BakeryState.h"
 #include "Game.h"
 #include "TukiB.h"
+#include "NPC.h"
 #include "states/ResumeState.h"
 #include "states/OverworldState.h"
 
 BakeryState::BakeryState() : State() {
     GameObject* tuki = new GameObject();
     TukiB* tukiB = new TukiB(*tuki);
+
+    GameObject* dad = new GameObject();
+    dad->AddComponent(new NPC(*dad, "resources/img/dad.png"));
+    dad->box.SetCenter({520,280});
 
     if (GameData::intro) {
         floor = 0;
@@ -28,6 +33,8 @@ BakeryState::BakeryState() : State() {
         tuki->box.SetCenter({810,260});
         AddObject(tuki);
         Camera::Follow(tuki);
+
+        AddObject(dad);
 
         GameObject* speakBalloon = new GameObject();
         Sprite* sprite = new Sprite(*speakBalloon, "resources/img/MenuButton.png");
@@ -97,13 +104,27 @@ void BakeryState::Update(float dt) {
     int newFloor = ((TukiB*)Player::player)->GetFloor();
     if (newFloor != floor) {
         floor = newFloor;
+
+        // gets rid of npcs from floor
+        for (int i = 0; i < (int)objectArray.size(); i++)
+            if (objectArray[i]->GetComponent("NPC").lock())
+                objectArray[i]->RequestDelete();
+
         objectArray[1]->RemoveComponent(objectArray[1]->GetComponent("Sprite").lock().get());
-        if (floor == 0) 
+        if (floor == 0){
             objectArray[1]->AddComponent(new Sprite(*objectArray[1], "resources/img/bedroom/bedroom.png"));
-        else if (floor == 1)
+
+            GameObject* dad = new GameObject();
+            dad->AddComponent(new NPC(*dad, "resources/img/dad.png"));
+            dad->box.SetCenter({520,280});
+            AddObject(dad);
+        }
+        else if (floor == 1){
             objectArray[1]->AddComponent(new Sprite(*objectArray[1], "resources/img/bakery_test.png"));
+        }
         objectArray[1]->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
         if (floor == 2) {
+            Player::player = nullptr;
             OverworldState* overworld = new OverworldState();
             Game::GetInstance().Push(overworld);
             popRequested = true;
