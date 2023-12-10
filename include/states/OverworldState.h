@@ -13,14 +13,18 @@ class OverworldState: public State {
         ~OverworldState();
 
         void LoadAssets();
+        void LoadShadow();
+        void LoadNewState(State* newState);
         void Update(float dt);
         void Render();
 
         void Start();
         void Pause();
         void Resume();
+    
     private:
         Timer timer;
+        GameObject* shadowObj; 
 };
 
 #endif

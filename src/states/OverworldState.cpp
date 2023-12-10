@@ -1,15 +1,13 @@
-#include "CameraFollower.h"
-#include "Component.h"
-#include "GameData.h"
 #include "HeartBar.h"
-#include "Player.h"
-#include "defines/DefineInput.h"
-#include "enemies/Pancake.h"
-#include "enemies/Pavao.h"
-#include "states/OverworldState.h"
-#include "states/ResumeState.h"
 
-OverworldState::OverworldState(): State() {
+#include "enemies/Pavao.h"
+#include "enemies/Pancake.h"
+
+#include "states/ResumeState.h"
+#include "states/InventoryState.h"
+#include "states/OverworldState.h"
+
+OverworldState::OverworldState(): State(), shadowObj(nullptr) {
 
     // Game& game = Game::GetInstance();
     GameObject* bg = new GameObject();
@@ -48,44 +46,30 @@ OverworldState::OverworldState(): State() {
 OverworldState::~OverworldState() {
 }
 
-void OverworldState::LoadAssets() {
-
-    GameObject* heartBarObj = new GameObject();
-    AddObject(heartBarObj);
-    HeartBar* heartBar = new HeartBar(*heartBarObj); 
-    heartBarObj->AddComponent(heartBar);
-    
-}
-
 void OverworldState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
-
-    Camera::Update(dt);
-
-    if(iM.QuitRequested()) quitRequested = true;
-
+    
+    if(GameData::quitOWState){
+        popRequested = true; 
+        GameData::quitOWState = false;
+    }
+    
     if(!GameData::playerAlive) {
         timer.Update(dt);
         if(timer.Get() > 1.0) {
             popRequested = true;
         }
-    }
-
-    if (iM.KeyPress(ESCAPE_KEY) ||  iM.KeyPress(P_KEY)){
-        GameObject* go = new GameObject();        
+    }else{
+        Camera::Update(dt);
         
-        Sprite* shadow = new  Sprite(*go,"resources/img/Shadow.png");
-        shadow->SetAlpha(128);
-        go->AddComponent(shadow);
+        if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
+            LoadNewState(new ResumeState());
+        }
         
-        ResumeState* newState = new ResumeState();
-        Game::GetInstance().Push(newState);
+        else if (iM.KeyPress(I_KEY)){
+            LoadNewState(new InventoryState());
+        }
     }
-    if(GameData::quitOWState){
-        popRequested = true; 
-        GameData::quitOWState = false;
-    }
-
     UpdateArray(dt);
     CheckCollisions();
     DeleteObjects();
@@ -106,4 +90,35 @@ void OverworldState::Pause() {
 }
 
 void OverworldState::Resume() {
+    if(shadowObj){
+        RemoveObject(shadowObj);
+        shadowObj = nullptr;
+    }
+}
+
+void OverworldState::LoadAssets() {
+
+    GameObject* heartBarObj = new GameObject();
+    AddObject(heartBarObj);
+    
+    HeartBar* heartBar = new HeartBar(*heartBarObj); 
+    heartBarObj->AddComponent(heartBar);
+    
+}
+
+void OverworldState::LoadShadow() {
+
+    shadowObj = new GameObject();        
+    Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
+    shadow->SetAlpha(128);
+            
+    shadowObj->box = Player::player->GetPlayerPos();
+            
+    shadowObj->AddComponent(shadow);
+    AddObject(shadowObj);
+}
+
+void OverworldState::LoadNewState(State* newState) {
+    LoadShadow();
+    Game::GetInstance().Push(newState);
 }
