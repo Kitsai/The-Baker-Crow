@@ -11,7 +11,7 @@ Player::Player(GameObject& associated): Component(associated) {
     state = STANDING;
     speed = {0,0};
 
-    Player::player = this;
+    player = this;
 
     Game& game = Game::GetInstance();
     associated.AddComponent(new Collider(associated));

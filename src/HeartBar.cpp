@@ -14,7 +14,6 @@ HeartBar::Heart::~Heart(){
 }
 
 void HeartBar::Heart::Update(int i) {
-    std::cout << "teste" << std::endl;
     if (Player::player->GetPlayerHp() <= i) {
         std::weak_ptr<Component> weakSpriteComponent = GoHeart->GetComponent("Sprite");
         std::shared_ptr<Component> sharedSpriteComponent = weakSpriteComponent.lock();
@@ -63,7 +62,6 @@ void HeartBar::CreateHearts(int initialHealth, const std::string& heartSpriteFil
 }
 
 void HeartBar::Update(float dt) {
-    std::cout << Player::player << std::endl;
     if(Player::player){
         for (std::vector<int>::size_type i = 0; i < hearts.size(); i++) {
             hearts[i]->Update(i);
