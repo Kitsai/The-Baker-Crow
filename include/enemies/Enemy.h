@@ -14,7 +14,7 @@ class Enemy: public Component {
         /// @brief Constructor for Enemy.
         /// @param associated Object the component is part of.
         /// @param hp the enemy hp.
-        Enemy(GameObject& associated,int hp = 100);
+        Enemy(GameObject& associated, bool attacker, int hp = 100);
 
         /// @brief Destructor for Enemy.
         virtual ~Enemy();
@@ -28,11 +28,16 @@ class Enemy: public Component {
         /// @param type Type to be checked.
         /// @return True if type matches with the passed argument.
         bool virtual Is(std::string type);
-    protected:
+
         enum EnemyState {MOVING, ATTACKING, IDLE, DAMAGED};
+        EnemyState GetState();
+        
+        void virtual NotifyCollision(GameObject& other);
+    protected:
 
         int hp;
         EnemyState state;
+        bool attacker;
 
         Vec2 moveTarget;
         float speed;
@@ -41,23 +46,23 @@ class Enemy: public Component {
         Timer timer;
         float idleTime;
 
-        std::weak_ptr<GameObject> attack;
-
         void virtual Defeated();
 
-        void virtual Move(float dt) = 0;  
+        void virtual Move(float dt);  
         void virtual CalcSpeed(float dt) = 0;
 
-        void virtual Attk();
+        bool virtual Attk();
         
-        void virtual SetState(EnemyState state) = 0;
+        void virtual SetState(EnemyState state);
         void virtual ChangeSprite(std::string file, int frameCount = 1, float frameTime = 1);
+        void virtual ChangeSprite(std::string file, SDL_RendererFlip flip, int frameCount = 1, float frameTime = 1);
         void virtual SetCollider(SDL_Color color, bool active = true);
-        // void virtual FlipSprite(SDL_RendererFlip flip);
+
 
         void virtual DeathAnimation() = 0;
 
         void virtual DropItems() = 0;
+
 };
 
 #endif
