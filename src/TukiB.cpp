@@ -3,8 +3,6 @@
 #include "states/BakeryState.h"
 
 TukiB::TukiB(GameObject& associated): Player(associated) {
-    floor = 0;
-
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
     sprite->SetScale(2.0f,2.0f);
     associated.AddComponent(sprite);

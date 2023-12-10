@@ -5,39 +5,62 @@
 #include "states/OverworldState.h"
 
 BakeryState::BakeryState() : State() {
-    floor = 0;
-
-    GameObject* bg = new GameObject();
-    bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
-    bg->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-    bg->AddComponent(new CameraFollower(*bg));
-    AddObject(bg);
-
-    // keep as game object 1 of bakeryState
-    GameObject* room = new GameObject();
-    room->AddComponent(new Sprite(*room, "resources/img/bedroom/bedroom.png"));
-    room->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-    AddObject(room);
-
-
     GameObject* tuki = new GameObject();
-    tuki->AddComponent(new TukiB(*tuki));
-    tuki->box.SetCenter({500,525});
-    AddObject(tuki);
+    TukiB* tukiB = new TukiB(*tuki);
 
-    Camera::Follow(tuki);
+    if (GameData::intro) {
+        floor = 0;
 
-    GameData::playerAlive = true;
+        GameObject* bg = new GameObject();
+        bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
+        bg->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+        bg->AddComponent(new CameraFollower(*bg));
+        AddObject(bg);
+
+        // keep as game object 1 of bakeryState
+        GameObject* room = new GameObject();
+        room->AddComponent(new Sprite(*room, "resources/img/bedroom/bedroom.png"));
+        room->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+        AddObject(room);
+
+        tukiB->SetFloor(floor);
+        tuki->AddComponent(tukiB);
+        tuki->box.SetCenter({500,525});
+        AddObject(tuki);
+        Camera::Follow(tuki);
+
+        GameObject* speakBalloon = new GameObject();
+        Sprite* sprite = new Sprite(*speakBalloon, "resources/img/MenuButton.png");
+        speakBalloon->AddComponent(sprite);
+        sprite->SetScale(3.0f, 2.5f);
+        speakBalloon->box.x = 320;
+        speakBalloon->box.y = 570;
+
+        AddObject(speakBalloon);
+
+        GameData::intro = false;
+    } else {
+        floor = 1;
+
+        GameObject* bg = new GameObject();
+        bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
+        bg->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+        bg->AddComponent(new CameraFollower(*bg));
+        AddObject(bg);
+
+        GameObject* room = new GameObject();
+        room->AddComponent(new Sprite(*room, "resources/img/bakery_test.png"));
+        room->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+        AddObject(room);
+
+        tukiB->SetFloor(floor);
+        tuki->AddComponent(tukiB);
+        tuki->box.SetCenter({615,650});
+        AddObject(tuki);
+        Camera::Follow(tuki);
+    }
+
     backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
-
-    GameObject* speakBalloon = new GameObject();
-    Sprite* sprite = new Sprite(*speakBalloon, "resources/img/MenuButton.png");
-    speakBalloon->AddComponent(sprite);
-    sprite->SetScale(3.0f, 2.5f);
-    speakBalloon->box.x = 320;
-    speakBalloon->box.y = 570;
-
-    //AddObject(speakBalloon);
 }
 
 BakeryState::~BakeryState() {

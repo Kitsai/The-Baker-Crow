@@ -5,6 +5,7 @@
 #include "states/LoadGameState.h"
 #include "selectors/ResumeSelector.h"
 
+
 ResumeState::ResumeState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
@@ -28,6 +29,7 @@ void ResumeState::Update(float dt){
     }
     
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
+
     }
     
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
