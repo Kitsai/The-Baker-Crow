@@ -2,7 +2,6 @@
 
 #include "Game.h"
 #include "Vec2.h"
-#include "enemies/Enemy.h"
 
 Player* Player::player = nullptr;
 
@@ -19,7 +18,7 @@ Player::Player(GameObject& associated): Component(associated) {
 }
 
 Player::~Player() {
-    player = nullptr;
+
 }
 
 void Player::Render() {
@@ -84,15 +83,4 @@ void Player::SetCollider(SDL_Color color, bool active) {
 
 int Player::GetPlayerHp() {
     return this->hp;
-}
-
-void Player::NotifyCollision(GameObject& other) {
-    if(other.GetComponent("Enemy").lock()) {
-
-        auto enemy = std::static_pointer_cast<Enemy>(other.GetComponent("Enemy").lock());
-        if(enemy->GetState() == Enemy::EnemyState::ATTACKING) {
-            hp--;
-            SetPlayerState(DAMAGED);
-        }
-    }
 }

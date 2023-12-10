@@ -25,7 +25,6 @@ class Player: public Component {
         int GetPlayerHp();
         PlayerState GetPlayerState(); 
 
-        void virtual NotifyCollision(GameObject& other);
     protected:
         int hp;
         Timer playerTimer;
@@ -35,7 +34,6 @@ class Player: public Component {
         void virtual SetPlayerState(PlayerState state);
         void ChangeSprite(std::string file, int frameCount, float frameTime, SDL_RendererFlip flip = SDL_FLIP_NONE);
         void SetCollider(SDL_Color color = COLOR_RED, bool active = true);
-
     private:
         PlayerState state;
 }; 

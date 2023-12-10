@@ -24,11 +24,8 @@ constexpr float TOW_DASH_SPEED = 2500;
 constexpr float TOW_DASH_TIME = 0.5F;
 constexpr float TOW_DASH_DAMP = .001F;
 
-// PAVAO
-constexpr float PAVAO_SPEED_LIM = 150;
-constexpr float PAVAO_A = 1500;
-
 // PANCAKE
+
 constexpr float PANCAKE_SPEED_LIM = 200;
 constexpr float PANCAKE_A = 1500;
 

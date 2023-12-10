@@ -11,10 +11,11 @@ class Pancake: public Enemy {
 
         ~Pancake();
 
-        // void Update(float dt);
+        void Update(float dt);
 
         bool Is(std::string type);
     private:
+        void Move(float dt);  
         void CalcSpeed(float dt);
 
         void SetState(EnemyState state);
@@ -23,6 +24,7 @@ class Pancake: public Enemy {
 
         void DropItems();
 
+        void NotifyCollision(GameObject& other);
 };
 
 #endif
