@@ -94,7 +94,7 @@ void Player::NotifyCollision(GameObject& other) {
 
         auto enemy = std::static_pointer_cast<Enemy>(other.GetComponent("Enemy").lock());
         if(enemy->GetState() == Enemy::EnemyState::ATTACKING) {
-            std::cout << "Player::NotifyCollision: Enemy attacking" << std::endl;
+            enemy->SetCollider(COLOR_GREEN,false);
             SetPlayerState(DAMAGED);
         }
     }

@@ -11,7 +11,7 @@ ChoiceState::ChoiceState() : State() {
     titleObj->AddComponent(titleImage);
     AddObject(titleObj);
 
-    for (int i = 0; i < GameData::requests.size(); i++){
+    for (int i = 0; i < (int)GameData::requests.size(); i++){
         GameObject* requestObj = new GameObject();
         requestObj->box.x = 450;
         requestObj->box.y = 100 + 100*i;

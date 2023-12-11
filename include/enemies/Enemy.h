@@ -33,6 +33,7 @@ class Enemy: public Component {
         EnemyState GetState();
         
         void virtual NotifyCollision(GameObject& other);
+        void virtual SetCollider(SDL_Color color, bool active = true);
     protected:
 
         int hp;
@@ -56,7 +57,6 @@ class Enemy: public Component {
         void virtual SetState(EnemyState state);
         void virtual ChangeSprite(std::string file, int frameCount = 1, float frameTime = 1);
         void virtual ChangeSprite(std::string file, SDL_RendererFlip flip, int frameCount = 1, float frameTime = 1);
-        void virtual SetCollider(SDL_Color color, bool active = true);
 
 
         void virtual DeathAnimation() = 0;

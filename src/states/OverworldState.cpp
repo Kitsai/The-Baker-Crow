@@ -59,8 +59,10 @@ void OverworldState::Update(float dt) {
         }
     }else{
         Camera::Update(dt);
+
+        if(iM.QuitRequested()) quitRequested = true;
         
-        if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
+        if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
             LoadNewState(new ResumeState());
         }
         
