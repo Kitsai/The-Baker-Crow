@@ -75,6 +75,7 @@ BakeryState::BakeryState() : State() {
 
 BakeryState::~BakeryState() {
     objectArray.clear();
+    backGroundMusic->Stop(0);
 }
 
 void BakeryState::LoadAssets() {
@@ -84,7 +85,9 @@ void BakeryState::LoadAssets() {
 void BakeryState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
-     if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
+    if(iM.QuitRequested()) quitRequested = true;
+
+    if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
         shadowObj = new GameObject();        
         Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
         shadow->SetAlpha(128);
