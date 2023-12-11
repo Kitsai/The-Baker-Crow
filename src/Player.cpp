@@ -68,7 +68,7 @@ void Player::SetPlayerState(PlayerState state) {
     playerTimer.Restart();
 }
 
-void Player::ChangeSprite(std::string file, float frameCount, float frameTime, SDL_RendererFlip flip) {
+void Player::ChangeSprite(std::string file, int frameCount, float frameTime, SDL_RendererFlip flip) {
     Vec2 center = associated.box.GetCenter();
     auto sprite = std::static_pointer_cast<Sprite>(associated.GetComponent("Sprite").lock());
     sprite->Open(file);

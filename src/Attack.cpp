@@ -26,7 +26,7 @@ Attack::Attack(GameObject& associated,
     bool friendly, 
     float speed,
     float duration, 
-    float frameCount,
+    int frameCount,
     float frameTime
 ): Component(associated) {
     this->origin = origin;

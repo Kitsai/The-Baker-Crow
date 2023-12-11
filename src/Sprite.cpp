@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-Sprite::Sprite(GameObject& assoc, float frameCount, float frameTime,float secondsToSelfDestruct): Component(assoc), alpha(255)  {
+Sprite::Sprite(GameObject& assoc, int frameCount, float frameTime,float secondsToSelfDestruct): Component(assoc), alpha(255)  {
     texture = nullptr;
     scale = {1,1};
     this->frameCount = frameCount;
@@ -17,7 +17,7 @@ Sprite::Sprite(GameObject& assoc, float frameCount, float frameTime,float second
     flip = SDL_FLIP_NONE;
 }
 
-Sprite::Sprite(GameObject& assoc, std::string file, float frameCount, float frameTime, float secondsToSelfDestruct): Sprite(assoc,frameCount,frameTime,secondsToSelfDestruct) {
+Sprite::Sprite(GameObject& assoc, std::string file, int frameCount, float frameTime, float secondsToSelfDestruct): Sprite(assoc,frameCount,frameTime,secondsToSelfDestruct) {
     Open(file);
 }
 
@@ -25,12 +25,12 @@ Sprite::~Sprite() {
 
 }
 
-void Sprite::SetFrame(float frame) {
+void Sprite::SetFrame(int frame) {
     currentFrame = frame;
     clipRect.x = frame*(width/frameCount);
 }
 
-void Sprite::SetFrameCount(float frame) {
+void Sprite::SetFrameCount(int frame) {
     frameCount = frame;
     currentFrame = 0;
     associated.box.w = ((double)width)/frameCount * scale.x;
