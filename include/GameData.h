@@ -2,6 +2,8 @@
 #define GameData_h_
 
 #include "Vec2.h"
+#include <vector>
+#include <string>
 
 /// @brief A static class made to keep important game data.
 class GameData {
@@ -13,6 +15,7 @@ class GameData {
 
         static int playerLife;
         static Vec2 lastSafePosition;
+        static std::vector<std::string> requests;
 };
 
 #endif
