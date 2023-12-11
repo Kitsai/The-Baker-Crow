@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "selectors/Selector.h"
+#include "selectors/PuzzleSelector.h"
 #include "FoodItem.h"
 #include "FoodPiece.h"
 #include "InputManager.h"
@@ -15,7 +15,7 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(){
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap();
 
-    CreateSelector();
+    CreatePuzzleSelector();
     backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
 }
 
@@ -46,7 +46,7 @@ void PuzzleState::Update(float dt){
     if (puzzle->IsCompleted()) quitRequested = true;
 
     for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
-        // deletes selector if ESCAPE_KEY has been pressed, creates selector
+        // deletes PuzzleSelector if ESCAPE_KEY has been pressed, creates PuzzleSelector
         if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
             FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
             if (foodPiece->IsLocked()) continue;
@@ -57,12 +57,12 @@ void PuzzleState::Update(float dt){
                 pieces[i].lock()->RequestDelete();
             }
 
-            CreateSelector();
+            CreatePuzzleSelector();
         }
 
         if(objectArray[i]->IsDead()){
-            // deletes selector, creates puzzle piece
-            if(objectArray[i]->GetComponent("Selector").lock()){
+            // deletes PuzzleSelector, creates puzzle piece
+            if(objectArray[i]->GetComponent("PuzzleSelector").lock()){
                 GameObject* pieces = new GameObject();
                 pieces->box.x = 415;
                 pieces->box.y = 170;
@@ -79,7 +79,7 @@ void PuzzleState::Update(float dt){
                 AddObject(pieces);
             }
             
-            // checks whether piece can be locked; if so, creates a selector
+            // checks whether piece can be locked; if so, creates a PuzzleSelector
             if(objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
                 FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
                 if (foodPiece->GetStatus()){ // only checks if piece is waiting to be evaluated
@@ -89,7 +89,7 @@ void PuzzleState::Update(float dt){
                     
                     foodPiece->Lock();
 
-                    CreateSelector();
+                    CreatePuzzleSelector();
                     continue;
                 }
             }
@@ -128,10 +128,10 @@ void PuzzleState::LoadMap(){
     }
 }
 
-void PuzzleState::CreateSelector(){
-    GameObject* selector = new GameObject();
-    selector->AddComponent(new Selector(*selector));
-    selector->box.x = 15;
-    selector->box.y = 32;
-    AddObject(selector);
+void PuzzleState::CreatePuzzleSelector(){
+    GameObject* puzzleSelector = new GameObject();
+    puzzleSelector->AddComponent(new class PuzzleSelector(*puzzleSelector));
+    puzzleSelector->box.x = 15;
+    puzzleSelector->box.y = 32;
+    AddObject(puzzleSelector);
 }

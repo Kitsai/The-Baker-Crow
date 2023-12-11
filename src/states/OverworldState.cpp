@@ -1,17 +1,14 @@
-#include "CameraFollower.h"
-#include "Component.h"
-#include "GameData.h"
 #include "HeartBar.h"
-#include "Player.h"
-#include "defines/DefineInput.h"
-#include "enemies/Pancake.h"
+
 #include "enemies/Pavao.h"
-#include "states/OverworldState.h"
+#include "enemies/Pancake.h"
+
 #include "states/ResumeState.h"
+#include "states/InventoryState.h"
+#include "states/OverworldState.h"
 
-OverworldState::OverworldState(): State(), shadowObj() {
+OverworldState::OverworldState(): State(){
 
-    // Game& game = Game::GetInstance();
     GameObject* bg = new GameObject();
     bg->AddComponent(new Sprite(*bg,"resources/img/blackBG.jpg"));
     bg->AddComponent(new CameraFollower(*bg));
@@ -38,57 +35,39 @@ OverworldState::OverworldState(): State(), shadowObj() {
     pavao->box.SetCenter(Vec2(3427,652));
     AddObject(pavao);
 
-
     Camera::Follow(tuki);
     GameData::playerAlive = true;
 
-    GameData::playerAlive = true;
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicWorld.flac");
+    backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 
 OverworldState::~OverworldState() {
-    backGroundMusic->Stop(0);
-}
-
-void OverworldState::LoadAssets() {
-
-    GameObject* heartBarObj = new GameObject();
-    AddObject(heartBarObj);
-    HeartBar* heartBar = new HeartBar(*heartBarObj); 
-    heartBarObj->AddComponent(heartBar);
-    
 }
 
 void OverworldState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
-
-    Camera::Update(dt);
-
-    if(iM.QuitRequested()) quitRequested = true;
-
+    
+    if(GameData::quitOWState){
+        popRequested = true; 
+        GameData::quitOWState = false;
+    }
+    
     if(!GameData::playerAlive) {
         timer.Update(dt);
         if(timer.Get() > 1.0) {
             popRequested = true;
         }
-    }
-
-    if (iM.KeyPress(ESCAPE_KEY) ||  iM.KeyPress(P_KEY)){
-        GameObject* go = new GameObject();        
-        Sprite* shadow = new  Sprite(*go,"resources/img/Shadow.png");
-        shadow->SetAlpha(128);
-        go->AddComponent(shadow);
-        go->AddComponent(new CameraFollower(*go));
-        shadowObj = AddObject(go);
+    }else{
+        Camera::Update(dt);
         
-        ResumeState* newState = new ResumeState();
-        Game::GetInstance().Push(newState);
+        if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
+            LoadNewState(new ResumeState());
+        }
+        
+        else if (iM.KeyPress(I_KEY)){
+            LoadNewState(new InventoryState());
+        }
     }
-    if(GameData::quitOWState){
-        popRequested = true; 
-        GameData::quitOWState = false;
-    }
-
     UpdateArray(dt);
     CheckCollisions();
     DeleteObjects();
@@ -109,7 +88,18 @@ void OverworldState::Pause() {
 }
 
 void OverworldState::Resume() {
-    auto ptr = shadowObj.lock();
+    if(shadowObj){
+        RemoveObject(shadowObj);
+        shadowObj = nullptr;
+    }
+}
 
-    if(ptr) ptr->RequestDelete();
+void OverworldState::LoadAssets() {
+
+    GameObject* heartBarObj = new GameObject();
+    AddObject(heartBarObj);
+    
+    HeartBar* heartBar = new HeartBar(*heartBarObj); 
+    heartBarObj->AddComponent(heartBar);
+    
 }

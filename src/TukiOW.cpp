@@ -1,4 +1,5 @@
 #include "TukiOW.h"
+#include "Player.h"
 #include "Sprite.h"
 #include "defines/DefineInput.h"
 #include <SDL2/SDL_render.h>
@@ -84,6 +85,7 @@ void TukiOW::Update(float dt) {
     }
 
     if(iM.KeyPress(K_KEY)) SetPlayerState(DAMAGED);
+    if(iM.KeyPress(E_KEY)) if(hp < 3) this->hp++;
 
     // if(attackCooldown > 0) attackCooldown -= dt;
     
@@ -172,6 +174,4 @@ void TukiOW::SetPlayerState(PlayerState state) {
     }
 
     Player::SetPlayerState(state);
-
-    // std::cout << "Player state: " << e2s[state] << std::endl;
 }

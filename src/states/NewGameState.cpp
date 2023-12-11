@@ -3,6 +3,7 @@
 #include "defines/DefineInput.h"
 #include "states/NewGameState.h"
 #include "selectors/NewGameSelector.h"
+#include "states/BakeryState.h"
 #include <memory>
 
 NewGameState::NewGameState(): State(), selector(nullptr){
@@ -29,7 +30,8 @@ void NewGameState::Update(float dt){
         popRequested = true;
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
-        OverworldState* newState = new OverworldState();
+        GameData::intro = true;
+        BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         backGroundMusic->Stop(50);

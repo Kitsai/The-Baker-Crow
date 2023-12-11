@@ -1,11 +1,9 @@
+#include "Game.h"
+#include "Player.h"
 #include "states/State.h"
-
 #include "../Collision.cpp"
 
-State::State() {
-    popRequested = false;
-    quitRequested = false;
-    started = false;
+State::State() : popRequested(false), quitRequested(false), started(false), shadowObj(nullptr) {
 }
 
 State::~State() {
@@ -88,4 +86,21 @@ void State::DeleteObjects() {
 	for(std::vector<int>::size_type i=0;i<objectArray.size();i++) 
 		if(objectArray[i]->IsDead()) 
 			objectArray.erase(objectArray.begin()+i);
+}
+
+void State::LoadShadow() {
+
+    shadowObj = new GameObject();        
+    Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
+    shadow->SetAlpha(128);
+            
+    shadowObj->box = Player::player->GetPlayerPos();
+            
+    shadowObj->AddComponent(shadow);
+    AddObject(shadowObj);
+}
+
+void State::LoadNewState(State* newState) {
+    LoadShadow();
+    Game::GetInstance().Push(newState);
 }
