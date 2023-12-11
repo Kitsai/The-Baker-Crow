@@ -23,7 +23,7 @@ class Attack: public Component {
             bool friendly = false, 
             float speed = 0, 
             float duration = 0,
-            int frameCount = 1, 
+            float frameCount = 1, 
             float frameTime = 0
         );
 

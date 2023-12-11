@@ -157,7 +157,7 @@ void TukiOW::SetPlayerState(PlayerState state) {
             ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
         break;
     case ATTACKING:
-        ChangeSprite("resources/img/tuki_anim_attac.png",4,.1F);
+        ChangeSprite("resources/img/tuki_anim_attac.png",4,.125F);
         speed = 0;
         SetCollider(COLOR_GREEN);
         break;

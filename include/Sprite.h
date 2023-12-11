@@ -20,9 +20,9 @@ class Sprite: public Component {
         SDL_Rect clipRect;
 
         /// @brief number of frames of image.
-        int frameCount;
+        float frameCount;
         /// @brief current frame being  displayed.
-        int currentFrame;
+        float currentFrame;
         /// @brief time passed since component started.
         float timeElapsed;
         /// @brief interval between frames.
@@ -44,22 +44,22 @@ class Sprite: public Component {
         /// @param frameCount Number of frames the image has. Default = 1 that is the image is not a animation.
         /// @param frameTime Time per frame. Default = 0 since if not an animation there is no time between frames.
         /// @param secondsToSelfDestruct Seconds until sprite should delete the associated object.
-        Sprite(GameObject& assoc, int frameCount = 1, float frameTime = 1, float secondsToSelfDestruct = 0);
+        Sprite(GameObject& assoc, float frameCount = 1, float frameTime = 1, float secondsToSelfDestruct = 0);
         /// @brief Constructor for Sprite component. Starts all members.
         /// @param assoc Object the component is part off.
         /// @param file relative path to the file that should be opened.
         /// @param frameCount Number of frames the image has. Default = 1 that is the image is not a animation.
         /// @param frameTime Time per frame. Default = 0 since if not an animation there is no time between frames.
         /// @param secondsToSelfDestruct Seconds until sprite should delete the associated object.
-        Sprite(GameObject& assoc, std::string file, int frameCount = 1, float frameTime = 1, float secondsToSelfDestruct = 0);
+        Sprite(GameObject& assoc, std::string file, float frameCount = 1, float frameTime = 1, float secondsToSelfDestruct = 0);
         ~Sprite();
 
         /// @brief Set the current frame.
         /// @param frame frame that should be put on.
-        void SetFrame(int frame);
+        void SetFrame(float frame);
         /// @brief Change how many frames in the sprite.
         /// @param frame number of frames.
-        void SetFrameCount(int frame);
+        void SetFrameCount(float frame);
         /// @brief Set the interval between frames.
         /// @param frameTime time in seconds to change from a frame to another.
         void SetFrameTime(float frameTime);

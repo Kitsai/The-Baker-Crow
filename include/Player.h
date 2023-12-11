@@ -33,7 +33,7 @@ class Player: public Component {
 
 
         void virtual SetPlayerState(PlayerState state);
-        void ChangeSprite(std::string file, int frameCount, float frameTime, SDL_RendererFlip flip = SDL_FLIP_NONE);
+        void ChangeSprite(std::string file, float frameCount, float frameTime, SDL_RendererFlip flip = SDL_FLIP_NONE);
         void SetCollider(SDL_Color color = COLOR_RED, bool active = true);
 
     private:
