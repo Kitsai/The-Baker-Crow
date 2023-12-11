@@ -1,5 +1,6 @@
 #include "HeartBar.h"
 
+#include "Player.h"
 #include "enemies/Pavao.h"
 #include "enemies/Pancake.h"
 
@@ -62,12 +63,11 @@ void OverworldState::Update(float dt) {
 
         if(iM.QuitRequested()) quitRequested = true;
         
-        if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
-            LoadNewState(new ResumeState());
+        if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
+            LoadNewState(new ResumeState(), Player::player->GetPlayerPos());
         }
-        
         else if (iM.KeyPress(I_KEY)){
-            LoadNewState(new InventoryState());
+            LoadNewState(new InventoryState(), Player::player->GetPlayerPos());
         }
     }
     UpdateArray(dt);

@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "TukiB.h"
 #include "NPC.h"
+#include "Vec2.h"
+#include "states/InventoryState.h"
 #include "states/ResumeState.h"
 #include "states/OverworldState.h"
 
@@ -84,20 +86,11 @@ void BakeryState::LoadAssets() {
 
 void BakeryState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
-
-    if(iM.QuitRequested()) quitRequested = true;
-
-    if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
-        shadowObj = new GameObject();        
-        Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
-        shadow->SetAlpha(128);
-        shadowObj->box.x = 0;
-        shadowObj->box.y = 0;
-        shadowObj->AddComponent(shadow);
-        AddObject(shadowObj);
-        
-        ResumeState* newState = new ResumeState();
-        Game::GetInstance().Push(newState);
+    if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
+        LoadNewState(new ResumeState(), Vec2(0, 0));
+    }
+    else if (iM.KeyPress(I_KEY)){
+        LoadNewState(new InventoryState(), Vec2(0, 0));
     }
     if(GameData::quitOWState){
         popRequested = true; 
@@ -131,7 +124,7 @@ void BakeryState::Update(float dt) {
             OverworldState* overworld = new OverworldState();
             Game::GetInstance().Push(overworld);
             popRequested = true;
-            backGroundMusic->Stop(50);
+            backGroundMusic->Stop(0);
         }
     }
 
@@ -152,7 +145,6 @@ void BakeryState::Start() {
 }
 
 void BakeryState::Pause() {
-    backGroundMusic->Stop();
 }
 
 void BakeryState::Resume() {
@@ -160,5 +152,4 @@ void BakeryState::Resume() {
         RemoveObject(shadowObj);
         shadowObj = nullptr;
     }
-    backGroundMusic->Play();
 }

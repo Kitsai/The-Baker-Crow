@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Player.h"
+#include "Vec2.h"
 #include "states/State.h"
 #include "../Collision.cpp"
 
@@ -88,19 +89,19 @@ void State::DeleteObjects() {
 			objectArray.erase(objectArray.begin()+i);
 }
 
-void State::LoadShadow() {
+void State::LoadShadow(Vec2 pos) {
 
     shadowObj = new GameObject();        
     Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
     shadow->SetAlpha(128);
-            
-    shadowObj->box = Player::player->GetPlayerPos();
+    
+    shadowObj->box = pos;
             
     shadowObj->AddComponent(shadow);
     AddObject(shadowObj);
 }
 
-void State::LoadNewState(State* newState) {
-    LoadShadow();
+void State::LoadNewState(State* newState, Vec2 pos) {
+    LoadShadow(pos);
     Game::GetInstance().Push(newState);
 }
