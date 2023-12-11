@@ -6,6 +6,7 @@
 #include "states/LoadGameState.h"
 #include "selectors/ResumeSelector.h"
 
+
 ResumeState::ResumeState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();

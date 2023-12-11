@@ -5,7 +5,6 @@
 
 HeartBar::Heart::Heart(GameObject& associated, Sprite* sprite, bool visible, HeartBar* bar) : 
                        GoHeart(&associated), visible(visible), bar(bar) {
-    
     GoHeart->AddComponent(new CameraFollower(*GoHeart));
     GoHeart->AddComponent(new Sprite(*this->GoHeart, "resources/img/HEART_DEAD.png"));
 
@@ -21,7 +20,6 @@ HeartBar::Heart::~Heart(){
 }
 
 void HeartBar::Heart::Update(int i) {
-    
     if (Player::player->GetPlayerHp() <= i) {
         std::weak_ptr<Component> weakSpriteComponent = GoHeart->GetComponent("Sprite");
         std::shared_ptr<Component> sharedSpriteComponent = weakSpriteComponent.lock();
@@ -48,7 +46,6 @@ void HeartBar::Heart::Update(int i) {
 HeartBar::HeartBar(GameObject& associated) : Component(associated), associated(&associated) {
     associated.AddComponent(new Sprite(associated, "resources/img/HEALTH_BAR.png"));
     associated.AddComponent(new CameraFollower(associated));
-
     CreateHearts(3, "resources/img/HEART.png");
 }
 
@@ -58,7 +55,6 @@ HeartBar::~HeartBar() {
 }
 
 void HeartBar::CreateHearts(int initialHealth, const std::string& heartSpriteFile) {
-    
     for (int i = 0; i < initialHealth; ++i) {
         GameObject* heartObj = new GameObject();
         heartObj->box = Vec2(125+ i*55, 60);

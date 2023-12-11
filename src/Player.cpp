@@ -19,7 +19,6 @@ Player::Player(GameObject& associated): Component(associated) {
 }
 
 Player::~Player() {
-    player = nullptr;
 }
 
 void Player::Render() {

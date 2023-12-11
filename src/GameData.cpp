@@ -3,6 +3,7 @@
 int GameData::playerLife = 3;
 bool GameData::playerAlive = false;
 
+bool GameData::intro = true;
 bool GameData::quitOWState = false;
 
 bool GameData::hasButter    = false;
@@ -15,3 +16,4 @@ bool GameData::hasWheat     = false;
 bool GameData::hasStraw     = false;
 
 Vec2 GameData::lastSafePosition = {0,0};
+std::vector<std::string> GameData::requests = {};

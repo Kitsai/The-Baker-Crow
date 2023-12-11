@@ -17,9 +17,9 @@ class BakeryState : public State {
         void Start();
         void Resume();
         
+        GameObject* shadowObj; 
     private:
         int floor;
-
 };
 
 #endif
