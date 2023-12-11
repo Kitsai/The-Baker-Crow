@@ -110,6 +110,10 @@ void TukiOW::CalcSpeed(float dt) {
 
     if(GetPlayerState() == DODGING)
         return;
+    if(GetPlayerState() == ATTACKING || GetPlayerState() == DAMAGED) {
+        speed = 0;
+        return;
+    }
 
     if(iM.IsKeyDown(LEFT_ARROW_KEY)) {
         speed.x -= TOW_A*dt;
@@ -158,7 +162,6 @@ void TukiOW::SetPlayerState(PlayerState state) {
         break;
     case ATTACKING:
         ChangeSprite("resources/img/tuki_anim_attac.png",4,.1F);
-        speed = 0;
         SetCollider(COLOR_GREEN);
         break;
     case DODGING:
@@ -166,7 +169,6 @@ void TukiOW::SetPlayerState(PlayerState state) {
         break;
     case DAMAGED:
         if(this->GetPlayerState() == DAMAGED) break;
-        speed = 0;
         hp--;
         ChangeSprite("resources/img/tuki_anim_dano.png",4,.15F);
         SetCollider(COLOR_BLUE);
