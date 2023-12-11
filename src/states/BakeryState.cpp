@@ -2,6 +2,8 @@
 #include "Game.h"
 #include "TukiB.h"
 #include "NPC.h"
+#include "Vec2.h"
+#include "states/InventoryState.h"
 #include "states/ResumeState.h"
 #include "states/OverworldState.h"
 
@@ -66,9 +68,11 @@ void BakeryState::Update(float dt) {
 
     if(iM.QuitRequested()) quitRequested = true;
 
-    if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
+    if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY))
         LoadNewState(new ResumeState());
-    }
+    else if (iM.KeyPress(I_KEY))
+        LoadNewState(new InventoryState());
+
     if(GameData::quitOWState){
         popRequested = true; 
         GameData::quitOWState = false;
@@ -98,14 +102,12 @@ void BakeryState::Start() {
 }
 
 void BakeryState::Pause() {
-    backGroundMusic->Stop(0);
 }
 
 void BakeryState::Resume() {
     auto ptr = shadowObj.lock();
     if(ptr) RemoveObject(ptr.get());
 
-    backGroundMusic->Play();
     if(floor == 2) {
         auto tuki = std::static_pointer_cast<TukiB>(objectArray[2]->GetComponent("TukiB").lock());
         Player::player = tuki.get();

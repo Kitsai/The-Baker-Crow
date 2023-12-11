@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "Player.h"
+#include "Vec2.h"
 #include "states/State.h"
 #include "../Collision.cpp"
 #include "CameraFollower.h"

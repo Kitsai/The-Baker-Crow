@@ -1,5 +1,6 @@
 #include "HeartBar.h"
 
+#include "Player.h"
 #include "enemies/Pavao.h"
 #include "enemies/Pancake.h"
 
@@ -74,7 +75,6 @@ void OverworldState::Update(float dt) {
         if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
             LoadNewState(new ResumeState());
         }
-        
         else if (iM.KeyPress(I_KEY)){
             LoadNewState(new InventoryState());
         }
