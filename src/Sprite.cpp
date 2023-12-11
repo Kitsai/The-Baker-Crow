@@ -39,6 +39,7 @@ void Sprite::SetFrameCount(int frame) {
 
 void Sprite::SetFrameTime(float frameTime) {
     this->frameTime = frameTime;
+    timeElapsed = 0;
 }
 
 void Sprite::Open(std::string file) {
