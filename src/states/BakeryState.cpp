@@ -102,11 +102,14 @@ void BakeryState::Start() {
 }
 
 void BakeryState::Pause() {
+    backGroundMusic->Pause();
 }
 
 void BakeryState::Resume() {
     auto ptr = shadowObj.lock();
     if(ptr) RemoveObject(ptr.get());
+
+    backGroundMusic->Resume();
 
     if(floor == 2) {
         auto tuki = std::static_pointer_cast<TukiB>(objectArray[2]->GetComponent("TukiB").lock());

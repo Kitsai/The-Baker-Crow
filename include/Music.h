@@ -26,6 +26,8 @@ class Music {
         /// @brief Stops the music from playing applying a fade out.
         /// @param msToStop how many ms the fade out should be.
         void Stop(int msToStop = 1500);
+        void Pause();
+        void Resume();
 
         /// @brief Opens a givein sound file by using the resource manager.
         /// @param file relative path to the file that should be opened.
