@@ -11,7 +11,6 @@
 #include "CameraFollower.h"
 #include "Text.h"
 #include "Collider.h"
-#include "Vec2.h"
 
 /// @brief Abstract class for a state of the game.
 class State {
@@ -39,10 +38,10 @@ class State {
 
         virtual void DeleteObjects();
 
-        void LoadShadow(Vec2 pos);
-        void LoadNewState(State* newState, Vec2 pos);
+        void LoadShadow();
+        void LoadNewState(State* newState);
 
-        GameObject* shadowObj; 
+        std::weak_ptr<GameObject> shadowObj; 
 
     public:
         /// @brief Construtor fot the State. Initializes all variables.

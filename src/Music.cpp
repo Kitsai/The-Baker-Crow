@@ -31,6 +31,14 @@ void Music::Stop(int msToStop) {
     Mix_FadeOutMusic(msToStop);
 }
 
+void Music::Pause() {
+    Mix_PauseMusic();
+}
+void Music::Resume() {
+    if(Mix_PausedMusic())
+        Mix_ResumeMusic();
+}
+
 void Music::Open(std::string file) {
     music = Resources::GetMusic(file);
     if(!IsOpen()) {

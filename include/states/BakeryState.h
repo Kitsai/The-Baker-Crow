@@ -18,6 +18,7 @@ class BakeryState : public State {
         void Resume();
     private:
         int floor;
+        void ChangeFloor(int newFloor);
 };
 
 #endif

@@ -20,10 +20,13 @@ OverworldState::OverworldState(): State(){
     AddObject(map);
     
     GameObject* tuki = new GameObject();
-    tuki->AddComponent(new TukiOW(*tuki));
+    TukiOW* tukiC = new TukiOW(*tuki);
+    tuki->AddComponent(tukiC);
     AddObject(tuki);
     tuki->box.SetCenter(Vec2(817,2316));
 
+
+    Player::player = tukiC;
     Camera::Follow(tuki);
     
     GameObject* pancake = new GameObject();
@@ -43,15 +46,14 @@ OverworldState::OverworldState(): State(){
 }
 
 OverworldState::~OverworldState() {
+    Camera::Unfollow();
 }
 
 void OverworldState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
     
-    if(GameData::quitOWState){
+    if(GameData::quitOWState)
         popRequested = true; 
-        GameData::quitOWState = false;
-    }
     
     if(!GameData::playerAlive) {
         timer.Update(dt);
@@ -59,15 +61,22 @@ void OverworldState::Update(float dt) {
             popRequested = true;
         }
     }else{
+        Vec2 playerPos = Player::player->GetPlayerPos();
+
+        if(iM.KeyPress(ENTER_KEY)
+            && playerPos.y >= 2145 && playerPos.y <= 2228
+            && playerPos.x >= 698 && playerPos.x <= 796
+        ) popRequested = true;
+
         Camera::Update(dt);
 
         if(iM.QuitRequested()) quitRequested = true;
         
-        if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
-            LoadNewState(new ResumeState(), Player::player->GetPlayerPos());
+        if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
+            LoadNewState(new ResumeState());
         }
         else if (iM.KeyPress(I_KEY)){
-            LoadNewState(new InventoryState(), Player::player->GetPlayerPos());
+            LoadNewState(new InventoryState());
         }
     }
     UpdateArray(dt);
@@ -90,10 +99,8 @@ void OverworldState::Pause() {
 }
 
 void OverworldState::Resume() {
-    if(shadowObj){
-        RemoveObject(shadowObj);
-        shadowObj = nullptr;
-    }
+    auto ptr = shadowObj.lock();
+    if(ptr) RemoveObject(ptr.get());
 }
 
 void OverworldState::LoadAssets() {
