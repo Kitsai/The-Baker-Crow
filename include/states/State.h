@@ -38,6 +38,11 @@ class State {
 
         virtual void DeleteObjects();
 
+        void LoadShadow();
+        void LoadNewState(State* newState);
+
+        GameObject* shadowObj; 
+
     public:
         /// @brief Construtor fot the State. Initializes all variables.
         State();

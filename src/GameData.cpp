@@ -6,5 +6,14 @@ bool GameData::playerAlive = false;
 bool GameData::intro = true;
 bool GameData::quitOWState = false;
 
+bool GameData::hasButter    = false;
+bool GameData::hasChoco     = false;
+bool GameData::hasEggs      = false;
+bool GameData::hasHoney     = false;
+bool GameData::hasMilk      = false;
+bool GameData::hasSugar     = false;
+bool GameData::hasWheat     = false;
+bool GameData::hasStraw     = false;
+
 Vec2 GameData::lastSafePosition = {0,0};
 std::vector<std::string> GameData::requests = {};
