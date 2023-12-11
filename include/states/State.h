@@ -11,6 +11,7 @@
 #include "CameraFollower.h"
 #include "Text.h"
 #include "Collider.h"
+#include "Vec2.h"
 
 /// @brief Abstract class for a state of the game.
 class State {
@@ -38,8 +39,8 @@ class State {
 
         virtual void DeleteObjects();
 
-        void LoadShadow();
-        void LoadNewState(State* newState);
+        void LoadShadow(Vec2 pos);
+        void LoadNewState(State* newState, Vec2 pos);
 
         GameObject* shadowObj; 
 
