@@ -22,6 +22,7 @@ class InventoryState : public State {
         void Render();
         void Update(float dt);
         void LoadAssets();
+        void LoadIngredients();
         
         void Pause();
         void Start();
