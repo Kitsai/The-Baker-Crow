@@ -69,7 +69,7 @@ void Rect::operator=(const Rect& r) {
 }
 
 Vec2 Rect::GetPos() {
-    return {x,y};
+    return Vec2(x,y);
 }
 
 Vec2 Rect::GetCenter() {

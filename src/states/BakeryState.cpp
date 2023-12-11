@@ -13,61 +13,40 @@ BakeryState::BakeryState() : State() {
     dad->AddComponent(new NPC(*dad, "resources/img/dad.png"));
     dad->box.SetCenter({520,280});
 
-    if (GameData::intro) {
-        floor = 0;
 
-        GameObject* bg = new GameObject();
-        bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
-        bg->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-        bg->AddComponent(new CameraFollower(*bg));
-        AddObject(bg);
+    floor = 0;
 
-        // keep as game object 1 of bakeryState
-        GameObject* room = new GameObject();
-        room->AddComponent(new Sprite(*room, "resources/img/bedroom/bedroom.png"));
-        room->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-        AddObject(room);
+    GameObject* bg = new GameObject();
+    bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
+    bg->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+    bg->AddComponent(new CameraFollower(*bg));
+    AddObject(bg);
 
-        tukiB->SetFloor(floor);
-        tuki->AddComponent(tukiB);
-        tuki->box.SetCenter({810,260});
-        AddObject(tuki);
-        Camera::Follow(tuki);
+    // keep as game object 1 of bakeryState
+    GameObject* room = new GameObject();
+    room->AddComponent(new Sprite(*room, "resources/img/bedroom/bedroom.png"));
+    room->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+    AddObject(room);
 
-        AddObject(dad);
+    tukiB->SetFloor(floor);
+    tuki->AddComponent(tukiB);
+    tuki->box.SetCenter({810,260});
+    AddObject(tuki);
+    // Camera::Follow(tuki);
 
-        GameObject* speakBalloon = new GameObject();
-        Sprite* sprite = new Sprite(*speakBalloon, "resources/img/MenuButton.png");
-        speakBalloon->AddComponent(sprite);
-        sprite->SetScale(3.0f, 2.5f);
-        speakBalloon->box.x = 320;
-        speakBalloon->box.y = 570;
+    AddObject(dad);
 
-        // AddObject(speakBalloon);
+    GameObject* speakBalloon = new GameObject();
+    Sprite* sprite = new Sprite(*speakBalloon, "resources/img/MenuButton.png");
+    speakBalloon->AddComponent(sprite);
+    sprite->SetScale(3.0f, 2.5f);
+    speakBalloon->box.x = 320;
+    speakBalloon->box.y = 570;
 
-        GameData::intro = false;
+    // AddObject(speakBalloon);
 
+    GameData::intro = false;
 
-    } else {
-        floor = 1;
-
-        GameObject* bg = new GameObject();
-        bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
-        bg->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-        bg->AddComponent(new CameraFollower(*bg));
-        AddObject(bg);
-
-        GameObject* room = new GameObject();
-        room->AddComponent(new Sprite(*room, "resources/img/bakery_test.png"));
-        room->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-        AddObject(room);
-
-        tukiB->SetFloor(floor);
-        tuki->AddComponent(tukiB);
-        tuki->box.SetCenter({615,650});
-        AddObject(tuki);
-        Camera::Follow(tuki);
-    }
 
     GameData::playerAlive = true;
     backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
@@ -97,34 +76,10 @@ void BakeryState::Update(float dt) {
 
     // changes floor if Tuki goes down/up stairs
     int newFloor = ((TukiB*)Player::player)->GetFloor();
-    if (newFloor != floor) {
-        floor = newFloor;
 
-        // gets rid of npcs from floor
-        for (int i = 0; i < (int)objectArray.size(); i++)
-            if (objectArray[i]->GetComponent("NPC").lock())
-                objectArray[i]->RequestDelete();
-
-        objectArray[1]->RemoveComponent(objectArray[1]->GetComponent("Sprite").lock().get());
-        if (floor == 0){
-            objectArray[1]->AddComponent(new Sprite(*objectArray[1], "resources/img/bedroom/bedroom.png"));
-
-            GameObject* dad = new GameObject();
-            dad->AddComponent(new NPC(*dad, "resources/img/dad.png"));
-            dad->box.SetCenter({520,280});
-            AddObject(dad);
-        }
-        else if (floor == 1){
-            objectArray[1]->AddComponent(new Sprite(*objectArray[1], "resources/img/bakery_test.png"));
-        }
-        objectArray[1]->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-        if (floor == 2) {
-            OverworldState* overworld = new OverworldState();
-            Game::GetInstance().Push(overworld);
-            // popRequested = true;
-            backGroundMusic->Stop(0);
-        }
-    }
+    if (newFloor != floor) 
+        ChangeFloor(newFloor);
+    
 
     UpdateArray(dt);
     CheckCollisions();
@@ -151,4 +106,42 @@ void BakeryState::Resume() {
     if(ptr) RemoveObject(ptr.get());
 
     backGroundMusic->Play();
+    if(floor == 2) {
+        auto tuki = std::static_pointer_cast<TukiB>(objectArray[2]->GetComponent("TukiB").lock());
+        Player::player = tuki.get();
+        tuki->SetFloor(1);
+        tuki->ResetSpeed();
+        ChangeFloor(1);
+        Camera::pos = 0;
+    }
+}
+
+void BakeryState::ChangeFloor(int newFloor) {
+        floor = newFloor;
+        if (floor == 2) {
+            OverworldState* overworld = new OverworldState();
+            Game::GetInstance().Push(overworld);
+            backGroundMusic->Stop(0);
+        } else { 
+
+        // gets rid of npcs from floor
+        for (int i = 0; i < (int)objectArray.size(); i++)
+            if (objectArray[i]->GetComponent("NPC").lock())
+                objectArray[i]->RequestDelete();
+
+        // objectArray[1]->RemoveComponent(objectArray[1]->GetComponent("Sprite").lock().get());
+        auto sprite = std::static_pointer_cast<Sprite>(objectArray[1]->GetComponent("Sprite").lock());
+        if (floor == 0){
+            sprite->Open("resources/img/bedroom/bedroom.png");
+
+            GameObject* dad = new GameObject();
+            dad->AddComponent(new NPC(*dad, "resources/img/dad.png"));
+            dad->box.SetCenter({520,280});
+            AddObject(dad);
+        }
+        else if (floor == 1){
+            sprite->Open("resources/img/bakery_test.png");
+        }
+        objectArray[1]->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+    }
 }

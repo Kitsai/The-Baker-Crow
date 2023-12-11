@@ -23,6 +23,7 @@ class TukiB: public Player {
         void SetPlayerState(PlayerState state);
         
         void Talk(std::string file, float time);
+        void ResetSpeed();
     private:
         void Move(float dt);
         void CalcSpeed(float dt);
