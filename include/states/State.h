@@ -41,7 +41,7 @@ class State {
         void LoadShadow();
         void LoadNewState(State* newState);
 
-        GameObject* shadowObj; 
+        std::weak_ptr<GameObject> shadowObj; 
 
     public:
         /// @brief Construtor fot the State. Initializes all variables.

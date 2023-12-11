@@ -2,8 +2,9 @@
 #include "Player.h"
 #include "states/State.h"
 #include "../Collision.cpp"
+#include "CameraFollower.h"
 
-State::State() : popRequested(false), quitRequested(false), started(false), shadowObj(nullptr) {
+State::State() : popRequested(false), quitRequested(false), started(false), shadowObj() {
 }
 
 State::~State() {
@@ -89,15 +90,12 @@ void State::DeleteObjects() {
 }
 
 void State::LoadShadow() {
-
-    shadowObj = new GameObject();        
-    Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
-    shadow->SetAlpha(128);
-            
-    shadowObj->box = Player::player->GetPlayerPos();
-            
-    shadowObj->AddComponent(shadow);
-    AddObject(shadowObj);
+    GameObject* go = new GameObject();        
+    Sprite* shadow = new  Sprite(*go,"resources/img/Shadow.png");
+    shadow->SetAlpha(128);     
+    go->AddComponent(shadow);
+	go->AddComponent(new CameraFollower(*go));
+    shadowObj = AddObject(go);
 }
 
 void State::LoadNewState(State* newState) {

@@ -88,16 +88,7 @@ void BakeryState::Update(float dt) {
     if(iM.QuitRequested()) quitRequested = true;
 
     if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
-        shadowObj = new GameObject();        
-        Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
-        shadow->SetAlpha(128);
-        shadowObj->box.x = 0;
-        shadowObj->box.y = 0;
-        shadowObj->AddComponent(shadow);
-        AddObject(shadowObj);
-        
-        ResumeState* newState = new ResumeState();
-        Game::GetInstance().Push(newState);
+        LoadNewState(new ResumeState());
     }
     if(GameData::quitOWState){
         popRequested = true; 
@@ -130,8 +121,8 @@ void BakeryState::Update(float dt) {
         if (floor == 2) {
             OverworldState* overworld = new OverworldState();
             Game::GetInstance().Push(overworld);
-            popRequested = true;
-            backGroundMusic->Stop(50);
+            // popRequested = true;
+            backGroundMusic->Stop(0);
         }
     }
 
@@ -152,13 +143,12 @@ void BakeryState::Start() {
 }
 
 void BakeryState::Pause() {
-    backGroundMusic->Stop();
+    backGroundMusic->Stop(0);
 }
 
 void BakeryState::Resume() {
-    if(shadowObj){
-        RemoveObject(shadowObj);
-        shadowObj = nullptr;
-    }
+    auto ptr = shadowObj.lock();
+    if(ptr) RemoveObject(ptr.get());
+
     backGroundMusic->Play();
 }

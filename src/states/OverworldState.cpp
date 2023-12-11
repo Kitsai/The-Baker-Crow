@@ -58,6 +58,8 @@ void OverworldState::Update(float dt) {
             popRequested = true;
         }
     }else{
+        Vec2 playerPos = Player::player->GetPlayerPos();
+
         Camera::Update(dt);
 
         if(iM.QuitRequested()) quitRequested = true;
@@ -90,10 +92,8 @@ void OverworldState::Pause() {
 }
 
 void OverworldState::Resume() {
-    if(shadowObj){
-        RemoveObject(shadowObj);
-        shadowObj = nullptr;
-    }
+    auto ptr = shadowObj.lock();
+    if(ptr) RemoveObject(ptr.get());
 }
 
 void OverworldState::LoadAssets() {
