@@ -114,7 +114,7 @@ void Enemy::ChangeSprite(std::string file, SDL_RendererFlip flip, int frameCount
 
 void Enemy::SetCollider(SDL_Color color, bool active) {
     std::shared_ptr<Collider> collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
-    if (collider != nullptr) {
+    if (collider) {
         collider->SetColor(color);
         collider->active = active;
     }
@@ -144,7 +144,8 @@ bool Enemy::Is(std::string type) {
 void Enemy::NotifyCollision(GameObject& other) {
     if(other.GetComponent("TukiOW").lock()) {
         auto tuki = Player::player;
-        if(tuki->GetPlayerState() == Player::PlayerState::ATTACKING) {
+        auto tstate = tuki->GetPlayerState();
+        if(tstate == Player::PlayerState::ATTACKING && Player::PlayerState::DODGING != tstate && Player::PlayerState::DAMAGED != tstate) {
             hp -= 50;
             SetState(DAMAGED);
         }
