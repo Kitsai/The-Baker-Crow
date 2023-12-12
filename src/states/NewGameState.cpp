@@ -9,7 +9,7 @@ NewGameState::NewGameState(): State(), selector(nullptr){
     titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
-    backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
+    //backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 
 NewGameState::~NewGameState(){
@@ -29,19 +29,19 @@ void NewGameState::Update(float dt){
         BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop(50);
+        GameData::backGroundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop(50);
+        GameData::backGroundMusic->Stop();
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop(50);
+        GameData::backGroundMusic->Stop();
     }
     UpdateArray(dt);
     selector->Update(dt);
@@ -72,13 +72,15 @@ void NewGameState::Start(){
     LoadButtons();
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    //backGroundMusic->Play();
 }
 
-void NewGameState::Pause(){}
+void NewGameState::Pause(){
+    GameData::backGroundMusic->Stop(0);
+}
 
 void NewGameState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Play();
 }

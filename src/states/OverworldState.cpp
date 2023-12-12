@@ -42,7 +42,7 @@ OverworldState::OverworldState(): State(){
     Camera::Follow(tuki);
     GameData::playerAlive = true;
 
-    backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
+    //GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 
 OverworldState::~OverworldState() {
@@ -92,15 +92,18 @@ void OverworldState::Start() {
     LoadAssets();
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Resume();
 }
 
 void OverworldState::Pause() {
+    GameData::backGroundMusic->Pause();
 }
 
 void OverworldState::Resume() {
     auto ptr = shadowObj.lock();
     if(ptr) RemoveObject(ptr.get());
+
+    GameData::backGroundMusic->Resume();
 }
 
 void OverworldState::LoadAssets() {

@@ -1,6 +1,7 @@
 #ifndef GameData_h_
 #define GameData_h_
 
+#include "Music.h"
 #include "Vec2.h"
 #include <vector>
 #include <string>
@@ -25,6 +26,7 @@ class GameData {
         static bool hasEggs;
         static bool hasWheat;
         static std::vector<std::string> requests;
+        static std::unique_ptr<Music> backGroundMusic;
 };
 
 #endif

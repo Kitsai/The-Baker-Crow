@@ -1,4 +1,5 @@
 #include "GameData.h"
+#include <memory>
 
 int GameData::playerLife = 3;
 bool GameData::playerAlive = false;
@@ -17,3 +18,6 @@ bool GameData::hasStraw     = true;
 
 Vec2 GameData::lastSafePosition = {0,0};
 std::vector<std::string> GameData::requests = {};
+
+
+std::unique_ptr<Music> GameData::backGroundMusic = nullptr;

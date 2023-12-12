@@ -11,12 +11,12 @@ MenuState::MenuState(): State(), selector(nullptr){
 
 
     objectArray.emplace_back(titleObj);
-    backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 
 MenuState::~MenuState(){
     objectArray.clear();
-    backGroundMusic->Stop(0);
+    GameData::backGroundMusic->Stop(0);
 }
 
 void MenuState::Update(float dt){
@@ -67,15 +67,16 @@ void MenuState::Start(){
     LoadButtons();
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Play();
 }
 
 void MenuState::Pause(){
-    backGroundMusic->Stop(50);
+    //GameData::backGroundMusic->Pause();
 }
 
 void MenuState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGroundMusic->Play();
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/MusicMenu.flac");
+    GameData::backGroundMusic->Play();
 }
