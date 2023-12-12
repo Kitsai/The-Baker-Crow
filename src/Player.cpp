@@ -54,7 +54,11 @@ Player::PlayerState Player::GetPlayerState() {
 }
 
 Vec2 Player::GetPlayerPos() {
-    // return GetPlayerCenterPos() - Vec2(Game::GetInstance().GetWindowWidth()*0.5,Game::GetInstance().GetWindowHeight()*0.5); PEGAR NA CAMERA SE FOR PRECISO
+    return GetPlayerCenterPos() - Vec2(Game::GetInstance().GetWindowWidth()*0.5,Game::GetInstance().GetWindowHeight()*0.5);
+    return associated.box.GetPos();
+}
+
+Vec2 Player::GetPlayerBoxPos() {
     return associated.box.GetPos();
 }
 

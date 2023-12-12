@@ -21,6 +21,7 @@ class Player: public Component {
         bool IsInTile(int index);
 
         Vec2 GetPlayerPos();
+        Vec2 GetPlayerBoxPos();
         Vec2 GetPlayerCenterPos();
         int GetPlayerHp();
         PlayerState GetPlayerState(); 
