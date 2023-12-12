@@ -8,7 +8,7 @@ LoadGameState::LoadGameState(): State(), selector(nullptr){
     titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
-    backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
+    GameData::backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 
 LoadGameState::~LoadGameState(){
@@ -22,25 +22,25 @@ void LoadGameState::Update(float dt){
     }
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
-        backGroundMusic->Stop(50);
+        GameData::backGroundMusic->Stop(0);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
         PuzzleState* newState = new PuzzleState(1);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop(50);
+        GameData::backGroundMusic->Stop(0);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         PuzzleState* newState = new PuzzleState(2);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop(50);
+        GameData::backGroundMusic->Stop(0);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         PuzzleState* newState = new PuzzleState(3);
         Game::GetInstance().Push(newState);
         popRequested = true;
-        backGroundMusic->Stop(50);
+        GameData::backGroundMusic->Stop(0);
     }
     UpdateArray(dt);
     selector->Update(dt);   
@@ -72,13 +72,15 @@ void LoadGameState::Start(){
     LoadButtons();
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    //GameData::backGroundMusic->Play();
 }
 
-void LoadGameState::Pause(){}
+void LoadGameState::Pause(){
+    GameData::backGroundMusic->Stop(0);
+}
 
 void LoadGameState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Play();
 }
