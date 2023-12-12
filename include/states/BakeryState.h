@@ -1,7 +1,13 @@
 #ifndef BakeryState_H
 #define BakeryState_H
 
+#include "NPC.h"
+#include "Game.h"
 #include "State.h"
+#include "TukiB.h"
+#include "states/ResumeState.h"
+#include "states/InventoryState.h"
+#include "states/OverworldState.h"
 
 class BakeryState : public State {
         

@@ -1,4 +1,3 @@
-#include <queue>
 #include "states/InventoryState.h"
 
 InventoryState::InventoryState(): State(){

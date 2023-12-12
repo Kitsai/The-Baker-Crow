@@ -1,11 +1,4 @@
 #include "states/BakeryState.h"
-#include "Game.h"
-#include "TukiB.h"
-#include "NPC.h"
-#include "Vec2.h"
-#include "states/InventoryState.h"
-#include "states/ResumeState.h"
-#include "states/OverworldState.h"
 
 BakeryState::BakeryState() : State() {
     GameObject* tuki = new GameObject();

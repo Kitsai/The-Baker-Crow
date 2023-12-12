@@ -1,9 +1,4 @@
-#include "Camera.h"
-#include "Sprite.h"
-#include "defines/DefineInput.h"
 #include "states/LoadGameState.h"
-#include "selectors/LoadGameSelector.h"
-#include <memory>
 
 LoadGameState::LoadGameState(): State(), selector(nullptr){
 
@@ -47,9 +42,7 @@ void LoadGameState::Update(float dt){
         popRequested = true;
         backGroundMusic->Stop(50);
     }
-    for (int i = 0; i < (int) objectArray.size(); i++) {
-        objectArray[i]->Update(dt);
-    }
+    UpdateArray(dt);
     selector->Update(dt);   
 }
 
@@ -57,16 +50,27 @@ void LoadGameState::LoadAssets(){
     
 }
 
-void LoadGameState::Render() { 
+void LoadGameState::LoadButtons(){
+    std::vector<std::shared_ptr<Button>> buttons;
+    Button* buttonGame1 = new Button(Vec2(0, 300),"resources/img/MenuButton.png", "LOAD GAME 1", 36);
+    Button* buttonGame2 = new Button(Vec2(400, 300),"resources/img/MenuButton.png", "LOAD GAME 2", 36);
+    Button* buttonGame3 = new Button(Vec2(800, 300),"resources/img/MenuButton.png", "LOAD GAME 3", 36);
+
+    buttons.push_back((std::shared_ptr<Button>) buttonGame1);
+    buttons.push_back((std::shared_ptr<Button>) buttonGame2);
+    buttons.push_back((std::shared_ptr<Button>) buttonGame3);
+    
+    selector = std::make_unique<Selector>(buttons);
+
+}
+
+void LoadGameState::Render() {
     RenderArray();
 }
 
-void LoadGameState::Start(){
-    
-    selector = std::make_unique<LoadGameSelector>();
-    for (int i = 0; i < (int)objectArray.size(); i++){
-        objectArray[i]->Start();
-    }
+void LoadGameState::Start(){    
+    LoadButtons();
+    StartArray();
     started = true;
     backGroundMusic->Play();
 }

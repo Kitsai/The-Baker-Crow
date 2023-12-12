@@ -1,10 +1,14 @@
+#include "Game.h"
 #include "selectors/Selector.h"
 
-Selector::Selector() : selected(0), nButtons(2){
+Selector::Selector(std::vector<std::shared_ptr<Button>> buttons) : selected(0), nButtons(2), buttons(buttons){
     
     GameObject* soundPassObj = new GameObject();
     soundPass = new Sound(*soundPassObj, "resources/Sound/ButtonUI.flac");
     soundPassObj->AddComponent(soundPass);
+
+    selectedButton = buttons[0];
+    selectedButton->Choose();
     
     Game::GetInstance().GetCurrentState().AddObject(soundPassObj);
 }

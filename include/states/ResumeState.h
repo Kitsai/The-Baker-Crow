@@ -1,17 +1,10 @@
 #ifndef ResumeState_h
 #define ResumeState_h
 
-#include "Text.h"
 #include "Game.h"
 #include "State.h"
-#include "Music.h"
-#include "Sprite.h"
-#include "Camera.h"
-#include "GameObject.h"
-#include "InputManager.h"
-#include "selectors/ResumeSelector.h"
+#include "selectors/Selector.h"
 #include "states/PuzzleState.h"
-#include "defines/DefineInput.h"
 #include "states/OverworldState.h"
 
 class ResumeState : public State {
@@ -23,12 +16,13 @@ class ResumeState : public State {
         void Render();
         void Update(float dt);
         void LoadAssets();
+        void LoadButtons();
         
         void Pause();
         void Start();
         void Resume();
     
     private:
-    std::unique_ptr<ResumeSelector> selector;
+    std::unique_ptr<Selector> selector;
 };
 #endif

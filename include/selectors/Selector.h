@@ -3,15 +3,13 @@
 
 #include <vector>
 
-#include "Game.h"
 #include "Sound.h"
-#include "Sprite.h"
 #include "Button.h"
 #include "InputManager.h"
 
 class Selector{
 public:
-    Selector();
+    Selector(std::vector<std::shared_ptr<Button>> buttons);
     virtual ~Selector();
 
     virtual int GetSelected();

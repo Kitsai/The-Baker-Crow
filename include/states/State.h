@@ -1,16 +1,22 @@
 #ifndef State_h_
 #define State_h_
 
+#include <queue>
 #include <memory>
 #include <vector>
-#include "Sprite.h"
-#include "GameObject.h"
+#include "Text.h"
 #include "Music.h"
 #include "Sound.h"
+#include "Camera.h"
+#include "Sprite.h"
 #include "TileMap.h"
-#include "CameraFollower.h"
-#include "Text.h"
 #include "Collider.h"
+#include "GameData.h"
+#include "GameObject.h"
+#include "InputManager.h"
+#include "CameraFollower.h"
+#include "selectors/Selector.h"
+#include "defines/DefineInput.h"
 
 /// @brief Abstract class for a state of the game.
 class State {
