@@ -114,7 +114,7 @@ void Enemy::ChangeSprite(std::string file, SDL_RendererFlip flip, int frameCount
 
 void Enemy::DropItem(FoodItemType itemType) {
     GameObject* item = new GameObject();
-    item->box.SetCenter(associated.box.GetCenter() + Vec2(rand()%51 + 50,rand()%51 + 50));
+    item->box.SetCenter(associated.box.GetCenter() + Vec2(rand()%201 - 100,rand()%201 - 100)) ;
     item->AddComponent(new DroppedItem(*item, itemType));
     Game::GetInstance().GetCurrentState().AddObject(item);
 }

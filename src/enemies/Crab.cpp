@@ -59,5 +59,12 @@ void Crab::DeathAnimation() {
 }
 
 void Crab::DropItems() {
-    DropItem(chocolate);
+    int chance = 50;
+    if(GameData::hasItem[chocolate]) chance -= 30;
+    if(GameData::hasItem[morango]) chance += 30;
+
+    if((std::rand()%100) < chance)
+        DropItem(chocolate);
+    else
+        DropItem(morango);
 }

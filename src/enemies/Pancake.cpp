@@ -60,5 +60,12 @@ void Pancake::DeathAnimation() {
 }
 
 void Pancake::DropItems() {
-    DropItem(manteiga);
+    int chance = 50;
+    if(GameData::hasItem[manteiga]) chance -= 30;
+    if(GameData::hasItem[mel]) chance += 30;
+
+    if(rand()%100 < chance)
+        DropItem(manteiga);
+    else
+        DropItem(mel);
 }

@@ -62,5 +62,12 @@ void Pavao::DeathAnimation() {
 }
 
 void Pavao::DropItems() {
-    DropItem(trigo);
+    int chance = 50;
+    if(GameData::hasItem[trigo]) chance -= 30;
+    if(GameData::hasItem[ovo]) chance += 30;
+
+    if(rand()%100 < chance)
+        DropItem(trigo);
+    else
+        DropItem(ovo);
 }

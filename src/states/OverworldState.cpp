@@ -78,7 +78,7 @@ void OverworldState::Update(float dt) {
     }else{
         Vec2 playerPos = Player::player->GetPlayerBoxPos();
 
-        if(iM.KeyPress(ENTER_KEY)
+        if(iM.KeyPress(SPACE_KEY)
             && playerPos.y >= 2145 && playerPos.y <= 2228
             && playerPos.x >= 698 && playerPos.x <= 796
         ) popRequested = true;
