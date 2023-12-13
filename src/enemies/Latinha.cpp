@@ -6,6 +6,12 @@ Latinha::Latinha(GameObject& assoc, int hp): Enemy(assoc,false,hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/latinha_idle.png");
     sprite->SetScale(2,2);
     assoc.AddComponent(sprite);
+
+    auto collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
+    if(collider){ 
+        collider->SetScale({0.85,0.85});
+        collider->SetOffset({0,20});
+    }
 }
 
 Latinha::~Latinha() {

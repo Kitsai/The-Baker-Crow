@@ -7,6 +7,9 @@ Pancake::Pancake(GameObject& assoc, int hp): Enemy(assoc, false, hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/pancake_idle.png");
     sprite->SetScale(2,2);
     assoc.AddComponent(sprite);
+
+    auto collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
+    if(collider) collider->SetScale({0.8,0.8});
 }
 
 Pancake::~Pancake() {
