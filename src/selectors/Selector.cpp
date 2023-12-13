@@ -61,5 +61,24 @@ void Selector::Update(float dt) {
 }
 
 int Selector::GetSelected(){
-    return selected;
+    return selected+1;
+}
+int Selector::GetNumberOfButtons(){
+    return buttons.size();
+}
+
+void Selector::SetSelector(int i){
+    if (i > 0 && i < GetNumberOfButtons()){
+        
+        selected = 0;
+
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
+        
+        soundPass->Play();
+    
+    }else{
+        printf("valor errado");
+    }
 }

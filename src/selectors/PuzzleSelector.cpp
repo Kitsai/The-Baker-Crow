@@ -1,7 +1,7 @@
 #include "selectors/PuzzleSelector.h"
 
 PuzzleSelector::PuzzleSelector(std::vector<std::shared_ptr<Button>> buttons) : Selector(buttons)  {
-    this->nButtons = 3;
+    this->nButtons = 4;
 }
 
 void PuzzleSelector::Update(float dt) {
@@ -16,7 +16,7 @@ void PuzzleSelector::Update(float dt) {
 
         soundPass->Play();
     }
-    else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected < nButtons) {
+    else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected <= (nButtons)) {
         selected++;
         
         selectedButton->UnChoose();

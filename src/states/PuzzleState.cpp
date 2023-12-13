@@ -80,6 +80,15 @@ void PuzzleState::Update(float dt){
         }
     }
     if(selector){
+        if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selector->GetSelected() == 1) {
+            selector->SetSelector(selector->GetNumberOfButtons());
+            printf("UP %d %d \n", selector->GetNumberOfButtons(), selector->GetSelected());
+        }
+
+        else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selector->GetSelected() == selector->GetNumberOfButtons()) {
+            printf("DOW %d %d \n", selector->GetNumberOfButtons(), selector->GetSelected());
+            selector->SetSelector(1);
+        }
         selector->Update(dt);
     }
 }
@@ -116,9 +125,9 @@ void PuzzleState::LoadSelector(){
     std::vector<std::shared_ptr<Button>> buttons;
     std::stack<Vec2> positions;
 
-    positions.push(Vec2(1000, 500));
     positions.push(Vec2(1000, 700));
     positions.push(Vec2(1000, 600));
+    positions.push(Vec2(1000, 500));
     positions.push(Vec2(1000, 400));
     positions.push(Vec2(1000, 300));
     positions.push(Vec2(1000, 200));
@@ -127,11 +136,11 @@ void PuzzleState::LoadSelector(){
 
     for(std::pair<bool, FoodItemType> item : GameData::ingredients ){
         if(item.first){
-            Button* butter      = new Button(positions.top(), "resources/img/ingredients/"+foodItemTypeToString[item.second]+".png", false);
-            buttons.push_back((std::shared_ptr<Button>) butter);
+            Button* foodButton     = new Button(positions.top(), "resources/img/ingredients/"+foodItemTypeToString[item.second]+".png", false);
+            buttons.push_back((std::shared_ptr<Button>) foodButton);
             positions.pop();
         }
-        if(buttons.size() >= 4){
+        if(buttons.size() == 4){
             break;
         }
     }

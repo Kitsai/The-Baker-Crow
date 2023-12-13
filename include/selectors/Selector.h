@@ -11,10 +11,12 @@ class Selector{
 public:
     Selector(std::vector<std::shared_ptr<Button>> buttons);
     virtual ~Selector();
-
-    virtual int GetSelected();
     virtual void Update(float dt);
     
+    int GetSelected();
+    void SetSelector(int i);
+    int GetNumberOfButtons();
+
     protected:
         int selected;
         std::shared_ptr<Button> selectedButton;
