@@ -8,4 +8,6 @@ constexpr float TOW_ATTACK_COOLDOWN = 1.0F;
 
 constexpr float TOW_DAMAGED_TIME = .9F;
 
+constexpr float DROPS_ACTIVATE_DELAY = 1.0F;
+
 #endif

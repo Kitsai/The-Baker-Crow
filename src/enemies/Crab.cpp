@@ -59,5 +59,5 @@ void Crab::DeathAnimation() {
 }
 
 void Crab::DropItems() {
-
+    DropItem(chocolate);
 }

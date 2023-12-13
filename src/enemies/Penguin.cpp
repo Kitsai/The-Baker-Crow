@@ -57,5 +57,5 @@ void Penguin::DeathAnimation() {
 }
 
 void Penguin::DropItems() {
-
+    DropItem(acucar);
 }

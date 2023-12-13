@@ -60,5 +60,5 @@ void Pancake::DeathAnimation() {
 }
 
 void Pancake::DropItems() {
-
+    DropItem(manteiga);
 }

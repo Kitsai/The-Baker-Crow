@@ -112,6 +112,13 @@ void Enemy::ChangeSprite(std::string file, SDL_RendererFlip flip, int frameCount
     }
 }
 
+void Enemy::DropItem(FoodItemType itemType) {
+    GameObject* item = new GameObject();
+    item->box.SetCenter(associated.box.GetCenter() + Vec2(rand()%51 + 50,rand()%51 + 50));
+    item->AddComponent(new DroppedItem(*item, itemType));
+    Game::GetInstance().GetCurrentState().AddObject(item);
+}
+
 void Enemy::SetCollider(SDL_Color color, bool active) {
     std::shared_ptr<Collider> collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
     if (collider) {

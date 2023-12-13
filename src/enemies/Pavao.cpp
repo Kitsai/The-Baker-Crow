@@ -62,5 +62,5 @@ void Pavao::DeathAnimation() {
 }
 
 void Pavao::DropItems() {
-
+    DropItem(trigo);
 }

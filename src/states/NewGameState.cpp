@@ -29,19 +29,19 @@ void NewGameState::Update(float dt){
         BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        GameData::backGroundMusic->Stop();
+        GameData::backGroundMusic->Stop(0);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        GameData::backGroundMusic->Stop();
+        GameData::backGroundMusic->Stop(0);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
-        GameData::backGroundMusic->Stop();
+        GameData::backGroundMusic->Stop(0);
     }
     UpdateArray(dt);
     selector->Update(dt);

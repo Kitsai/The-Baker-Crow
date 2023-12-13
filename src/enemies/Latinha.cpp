@@ -60,5 +60,5 @@ void Latinha::DeathAnimation() {
 }
 
 void Latinha::DropItems() {
-
+    DropItem(leite);
 }

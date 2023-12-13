@@ -5,6 +5,7 @@
 
 #include "Attack.h"
 #include "Player.h"
+#include "DroppedItem.h"
 
 #include "defines/DefinesInclude.h"
 
@@ -60,7 +61,7 @@ class Enemy: public Component {
 
 
         void virtual DeathAnimation() = 0;
-
+        void DropItem(FoodItemType itemType);
         void virtual DropItems() = 0;
 
 };

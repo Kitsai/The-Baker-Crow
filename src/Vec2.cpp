@@ -44,7 +44,7 @@ bool Vec2::operator==(const Vec2& v) {
 }
 
 bool Vec2::operator!=(const Vec2& v) {
-    return not operator==(v);
+    return !(operator==(v));
 }
 
 bool Vec2::operator==(float f) {
