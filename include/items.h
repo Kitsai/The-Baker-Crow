@@ -4,25 +4,25 @@
 #include <string>
 
 enum FoodItemType {
-    acucar,
+    sugar,
     chocolate,
-    leite,
-    manteiga,
-    mel,
-    morango,
-    ovo,
-    trigo,
+    milk,
+    butter,
+    honey,
+    straw,
+    eggs,
+    wheat,
 };
 
 static std::string foodItemTypeToString[] {
-    "acucar",
+    "sugar",
     "chocolate",
-    "leite",
-    "manteiga",
-    "mel",
-    "morango",
-    "ovo",
-    "trigo",
+    "milk",
+    "butter",
+    "honey",
+    "straw",
+    "eggs",
+    "wheat",
 };
 
 #endif

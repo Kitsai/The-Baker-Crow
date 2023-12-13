@@ -9,7 +9,6 @@ class PuzzleSelector : public Selector {
         PuzzleSelector(std::vector<std::shared_ptr<Button>> buttons);
     
         void Update(float dt) override;
-        void RenderSelected();
 };
 
 #endif

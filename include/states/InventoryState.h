@@ -18,5 +18,7 @@ class InventoryState : public State {
         void Pause();
         void Start();
         void Resume();
+    private:
+        std::unique_ptr<Selector> selector;
 };
 #endif

@@ -1,10 +1,13 @@
 #ifndef GameData_h_
 #define GameData_h_
 
-#include "Music.h"
-#include "Vec2.h"
+
 #include <vector>
 #include <string>
+
+#include "Vec2.h"
+#include "Music.h"
+#include "items.h"
 
 /// @brief A static class made to keep important game data.
 class GameData {
@@ -17,16 +20,9 @@ class GameData {
         static int playerLife;
         static Vec2 lastSafePosition;
 
-        static bool hasSugar;
-        static bool hasChoco;
-        static bool hasMilk;
-        static bool hasButter;
-        static bool hasHoney;
-        static bool hasStraw;
-        static bool hasEggs;
-        static bool hasWheat;
         static std::vector<std::string> requests;
         static std::unique_ptr<Music> backGroundMusic;
+        static std::vector<std::pair<bool, FoodItemType>> ingredients;
 };
 
 #endif

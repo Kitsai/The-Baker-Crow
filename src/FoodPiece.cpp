@@ -104,28 +104,28 @@ std::vector<std::weak_ptr<GameObject>> FoodPiece::GetPieces(){
 }
 
 void FoodPiece::evaluateForm(){ 
-    if (type == FoodItemType::ovo)
+    if (type == FoodItemType::eggs)
         form = {{1, 1, 1, 1}};
     
-    else if (type == FoodItemType::morango)
+    else if (type == FoodItemType::straw)
         form = {{1, 0},{1, 0},{1, 1}};
 
     else if (type == FoodItemType::chocolate) 
         form = {{1, 0},{1, 1},{0, 1}};
 
-    else if (type == FoodItemType::trigo) 
+    else if (type == FoodItemType::wheat) 
         form = {{1, 1},{1, 1}};
 
-    else if (type == FoodItemType::manteiga) 
+    else if (type == FoodItemType::butter) 
         form = {{1, 1, 1},{0, 1, 0}};
      
-    else if (type == FoodItemType::mel) 
+    else if (type == FoodItemType::honey) 
         form = {{1, 1}};
      
-    else if (type == FoodItemType::acucar) 
+    else if (type == FoodItemType::sugar) 
         form = {{1}};
      
-    else if (type == FoodItemType::leite) 
+    else if (type == FoodItemType::milk) 
         form = {{1, 0},{1, 1}};
 }
 

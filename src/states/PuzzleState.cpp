@@ -1,12 +1,14 @@
 #include "Game.h"
+#include "GameData.h"
 #include "selectors/PuzzleSelector.h"
 #include "FoodItem.h"
 #include "FoodPiece.h"
 #include "InputManager.h"
+#include "selectors/Selector.h"
 #include "states/PuzzleState.h"
 #include "defines/DefineInput.h"
 
-PuzzleState::PuzzleState(int puzzleNumber) : State(){
+PuzzleState::PuzzleState(int puzzleNumber) : State(), selector(nullptr){
     GameObject* ui = new GameObject();
     ui->AddComponent(new Sprite(*ui,"resources/img/puzzle/ui/Exemplo.png"));
     ui->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
@@ -77,11 +79,13 @@ void PuzzleState::Update(float dt){
             objectArray.erase(objectArray.begin()+i);
         }
     }
-    selector->Update(dt);
+    if(selector){
+        selector->Update(dt);
+    }
 }
 void PuzzleState::Start(){
     StartArray();
-    LoadButtons();
+    LoadSelector();
     started = true;
     backGroundMusic->Play();
 }
@@ -108,25 +112,31 @@ void PuzzleState::LoadMap(){
     }
 }
 
-void PuzzleState::LoadButtons(){
+void PuzzleState::LoadSelector(){
     std::vector<std::shared_ptr<Button>> buttons;
-    Button* butter      = new Button(Vec2(1000, 0), "resources/img/ingredients/butter.png", false);
-    Button* chocolate   = new Button(Vec2(1000, 100), "resources/img/ingredients/chocolate.png", false);
-    Button* egg         = new Button(Vec2(1000, 200), "resources/img/ingredients/egg.png", false);
-    Button* honey       = new Button(Vec2(1000, 300), "resources/img/ingredients/honey.png", false);
-    Button* milk        = new Button(Vec2(1000, 400), "resources/img/ingredients/milk.png", false);
-    Button* strawberry  = new Button(Vec2(1000, 500),   "resources/img/ingredients/straw.png", false);
-    Button* sugar       = new Button(Vec2(1000, 600), "resources/img/ingredients/sugar.png", false);
-    Button* wheat       = new Button(Vec2(1000, 700), "resources/img/ingredients/wheat.png", false);
+    std::stack<Vec2> positions;
 
-    buttons.push_back((std::shared_ptr<Button>) butter);
-    buttons.push_back((std::shared_ptr<Button>) chocolate);
-    buttons.push_back((std::shared_ptr<Button>) egg);
-    buttons.push_back((std::shared_ptr<Button>) honey);
-    buttons.push_back((std::shared_ptr<Button>) milk);
-    buttons.push_back((std::shared_ptr<Button>) strawberry);
-    buttons.push_back((std::shared_ptr<Button>) sugar);
-    buttons.push_back((std::shared_ptr<Button>) wheat);
+    positions.push(Vec2(1000, 500));
+    positions.push(Vec2(1000, 700));
+    positions.push(Vec2(1000, 600));
+    positions.push(Vec2(1000, 400));
+    positions.push(Vec2(1000, 300));
+    positions.push(Vec2(1000, 200));
+    positions.push(Vec2(1000, 100));
+    positions.push(Vec2(1000, 0));
+
+    for(std::pair<bool, FoodItemType> item : GameData::ingredients ){
+        if(item.first){
+            Button* butter      = new Button(positions.top(), "resources/img/ingredients/"+foodItemTypeToString[item.second]+".png", false);
+            buttons.push_back((std::shared_ptr<Button>) butter);
+            positions.pop();
+        }
+        if(buttons.size() >= 4){
+            break;
+        }
+    }
     
-    selector = std::make_unique<PuzzleSelector>(buttons);
+    if(buttons.size()){
+        selector = std::make_unique<PuzzleSelector>(buttons);
+    }
 }

@@ -24,7 +24,7 @@ class PuzzleState: public State {
         FoodPuzzle* puzzle;
         void LoadMap();
         void CreatePiece();
-        void LoadButtons();
+        void LoadSelector();
         
         bool selectorOn;
         std::unique_ptr<Selector> selector;
