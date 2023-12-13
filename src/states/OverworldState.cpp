@@ -50,7 +50,7 @@ OverworldState::OverworldState(): State(){
     AddObject(latinha);
 
     GameObject* penguin = new GameObject();
-    penguin->AddComponent(new Penguin(*penguin,150));
+    penguin->AddComponent(new Penguin(*penguin,50));
     penguin->box.SetCenter(Vec2(4797,884));
     AddObject(penguin);
 

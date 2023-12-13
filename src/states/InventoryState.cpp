@@ -1,4 +1,5 @@
 #include "states/InventoryState.h"
+#include "items.h"
 
 InventoryState::InventoryState(): State(){
 
@@ -59,14 +60,14 @@ void InventoryState::Resume(){
 void InventoryState::LoadIngredients() {
     
     std::vector <std::tuple<bool, std::string, Vec2>> ingredients = {
-        {GameData::hasButter, "resources/img/ingredients/manteiga.png", Vec2(478, 190)},
-        {GameData::hasChoco, "resources/img/ingredients/chocolate.png", Vec2(605, 202)},
-        {GameData::hasEggs, "resources/img/ingredients/ovo.png", Vec2(725, 202)},
-        {GameData::hasHoney, "resources/img/ingredients/mel.png", Vec2(478, 328)},
-        {GameData::hasMilk, "resources/img/ingredients/leite.png", Vec2(605, 324)},
-        {GameData::hasSugar, "resources/img/ingredients/acucar.png", Vec2(728, 323)},
-        {GameData::hasWheat, "resources/img/ingredients/trigo.png", Vec2(500, 471)},
-        {GameData::hasStraw, "resources/img/ingredients/morango.png", Vec2(703, 456)}
+        {GameData::hasItem[manteiga], "resources/img/ingredients/manteiga.png", Vec2(478, 190)},
+        {GameData::hasItem[chocolate], "resources/img/ingredients/chocolate.png", Vec2(605, 202)},
+        {GameData::hasItem[ovo], "resources/img/ingredients/ovo.png", Vec2(725, 202)},
+        {GameData::hasItem[mel], "resources/img/ingredients/mel.png", Vec2(478, 328)},
+        {GameData::hasItem[leite], "resources/img/ingredients/leite.png", Vec2(605, 324)},
+        {GameData::hasItem[acucar], "resources/img/ingredients/acucar.png", Vec2(728, 323)},
+        {GameData::hasItem[trigo], "resources/img/ingredients/trigo.png", Vec2(500, 471)},
+        {GameData::hasItem[morango], "resources/img/ingredients/morango.png", Vec2(703, 456)}
     };
 
     for (std::vector<int>::size_type i = 0; i < ingredients.size(); i++) {
