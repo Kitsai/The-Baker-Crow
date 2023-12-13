@@ -1,8 +1,8 @@
 #include "HeartBar.h"
 
 #include "Player.h"
-#include "enemies/Pavao.h"
-#include "enemies/Pancake.h"
+#include "enemies/enemies.h"
+
 
 #include "states/ResumeState.h"
 #include "states/InventoryState.h"
@@ -35,9 +35,24 @@ OverworldState::OverworldState(): State(){
     pancake->box.SetCenter(Vec2(3463,1492));
 
     GameObject* pavao = new GameObject();
-    pavao->AddComponent(new Pavao(*pavao,100));
+    pavao->AddComponent(new Pavao(*pavao,150));
     pavao->box.SetCenter(Vec2(3427,652));
     AddObject(pavao);
+
+    GameObject* crab = new GameObject();
+    crab->AddComponent(new Crab(*crab,100));
+    crab->box.SetCenter(Vec2(3752,2436));
+    AddObject(crab);
+
+    GameObject* latinha = new GameObject();
+    latinha->AddComponent(new Latinha(*latinha,150));
+    latinha->box.SetCenter(Vec2(4540,1838));
+    AddObject(latinha);
+
+    GameObject* penguin = new GameObject();
+    penguin->AddComponent(new Penguin(*penguin,150));
+    penguin->box.SetCenter(Vec2(4797,884));
+    AddObject(penguin);
 
     Camera::Follow(tuki);
     GameData::playerAlive = true;

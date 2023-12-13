@@ -20,7 +20,7 @@ std::string e2s[5] = {"STANDING","WALKING","ATTACKING","DODGING","DAMAGED"};
 void TukiOW::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
-    // std::cout << "x: " << associated.box.x << " y: " << associated.box.y << std::endl;
+    std::cout << "x: " << associated.box.x << " y: " << associated.box.y << std::endl;
 
     playerTimer.Update(dt);
 
