@@ -1,18 +1,15 @@
 #ifndef PuzzleSelector_H
 #define PuzzleSelector_H
 
-#include "Component.h"
+#include <stack>
+#include "selectors/Selector.h"
 
-class PuzzleSelector : public Component {
-    int selected;
-    void RenderSelected();
-public:
-    PuzzleSelector(GameObject& assoc);
-    ~PuzzleSelector();
-
-    void Update(float dt);
-    void Render();
-    bool Is(std::string type);
+class PuzzleSelector : public Selector {
+    public:
+        PuzzleSelector(std::vector<std::shared_ptr<Button>> buttons);
+    
+        void Update(float dt) override;
+        void RenderSelected();
 };
 
 #endif

@@ -1,49 +1,47 @@
 #include "selectors/PuzzleSelector.h"
-#include "Sprite.h"
-#include "InputManager.h"
-#include <iostream>
 
-PuzzleSelector::PuzzleSelector(GameObject& assoc) : Component(assoc) {
-    selected = 0;
-    associated.AddComponent(new Sprite(associated, "resources/img/circleselection_puzzle.png"));
+PuzzleSelector::PuzzleSelector(std::vector<std::shared_ptr<Button>> buttons) : Selector(buttons)  {
+    this->nButtons = 3;
 }
-
-PuzzleSelector::~PuzzleSelector() {}
 
 void PuzzleSelector::Update(float dt) {
-    if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
+    
+    if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected == 0) {
+        selected = nButtons;
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
+        
+        soundPass->Play();
+    }
+    
+    else if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
         selected--;
-        RenderSelected();
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
+
+        soundPass->Play();
     }
-    if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected < 3) {
+    else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected < nButtons) {
         selected++;
-        RenderSelected();
+        
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
+
+        soundPass->Play();
     }
-    if (InputManager::GetInstance().KeyPress(ENTER_KEY)) associated.RequestDelete();
-}
+    
+    else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected == nButtons) {
+        selected = 0;
 
-void PuzzleSelector::Render() {}
+        selectedButton->UnChoose();
+        selectedButton = buttons[selected];
+        selectedButton->Choose();
 
-bool PuzzleSelector::Is(std::string type) {
-    return type == "PuzzleSelector";
-}
-
-void PuzzleSelector::RenderSelected(){
-    switch(selected){
-        case 0:
-            associated.box.y = 32;
-            break;
-        case 1:
-            associated.box.y = 187;
-            break;
-        case 2:
-            associated.box.y = 342;
-            break;
-        case 3:
-            associated.box.y = 505;
-            break;
-        default:
-            associated.box.y = 32;
-            break;
+        soundPass->Play();
     }
 }

@@ -1,4 +1,10 @@
+#include "Game.h"
+#include "selectors/PuzzleSelector.h"
+#include "FoodItem.h"
+#include "FoodPiece.h"
+#include "InputManager.h"
 #include "states/PuzzleState.h"
+#include "defines/DefineInput.h"
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(){
     GameObject* ui = new GameObject();
@@ -8,8 +14,6 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(){
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap();
-
-    CreatePuzzleSelector();
     backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
 }
 
@@ -51,28 +55,10 @@ void PuzzleState::Update(float dt){
                 pieces[i].lock()->RequestDelete();
             }
 
-            CreatePuzzleSelector();
+            this->selectorOn = true;
         }
 
         if(objectArray[i]->IsDead()){
-            // deletes PuzzleSelector, creates puzzle piece
-            if(objectArray[i]->GetComponent("PuzzleSelector").lock()){
-                GameObject* pieces = new GameObject();
-                pieces->box.x = 415;
-                pieces->box.y = 170;
-
-                // substituir por pegar do inventário depois
-
-                FoodItem* item;
-                if (objectArray[i].get()->box.y == 32) item =  new FoodItem(*pieces, FoodItemType::morango);
-                else if (objectArray[i]->box.y == 187) item =  new FoodItem(*pieces, FoodItemType::mel);
-                else if (objectArray[i]->box.y == 342) item =  new FoodItem(*pieces, FoodItemType::acucar);
-                else if (objectArray[i]->box.y == 505) item =  new FoodItem(*pieces, FoodItemType::chocolate);
-
-                pieces->AddComponent(item);
-                AddObject(pieces);
-            }
-            
             // checks whether piece can be locked; if so, creates a PuzzleSelector
             if(objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
                 FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
@@ -83,7 +69,7 @@ void PuzzleState::Update(float dt){
                     
                     foodPiece->Lock();
 
-                    CreatePuzzleSelector();
+                    this->selectorOn = true;
                     continue;
                 }
             }
@@ -91,11 +77,11 @@ void PuzzleState::Update(float dt){
             objectArray.erase(objectArray.begin()+i);
         }
     }
+    selector->Update(dt);
 }
-
 void PuzzleState::Start(){
-    LoadAssets();
     StartArray();
+    LoadButtons();
     started = true;
     backGroundMusic->Play();
 }
@@ -122,10 +108,25 @@ void PuzzleState::LoadMap(){
     }
 }
 
-void PuzzleState::CreatePuzzleSelector(){
-    GameObject* puzzleSelector = new GameObject();
-    puzzleSelector->AddComponent(new class PuzzleSelector(*puzzleSelector));
-    puzzleSelector->box.x = 15;
-    puzzleSelector->box.y = 32;
-    AddObject(puzzleSelector);
+void PuzzleState::LoadButtons(){
+    std::vector<std::shared_ptr<Button>> buttons;
+    Button* butter      = new Button(Vec2(1000, 0), "resources/img/ingredients/butter.png", false);
+    Button* chocolate   = new Button(Vec2(1000, 100), "resources/img/ingredients/chocolate.png", false);
+    Button* egg         = new Button(Vec2(1000, 200), "resources/img/ingredients/egg.png", false);
+    Button* honey       = new Button(Vec2(1000, 300), "resources/img/ingredients/honey.png", false);
+    Button* milk        = new Button(Vec2(1000, 400), "resources/img/ingredients/milk.png", false);
+    Button* strawberry  = new Button(Vec2(1000, 500),   "resources/img/ingredients/straw.png", false);
+    Button* sugar       = new Button(Vec2(1000, 600), "resources/img/ingredients/sugar.png", false);
+    Button* wheat       = new Button(Vec2(1000, 700), "resources/img/ingredients/wheat.png", false);
+
+    buttons.push_back((std::shared_ptr<Button>) butter);
+    buttons.push_back((std::shared_ptr<Button>) chocolate);
+    buttons.push_back((std::shared_ptr<Button>) egg);
+    buttons.push_back((std::shared_ptr<Button>) honey);
+    buttons.push_back((std::shared_ptr<Button>) milk);
+    buttons.push_back((std::shared_ptr<Button>) strawberry);
+    buttons.push_back((std::shared_ptr<Button>) sugar);
+    buttons.push_back((std::shared_ptr<Button>) wheat);
+    
+    selector = std::make_unique<PuzzleSelector>(buttons);
 }

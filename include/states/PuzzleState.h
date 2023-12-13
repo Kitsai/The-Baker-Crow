@@ -9,11 +9,6 @@
 #include "selectors/PuzzleSelector.h"
 
 class PuzzleState: public State {
-    private:
-        FoodPuzzle* puzzle;
-        void LoadMap();
-        void CreatePuzzleSelector();
-        void CreatePiece();
     public:
         PuzzleState(int puzzleNumber);
         ~PuzzleState();
@@ -24,8 +19,15 @@ class PuzzleState: public State {
 
         void Start();
         void Pause();
-        void Resume();
-
+        void Resume();    
+    private:
+        FoodPuzzle* puzzle;
+        void LoadMap();
+        void CreatePiece();
+        void LoadButtons();
+        
+        bool selectorOn;
+        std::unique_ptr<Selector> selector;
 };
 
 #endif
