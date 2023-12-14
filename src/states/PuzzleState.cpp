@@ -1,7 +1,7 @@
 #include "Button.h"
 #include "Game.h"
 #include "GameData.h"
-#include "selectors/PuzzleSelector.h"
+#include "selectors/Selector.h"
 #include "FoodItem.h"
 #include "FoodPiece.h"
 #include "InputManager.h"

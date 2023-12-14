@@ -22,4 +22,14 @@ std::vector<std::pair<bool, FoodItemType>> GameData::hasItem = {
 
 };
 
+std::vector<std::pair<bool, RevenuesItemType>> GameData::revenuesCompleted = {
+    
+    {false, brigadeiro},
+    {false, cake},
+    {false, cheesebread},
+    {false, macarons},
+    {false, pudding},
+
+};
+
 std::unique_ptr<Music> GameData::backGroundMusic = nullptr;

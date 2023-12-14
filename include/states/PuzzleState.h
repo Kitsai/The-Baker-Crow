@@ -6,7 +6,7 @@
 #include "FoodItem.h"
 #include "FoodPiece.h"
 #include "FoodPuzzle.h"
-#include "selectors/PuzzleSelector.h"
+#include "selectors/Selector.h"
 #include <type_traits>
 
 enum class Direction {

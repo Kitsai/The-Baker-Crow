@@ -25,4 +25,20 @@ static std::string foodItemTypeToString[] {
     "wheat",
 };
 
+enum RevenuesItemType {
+    brigadeiro,
+    cake,
+    cheesebread,
+    macarons,
+    pudding,
+};
+
+static std::string RevenuesItemTypeToString[] {
+    "brigadeiro",
+    "cake",
+    "cheesebread",
+    "macarons",
+    "pudding",
+};
+
 #endif

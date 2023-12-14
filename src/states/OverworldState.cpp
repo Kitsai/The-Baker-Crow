@@ -5,6 +5,7 @@
 
 
 #include "states/ResumeState.h"
+#include "states/RevenueState.h"
 #include "states/InventoryState.h"
 #include "states/OverworldState.h"
 
@@ -87,12 +88,15 @@ void OverworldState::Update(float dt) {
 
         if(iM.QuitRequested()) quitRequested = true;
         
-        if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
+        if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY))
             LoadNewState(new ResumeState());
-        }
-        else if (iM.KeyPress(I_KEY)){
+    
+        else if (iM.KeyPress(R_KEY))
+            LoadNewState(new RevenueState());
+    
+        else if (iM.KeyPress(I_KEY))
             LoadNewState(new InventoryState());
-        }
+    
     }
     UpdateArray(dt);
     CheckCollisions();

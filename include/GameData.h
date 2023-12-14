@@ -23,6 +23,7 @@ class GameData {
         static std::vector<std::string> requests;
         static std::unique_ptr<Music> backGroundMusic;
         static std::vector<std::pair<bool, FoodItemType>> hasItem;
+        static std::vector<std::pair<bool, RevenuesItemType>> revenuesCompleted;
 };
 
 #endif
