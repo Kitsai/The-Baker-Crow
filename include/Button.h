@@ -10,8 +10,8 @@
 class Button {
     public:
         Button(Vec2 vec, std::string buttonPath);
-        Button(Vec2 vec, std::string buttonPath, bool hasText);
         Button(Vec2 vec, std::string buttonPath, std::string name, int size);
+        Button(Vec2 vec, std::string buttonPath, std::string name, bool hasText);
         
         void Choose();
         void UnChoose();

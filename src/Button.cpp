@@ -17,7 +17,8 @@ Button::Button(Vec2 vetor, std::string buttonPath) : blinkingText(false){
     Game::GetInstance().GetCurrentState().AddObject(imageObj);
 }
 
-Button::Button(Vec2 vetor, std::string buttonPath, bool hasText) : Button(vetor, buttonPath){
+Button::Button(Vec2 vetor, std::string buttonPath, std::string name, bool hasText) : Button(vetor, buttonPath){
+    this->name = name;
     this->text      =nullptr;
     this->textObj   = nullptr;
 }

@@ -9,20 +9,20 @@
 
 class Selector{
 public:
-    Selector(std::vector<std::shared_ptr<Button>> buttons);
+    Selector(std::vector<std::shared_ptr<Button>> buttons, int startButton = 1);
     virtual ~Selector();
     virtual void Update(float dt);
     
     int  GetSelected();
     void SetSelector(int i);
     int  GetNumberOfButtons();
+    std::vector<std::shared_ptr<Button>> buttons; 
     
     protected:
         int selected;
         std::shared_ptr<Button> selectedButton;
         
-        int nButtons;
-        std::vector<std::shared_ptr<Button>> buttons;        
+        int nButtons;     
         Sound* soundPass;
 };
 #endif

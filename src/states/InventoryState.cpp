@@ -64,18 +64,18 @@ void InventoryState::LoadIngredients() {
     std::stack<Vec2> positions;
     std::vector<std::shared_ptr<Button>> buttons;
 
-    positions.push( Vec2(478, 190));
-    positions.push( Vec2(605, 202));
+    positions.push(Vec2(478, 202));
+    positions.push(Vec2(605, 202));
     positions.push(Vec2(725, 202));
-    positions.push(Vec2(478, 328));
-    positions.push( Vec2(605, 324));
-    positions.push(Vec2(728, 323));
+    positions.push(Vec2(478, 325));
+    positions.push(Vec2(605, 325));
+    positions.push(Vec2(728, 325));
     positions.push(Vec2(500, 471));
     positions.push(Vec2(703, 456));
 
     for(std::pair<bool, FoodItemType> item : GameData::ingredients ){
         if(item.first){
-            Button* butter      = new Button(positions.top(), "resources/img/ingredients/"+foodItemTypeToString[item.second]+".png", false);
+            Button* butter      = new Button(positions.top(), "resources/img/ingredients/"+foodItemTypeToString[item.second]+".png", foodItemTypeToString[item.second]  ,false);
             buttons.push_back((std::shared_ptr<Button>) butter);
             positions.pop();
         }

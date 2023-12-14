@@ -9,7 +9,9 @@
 #include "states/PuzzleState.h"
 #include "defines/DefineInput.h"
 #include <algorithm>
+#include <cstdio>
 #include <memory>
+#include <vector>
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(),selectorOn(true), currentButton(4), selector(nullptr){
     
@@ -89,11 +91,12 @@ void PuzzleState::Update(float dt){
         }
     }
     if(selector && selectorOn){
-        if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY)  && selector->GetSelected() == 1)
+        printf("%d \n",currentButton);
+        if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY)  && selector->GetSelected() == 1 && currentButton > 4)
             UpdateSelector(Direction::Up);
         
         
-        else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selector->GetSelected() == 4)
+        else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selector->GetSelected() == 4 && currentButton < maxButton)
             UpdateSelector(Direction::Down);
         
         else
@@ -146,33 +149,32 @@ void PuzzleState::LoadSelector(){
 void PuzzleState::UpdateSelector(Direction direction) {
     int count = 0;
     int limitNumber = 4;
-    int dif = currentButton - 4;
 
-    if (direction == Direction::Up) {
-        if (currentButton > limitNumber)
-            currentButton--;
-    }
-
-    else if (direction == Direction::Down) {
-        if (currentButton < maxButton)
-            currentButton++;
-    }
+    if (direction == Direction::Up)
+        currentButton--;
+    
+    else if (direction == Direction::Down)
+        currentButton++;
+    
+    int dif = currentButton - limitNumber;
     
     std::vector<std::shared_ptr<Button>> buttons;
 
     for(std::pair<bool, FoodItemType> item : GameData::ingredients){
-        if(dif > 0){
+        if(item.first && dif > 0){
             dif = dif -1;
         }
-        else if(buttons.size() >= 4){
-
-        }
-        else if(item.first){
-            std::shared_ptr<Button> foodButton = std::make_shared<Button>(positions[count], "resources/img/FoodCircle/"+foodItemTypeToString[item.second]+".png", false);
+        
+        else if(item.first && !((int) buttons.size() >= limitNumber) && dif == 0){
+            std::shared_ptr<Button> foodButton = std::make_shared<Button>(positions[count], "resources/img/FoodCircle/"+foodItemTypeToString[item.second]+".png",foodItemTypeToString[item.second], false);
             buttons.push_back( foodButton);
             count++;
         }
     }
-
-    selector = new Selector(buttons);
+    selector = nullptr;
+    if (direction == Direction::Down){
+        selector = new Selector(buttons, limitNumber);
+    }
+    else
+        selector = new Selector(buttons);
 }
