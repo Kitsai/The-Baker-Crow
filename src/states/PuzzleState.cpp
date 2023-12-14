@@ -190,10 +190,15 @@ void PuzzleState::UpdateSelector(Direction direction) {
             count++;
         }
     }
-    selector = nullptr;
-    if (direction == Direction::Down){
+    if(buttons.size()>0){
+        if (direction == Direction::Down){
         selector = new Selector(buttons, limitNumber);
+        }
+        else
+            selector = new Selector(buttons);
+        }
+    else{
+        selector = nullptr;
     }
-    else
-        selector = new Selector(buttons);
+
 }
