@@ -1,6 +1,7 @@
 #include "enemies/Penguin.h"
 #include "GameObject.h"
 #include "Game.h"
+#include "items.h"
 
 Penguin::Penguin(GameObject& assoc, int hp): Enemy(assoc,false,hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/penguim_idle.png");
@@ -58,5 +59,5 @@ void Penguin::DeathAnimation() {
 }
 
 void Penguin::DropItems() {
-    DropItem(acucar);
+    DropItem(sugar);
 }

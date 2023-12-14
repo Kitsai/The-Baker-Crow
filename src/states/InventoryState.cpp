@@ -1,7 +1,6 @@
 #include "states/InventoryState.h"
-#include "items.h"
 
-InventoryState::InventoryState(): State(){
+InventoryState::InventoryState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
     titleObj->box.x = 350;
@@ -29,6 +28,9 @@ void InventoryState::Update(float dt){
     
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
+    }
+    if(selector){
+        selector->Update(dt);
     }
     
 }
@@ -58,26 +60,27 @@ void InventoryState::Resume(){
 }
 
 void InventoryState::LoadIngredients() {
-    
-    std::vector <std::tuple<bool, std::string, Vec2>> ingredients = {
-        {GameData::hasItem[manteiga], "resources/img/ingredients/manteiga.png", Vec2(478, 190)},
-        {GameData::hasItem[chocolate], "resources/img/ingredients/chocolate.png", Vec2(605, 202)},
-        {GameData::hasItem[ovo], "resources/img/ingredients/ovo.png", Vec2(725, 202)},
-        {GameData::hasItem[mel], "resources/img/ingredients/mel.png", Vec2(478, 328)},
-        {GameData::hasItem[leite], "resources/img/ingredients/leite.png", Vec2(605, 324)},
-        {GameData::hasItem[acucar], "resources/img/ingredients/acucar.png", Vec2(728, 323)},
-        {GameData::hasItem[trigo], "resources/img/ingredients/trigo.png", Vec2(500, 471)},
-        {GameData::hasItem[morango], "resources/img/ingredients/morango.png", Vec2(703, 456)}
-    };
 
-    for (std::vector<int>::size_type i = 0; i < ingredients.size(); i++) {
-        if (std::get<0>(ingredients[i])) {
-            
-            GameObject* obj = new GameObject();
-            obj->AddComponent(new Sprite(*obj, std::get<1>(ingredients[i])));
-            obj->box = std::get<2>(ingredients[i]);;
-            
-            AddObject(obj);
+    std::stack<Vec2> positions;
+    std::vector<std::shared_ptr<Button>> buttons;
+
+    positions.push(Vec2(500, 471));
+    positions.push(Vec2(703, 456));
+    positions.push(Vec2(728, 323));
+    positions.push(Vec2(605, 324));
+    positions.push(Vec2(478, 328));
+    positions.push(Vec2(725, 202));
+    positions.push(Vec2(605, 202));
+    positions.push(Vec2(478, 190));
+
+    for(std::pair<bool, FoodItemType> item : GameData::hasItem ){
+        if(item.first){
+            Button* butter      = new Button(positions.top(), "resources/img/ingredients/"+foodItemTypeToString[item.second]+".png", foodItemTypeToString[item.second]  ,false);
+            buttons.push_back((std::shared_ptr<Button>) butter);
+            positions.pop();
         }
+    }
+    if(buttons.size()){
+        selector = std::make_unique<Selector>(buttons);
     }
 }

@@ -1,6 +1,7 @@
 #include "enemies/Pavao.h"
 #include "GameObject.h"
 #include "Game.h"
+#include "items.h"
 
 Pavao::Pavao(GameObject& assoc, int hp): Enemy(assoc,true,hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/pavao_idle.png");
@@ -64,11 +65,11 @@ void Pavao::DeathAnimation() {
 
 void Pavao::DropItems() {
     int chance = 50;
-    if(GameData::hasItem[trigo]) chance -= 30;
-    if(GameData::hasItem[ovo]) chance += 30;
+    if(GameData::hasItem[wheat].first) chance -= 30;
+    if(GameData::hasItem[eggs].first) chance += 30;
 
     if(rand()%100 < chance)
-        DropItem(trigo);
+        DropItem(wheat);
     else
-        DropItem(ovo);
+        DropItem(eggs);
 }
