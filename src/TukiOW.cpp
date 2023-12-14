@@ -8,6 +8,7 @@ TukiOW::TukiOW(GameObject& associated): Player(associated) {
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
     sprite->SetScale(2,2);
     associated.AddComponent(sprite);
+    associated.AddComponent(new Sound(associated,"resources/Sound/TukiAttack.flac"));
     faceDirection = DOWN;
 }
 
@@ -163,6 +164,7 @@ void TukiOW::SetPlayerState(PlayerState state) {
         break;
     case ATTACKING:
         ChangeSprite("resources/img/tuki_anim_attac.png",4,.1F);
+        std::static_pointer_cast<Sound>(associated.GetComponent("Sound").lock())->Play();
         SetCollider(COLOR_GREEN);
         break;
     case DODGING:

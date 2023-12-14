@@ -20,6 +20,9 @@ class OverworldState: public State {
         Timer timer;
         void LoadHouses();
         void LoadObstacles();
+
+        bool openingDoor;
+        std::weak_ptr<Component> door_sound;
 };
 
 #endif
