@@ -27,6 +27,7 @@ class TukiB: public Player {
     private:
         void Move(float dt);
         void CalcSpeed(float dt);
+        void CheckCollisions(Rect oldBox);
 
         int floor;
 

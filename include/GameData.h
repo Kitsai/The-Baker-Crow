@@ -21,6 +21,7 @@ class GameData {
 
         static std::vector<std::string> requests;
         static std::vector<std::string> recipes;
+        static std::vector<std::string> clients;
         static bool hasNPC;
         
         static std::unique_ptr<Music> backGroundMusic;

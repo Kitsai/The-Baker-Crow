@@ -1,5 +1,5 @@
 #include "NPC.h"
-#include <iostream>
+#include "Player.h"
 
 NPC::NPC(GameObject& associated, std::string file, int type) : Component(associated) {
     this->type = type;
@@ -24,7 +24,10 @@ void NPC::Update(float dt) {
     if (state == MOVING) Move(dt);
     if (associated.box.GetCenter() == Vec2(540, 400)) {
         InputManager& iM = InputManager::GetInstance();
-        if (iM.KeyPress(Z_KEY)) {
+
+        Vec2 pos = Player::player->GetPlayerPos();
+        bool cond = (pos.x > -250 && pos.x < -210 && pos.y > 14 && pos.y < 80);
+        if (iM.KeyPress(Z_KEY) && cond) {
             Request();
             WalkOut();
         }
@@ -119,6 +122,7 @@ void NPC::Request() {
     if (size < 5) choice = rand() % 2; // chooses wheter it will be a new item or an old one
     if (size == 0) choice = 0;  // has to be a new item if there hasn't been any old ones
     if (size > 0) oldItems = rand() % GameData::recipes.size(); // chooses one between the old items
+    if (size == 1) choice = 0; // has to be a new item if there is only one old item
 
     if (choice == 0) {
         switch(size){

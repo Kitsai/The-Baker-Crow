@@ -13,6 +13,7 @@ Vec2 GameData::lastSafePosition = {0,0};
 
 std::vector<std::string> GameData::requests = {};
 std::vector<std::string> GameData::recipes = {};
+std::vector<std::string> GameData::clients = {};
 bool GameData::hasNPC = false;
 
 std::unique_ptr<Music> GameData::backGroundMusic = nullptr;

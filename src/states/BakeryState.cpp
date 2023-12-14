@@ -1,4 +1,5 @@
 #include "states/BakeryState.h"
+#include <cstdlib>
 
 BakeryState::BakeryState() : State() {
     GameObject* tuki = new GameObject();
@@ -145,7 +146,9 @@ void BakeryState::ChangeFloor(int newFloor) {
 
             if (GameData::hasNPC) {
                 GameObject* npc = new GameObject();
-                npc->AddComponent(new NPC(*npc, "resources/img/npc/Keru.png", 1));
+                std::string file = "resources/img/npc/Keru.png";
+                if (GameData::clients.size() > 0) file = GameData::clients[GameData::clients.size()-1]; // if there is NPC in the room, it is the last one in the vector
+                npc->AddComponent(new NPC(*npc, file, 1));
                 AddObject(npc);
             }
             
@@ -157,17 +160,36 @@ void BakeryState::ChangeFloor(int newFloor) {
 void BakeryState::ManageClients(){
     bool regulations = false;
     // doesn't spawn clients if there are more than 5 requests
+    // if (GameData::requests.size() < 5 && (GameData::recipes.size() != 1 || GameData::requests.size() != 1)) regulations = true;
     if (GameData::requests.size() < 5) regulations = true;
     if ((GameData::recipes.size() == 0 || (clientTimer.Get() > 8 && regulations)) && GameData::hasNPC == false) {
         clientTimer.Restart();
 
         GameObject* client = new GameObject();
-        NPC* npc = new NPC(*client, "resources/img/npc/Keru.png", 1);
+
+        int chosen = rand() % 3;
+        std::cout << chosen << std::endl;
+        std::string file = "resources/img/npc/Keru.png";
+        switch (chosen) {
+            case 0:
+                file = "resources/img/npc/Keru.png";
+                break;
+            case 1:
+                file = "resources/img/npc/Gary.png";
+                break;
+            case 2:
+                file = "resources/img/npc/Lysis.png";
+                break;
+            default:
+                break;
+        }
+
+        NPC* npc = new NPC(*client, file, 1);
         client->AddComponent(npc);
         AddObject(client);
 
         npc->WalkIn();
-        
+        GameData::clients.emplace_back(file);
         // if (GameData::requests.size() < 2) nextTime = (rand()%7001)*0.001F;
         // else nextTime = rand() % 6 + 6;
     }
