@@ -42,7 +42,7 @@ BakeryState::BakeryState() : State() {
     GameData::intro = false;
 
     GameData::playerAlive = true;
-    backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
+
 }
 
 BakeryState::~BakeryState() {
@@ -94,7 +94,8 @@ void BakeryState::Start() {
     LoadAssets();
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
+    GameData::backGroundMusic->Play();
 }
 
 void BakeryState::Pause() {
