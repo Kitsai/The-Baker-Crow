@@ -16,13 +16,13 @@ public:
     int  GetSelected();
     void SetSelector(int i);
     int  GetNumberOfButtons();
-    std::vector<std::shared_ptr<Button>> buttons; 
     
     protected:
+        int nButtons;
         int selected;
-        std::shared_ptr<Button> selectedButton;
-        
-        int nButtons;     
         Sound* soundPass;
+
+        std::shared_ptr<Button> selectedButton;
+        std::vector<std::shared_ptr<Button>> buttons; 
 };
 #endif

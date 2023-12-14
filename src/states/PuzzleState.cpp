@@ -91,7 +91,6 @@ void PuzzleState::Update(float dt){
         }
     }
     if(selector && selectorOn){
-        printf("%d \n",currentButton);
         if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY)  && selector->GetSelected() == 1 && currentButton > 4)
             UpdateSelector(Direction::Up);
         

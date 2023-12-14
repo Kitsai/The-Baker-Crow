@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "selectors/Selector.h"
 
-Selector::Selector(std::vector<std::shared_ptr<Button>> buttons, int startButton) :buttons(buttons), selected(startButton-1), nButtons(buttons.size()-1){
+Selector::Selector(std::vector<std::shared_ptr<Button>> buttons, int startButton) :nButtons(buttons.size()-1), selected(startButton-1), buttons(buttons){
     
     GameObject* soundPassObj = new GameObject();
     soundPass = new Sound(*soundPassObj, "resources/Sound/ButtonUI.flac");
