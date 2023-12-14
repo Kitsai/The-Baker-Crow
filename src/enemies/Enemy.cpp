@@ -156,7 +156,13 @@ void Enemy::NotifyCollision(GameObject& other) {
             hp -= 50;
             SetState(DAMAGED);
         }
-    } else if(other.GetComponent("Obstacle").lock()) {
-        moveTarget = associated.box.GetCenter();
-    }
+    } 
+}
+
+void Enemy::CheckBorders() {
+    if (moveTarget.x < 2378) moveTarget.x = 2378;
+    else if (moveTarget.x > 5012) moveTarget.x = 5012;
+
+    if(moveTarget.y < 200) moveTarget.y = 200;
+    else if(moveTarget.y > 2715) moveTarget.y = 2715;
 }

@@ -6,6 +6,7 @@
 #include "Tree.h"
 #include "House.h"
 #include "Bush.h"
+#include "Wall.h"
 
 #include "states/ResumeState.h"
 #include "states/InventoryState.h"
@@ -21,6 +22,12 @@ OverworldState::OverworldState(): State(){
     GameObject* map = new GameObject();
     map->AddComponent(new Sprite(*map, "resources/img/mapa_1_4x.jpg"));
     AddObject(map);
+
+    GameObject* wall = new GameObject();
+    wall->AddComponent(new Wall(*wall));
+    wall->box.x = 2286;
+    wall->box.y = 0;
+    AddObject(wall);
     
     LoadHouses();
 
@@ -32,8 +39,8 @@ OverworldState::OverworldState(): State(){
 
     Player::player = tukiC;
     Camera::Follow(tuki);
+    GameData::playerAlive = true;
 
-    LoadObstacles();
     
     GameObject* pancake = new GameObject();
     pancake->AddComponent(new Pancake(*pancake,100));
@@ -60,12 +67,8 @@ OverworldState::OverworldState(): State(){
     penguin->box.SetCenter(Vec2(4797,884));
     AddObject(penguin);
 
-    Camera::Follow(tuki);
-    GameData::playerAlive = true;
 
-
-
-    //GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
+    LoadObstacles();
 }
 
 OverworldState::~OverworldState() {
