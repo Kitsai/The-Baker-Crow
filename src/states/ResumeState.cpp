@@ -20,14 +20,14 @@ void ResumeState::Update(float dt){
     if(iM.QuitRequested()) quitRequested = true;
 
     if (iM.KeyPress(ESCAPE_KEY) || 
-        (iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 0))){
+        (iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 1))){
         popRequested = true;
     }
     
-    else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
+    else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
     }
     
-    else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
+    else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 3)){
         popRequested = true;
         GameData::quitOWState = true;
     }

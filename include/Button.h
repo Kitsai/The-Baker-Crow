@@ -9,12 +9,14 @@
 
 class Button {
     public:
+        Button(Vec2 vec, std::string buttonPath);
         Button(Vec2 vec, std::string buttonPath, std::string name, int size);
-        ~Button();
+        Button(Vec2 vec, std::string buttonPath, std::string name, bool hasText);
         
         void Choose();
         void UnChoose();
         void LoadTextSize();
+        void NoText();
 
         bool blinkingText;
         std::string name;
@@ -25,6 +27,7 @@ class Button {
 
         GameObject* imageObj;
         Sprite* buttonImage;
+        
         int size;
 };
 #endif

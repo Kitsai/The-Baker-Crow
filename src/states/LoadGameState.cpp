@@ -24,19 +24,19 @@ void LoadGameState::Update(float dt){
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 1)){
         PuzzleState* newState = new PuzzleState(1);
         Game::GetInstance().Push(newState);
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         PuzzleState* newState = new PuzzleState(2);
         Game::GetInstance().Push(newState);
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 3)){
         PuzzleState* newState = new PuzzleState(3);
         Game::GetInstance().Push(newState);
         popRequested = true;
