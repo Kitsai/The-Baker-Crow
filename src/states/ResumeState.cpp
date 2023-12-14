@@ -1,11 +1,4 @@
-#include "Camera.h"
-#include "InputManager.h"
 #include "states/ResumeState.h"
-#include "defines/DefineInput.h"
-#include "states/NewGameState.h"
-#include "states/LoadGameState.h"
-#include "selectors/ResumeSelector.h"
-
 
 ResumeState::ResumeState(): State(), selector(nullptr){
 
@@ -38,11 +31,7 @@ void ResumeState::Update(float dt){
         popRequested = true;
         GameData::quitOWState = true;
     }
-    
-    for (int i = 0; i < (int) objectArray.size(); i++) {
-        objectArray[i]->Update(dt);
-    }
-    
+    UpdateArray(dt);    
     selector->Update(dt);
 }
 
@@ -50,20 +39,30 @@ void ResumeState::LoadAssets(){
     
 }
 
-void ResumeState::Render() {
+void ResumeState::LoadButtons(){
+    std::vector<std::shared_ptr<Button>> buttons;
     
-    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++){
-        objectArray[i]->Render();
-    }
+    Button* buttonResumeGame = new Button(Vec2(500, 180),"resources/img/ResumeButton.png", "Resume",36);
+    Button* buttonSaveGame = new Button(Vec2(500, 290),"resources/img/ResumeButton.png", "Save Game", 36);
+    Button* buttonExitsGame = new Button(Vec2(500, 400),"resources/img/ResumeButton.png", "Exit Game", 36);
+
+    buttons.push_back((std::shared_ptr<Button>) buttonResumeGame);
+    buttons.push_back((std::shared_ptr<Button>) buttonSaveGame);
+    buttons.push_back((std::shared_ptr<Button>) buttonExitsGame);
+
+    selector = std::make_unique<Selector>(buttons);
+}
+
+void ResumeState::Render() {
+    RenderArray();
 }
 
 void ResumeState::Start(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    selector = std::make_unique<ResumeSelector>();
-    for (int i = 0; i < (int)objectArray.size(); i++){
-        objectArray[i]->Start();
-    }
+    
+    LoadButtons();
+    StartArray();
     started = true;
 }
 void ResumeState::Pause(){}

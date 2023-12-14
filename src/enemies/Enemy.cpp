@@ -112,9 +112,16 @@ void Enemy::ChangeSprite(std::string file, SDL_RendererFlip flip, int frameCount
     }
 }
 
+void Enemy::DropItem(FoodItemType itemType) {
+    GameObject* item = new GameObject();
+    item->box.SetCenter(associated.box.GetCenter() + Vec2(rand()%201 - 100,rand()%201 - 100)) ;
+    item->AddComponent(new DroppedItem(*item, itemType));
+    Game::GetInstance().GetCurrentState().AddObject(item);
+}
+
 void Enemy::SetCollider(SDL_Color color, bool active) {
     std::shared_ptr<Collider> collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
-    if (collider != nullptr) {
+    if (collider) {
         collider->SetColor(color);
         collider->active = active;
     }
@@ -144,7 +151,8 @@ bool Enemy::Is(std::string type) {
 void Enemy::NotifyCollision(GameObject& other) {
     if(other.GetComponent("TukiOW").lock()) {
         auto tuki = Player::player;
-        if(tuki->GetPlayerState() == Player::PlayerState::ATTACKING) {
+        auto tstate = tuki->GetPlayerState();
+        if(tstate == Player::PlayerState::ATTACKING && Player::PlayerState::DODGING != tstate && Player::PlayerState::DAMAGED != tstate) {
             hp -= 50;
             SetState(DAMAGED);
         }

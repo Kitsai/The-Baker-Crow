@@ -1,17 +1,22 @@
 #ifndef State_h_
 #define State_h_
 
+#include <queue>
 #include <memory>
 #include <vector>
-#include "Sprite.h"
-#include "GameObject.h"
+#include "Text.h"
 #include "Music.h"
 #include "Sound.h"
+#include "Camera.h"
+#include "Sprite.h"
 #include "TileMap.h"
-#include "CameraFollower.h"
-#include "Text.h"
 #include "Collider.h"
-#include "Vec2.h"
+#include "GameData.h"
+#include "GameObject.h"
+#include "InputManager.h"
+#include "CameraFollower.h"
+#include "selectors/Selector.h"
+#include "defines/DefineInput.h"
 
 /// @brief Abstract class for a state of the game.
 class State {
@@ -39,10 +44,10 @@ class State {
 
         virtual void DeleteObjects();
 
-        void LoadShadow(Vec2 pos);
-        void LoadNewState(State* newState, Vec2 pos);
+        void LoadShadow();
+        void LoadNewState(State* newState);
 
-        GameObject* shadowObj; 
+        std::weak_ptr<GameObject> shadowObj; 
 
     public:
         /// @brief Construtor fot the State. Initializes all variables.

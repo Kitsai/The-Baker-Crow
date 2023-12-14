@@ -1,11 +1,6 @@
-#include "Camera.h"
-#include "states/BakeryState.h"
 #include "states/MenuState.h"
-#include "defines/DefineInput.h"
 #include "states/NewGameState.h"
 #include "states/LoadGameState.h"
-#include "selectors/MenuSelector.h"
-#include <memory>
 
 MenuState::MenuState(): State(), selector(nullptr){
 
@@ -16,12 +11,12 @@ MenuState::MenuState(): State(), selector(nullptr){
 
 
     objectArray.emplace_back(titleObj);
-    backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 
 MenuState::~MenuState(){
     objectArray.clear();
-    backGroundMusic->Stop(0);
+    GameData::backGroundMusic->Stop(0);
 }
 
 void MenuState::Update(float dt){
@@ -43,9 +38,7 @@ void MenuState::Update(float dt){
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         quitRequested = true;
     }
-    for (int i = 0; i < (int) objectArray.size(); i++) {
-        objectArray[i]->Update(dt);
-    }
+    UpdateArray(dt);
     selector->Update(dt);
 }
 
@@ -53,25 +46,37 @@ void MenuState::LoadAssets(){
     
 }
 
+void MenuState::LoadButtons(){
+    std::vector<std::shared_ptr<Button>> buttons;
+    Button* buttonNewGame = new Button(Vec2(500, 200),"resources/img/MenuButton.png", "NEW GAME",36);
+    Button* buttonLoadGame = new Button(Vec2(500, 400),"resources/img/MenuButton.png", "LOAD GAME",36);
+    Button* buttonExitGame = new Button(Vec2(500, 600),"resources/img/MenuButton.png", "EXIT GAME",36);
+
+    buttons.push_back((std::shared_ptr<Button>) buttonNewGame);
+    buttons.push_back((std::shared_ptr<Button>) buttonLoadGame);
+    buttons.push_back((std::shared_ptr<Button>) buttonExitGame);
+
+    selector = std::make_unique<Selector>(buttons);
+}
+
 void MenuState::Render() {
     RenderArray();
 }
 
 void MenuState::Start(){
-    
-    selector = std::make_unique<MenuSelector>();
-
+    LoadButtons();
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Play();
 }
 
 void MenuState::Pause(){
-    backGroundMusic->Stop(50);
+    //GameData::backGroundMusic->Pause();
 }
 
 void MenuState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGroundMusic->Play();
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/MusicMenu.flac");
+    GameData::backGroundMusic->Play();
 }

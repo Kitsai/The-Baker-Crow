@@ -1,8 +1,8 @@
 #include "HeartBar.h"
 
 #include "Player.h"
-#include "enemies/Pavao.h"
-#include "enemies/Pancake.h"
+#include "enemies/enemies.h"
+
 
 #include "states/ResumeState.h"
 #include "states/InventoryState.h"
@@ -20,10 +20,13 @@ OverworldState::OverworldState(): State(){
     AddObject(map);
     
     GameObject* tuki = new GameObject();
-    tuki->AddComponent(new TukiOW(*tuki));
+    TukiOW* tukiC = new TukiOW(*tuki);
+    tuki->AddComponent(tukiC);
     AddObject(tuki);
     tuki->box.SetCenter(Vec2(817,2316));
 
+
+    Player::player = tukiC;
     Camera::Follow(tuki);
     
     GameObject* pancake = new GameObject();
@@ -32,26 +35,40 @@ OverworldState::OverworldState(): State(){
     pancake->box.SetCenter(Vec2(3463,1492));
 
     GameObject* pavao = new GameObject();
-    pavao->AddComponent(new Pavao(*pavao,100));
+    pavao->AddComponent(new Pavao(*pavao,150));
     pavao->box.SetCenter(Vec2(3427,652));
     AddObject(pavao);
+
+    GameObject* crab = new GameObject();
+    crab->AddComponent(new Crab(*crab,100));
+    crab->box.SetCenter(Vec2(3752,2436));
+    AddObject(crab);
+
+    GameObject* latinha = new GameObject();
+    latinha->AddComponent(new Latinha(*latinha,150));
+    latinha->box.SetCenter(Vec2(4540,1838));
+    AddObject(latinha);
+
+    GameObject* penguin = new GameObject();
+    penguin->AddComponent(new Penguin(*penguin,50));
+    penguin->box.SetCenter(Vec2(4797,884));
+    AddObject(penguin);
 
     Camera::Follow(tuki);
     GameData::playerAlive = true;
 
-    backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
+    //GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 
 OverworldState::~OverworldState() {
+    Camera::Unfollow();
 }
 
 void OverworldState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
     
-    if(GameData::quitOWState){
+    if(GameData::quitOWState)
         popRequested = true; 
-        GameData::quitOWState = false;
-    }
     
     if(!GameData::playerAlive) {
         timer.Update(dt);
@@ -59,14 +76,22 @@ void OverworldState::Update(float dt) {
             popRequested = true;
         }
     }else{
+        Vec2 playerPos = Player::player->GetPlayerBoxPos();
+
+        if(iM.KeyPress(SPACE_KEY)
+            && playerPos.y >= 2145 && playerPos.y <= 2228
+            && playerPos.x >= 698 && playerPos.x <= 796
+        ) popRequested = true;
+
         Camera::Update(dt);
+
+        if(iM.QuitRequested()) quitRequested = true;
         
-        if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested() || iM.KeyPress(P_KEY)){
-            LoadNewState(new ResumeState(), Player::player->GetPlayerPos());
+        if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)){
+            LoadNewState(new ResumeState());
         }
-        
         else if (iM.KeyPress(I_KEY)){
-            LoadNewState(new InventoryState(), Player::player->GetPlayerPos());
+            LoadNewState(new InventoryState());
         }
     }
     UpdateArray(dt);
@@ -82,17 +107,18 @@ void OverworldState::Start() {
     LoadAssets();
     StartArray();
     started = true;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Resume();
 }
 
 void OverworldState::Pause() {
+    GameData::backGroundMusic->Pause();
 }
 
 void OverworldState::Resume() {
-    if(shadowObj){
-        RemoveObject(shadowObj);
-        shadowObj = nullptr;
-    }
+    auto ptr = shadowObj.lock();
+    if(ptr) RemoveObject(ptr.get());
+
+    GameData::backGroundMusic->Resume();
 }
 
 void OverworldState::LoadAssets() {

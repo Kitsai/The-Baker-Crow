@@ -1,7 +1,15 @@
 #ifndef BakeryState_H
 #define BakeryState_H
 
+#include "Game.h"
+#include "GameObject.h"
 #include "State.h"
+#include "TukiB.h"
+#include "states/ResumeState.h"
+#include "states/InventoryState.h"
+#include "states/OverworldState.h"
+#include "Timer.h"
+#include "NPC.h"
 
 class BakeryState : public State {
         
@@ -18,6 +26,11 @@ class BakeryState : public State {
         void Resume();
     private:
         int floor;
+        void ChangeFloor(int newFloor);
+
+        Timer clientTimer;
+        float nextTime;
+        void ManageClients();
 };
 
 #endif

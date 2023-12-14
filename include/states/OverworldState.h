@@ -3,10 +3,6 @@
 
 #include "State.h"
 #include "TukiOW.h"
-#include "GameData.h"
-#include "InputManager.h"
-#include <memory>
-
 class OverworldState: public State {
     public:
         OverworldState();

@@ -1,4 +1,5 @@
 #include "Music.h"
+#include <SDL2/SDL_mixer.h>
 #include <iostream>
 #include "Resources.h"
 
@@ -16,7 +17,9 @@ Music::~Music() {
 
 void Music::Play(int times) {
     if(IsOpen()) {
-        if(Mix_PlayMusic(music.get(),times) == -1) {
+        if(Mix_PausedMusic()) {
+            Mix_ResumeMusic();
+        } else if(Mix_PlayMusic(music.get(),times) == -1) {
             std::cout << "Error Music:16 - " << SDL_GetError() << std::endl;
             exit(-1);
         }
@@ -29,6 +32,14 @@ void Music::Play(int times) {
 
 void Music::Stop(int msToStop) {
     Mix_FadeOutMusic(msToStop);
+}
+
+void Music::Pause() {
+    Mix_PauseMusic();
+}
+void Music::Resume() {
+    if(Mix_PausedMusic())
+        Mix_ResumeMusic();
 }
 
 void Music::Open(std::string file) {

@@ -139,6 +139,8 @@ void TukiB::Talk(std::string file, float time){
     speakBalloon->AddComponent(sprite);
     speakBalloon->box.x = 0;
     speakBalloon->box.y = 0;
-
-
 }
+
+void TukiB::ResetSpeed() {
+    speed = 0;
+}   

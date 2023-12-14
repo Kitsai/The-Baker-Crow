@@ -32,5 +32,16 @@ constexpr float PAVAO_A = 1500;
 constexpr float PANCAKE_SPEED_LIM = 200;
 constexpr float PANCAKE_A = 1500;
 
+// PENGUIM
+constexpr float PENGUIN_SPEED_LIM = 200;
+constexpr float PENGUIN_A = 1500;
+
+// LATINHA
+constexpr float LATINHA_SPEED_LIM = 125;
+constexpr float LATINHA_A = 1000;
+
+// CRAB
+constexpr float CRAB_SPEED_LIM = 175;
+constexpr float CRAB_A = 1000;
 
 #endif

@@ -55,6 +55,11 @@ Player::PlayerState Player::GetPlayerState() {
 
 Vec2 Player::GetPlayerPos() {
     return GetPlayerCenterPos() - Vec2(Game::GetInstance().GetWindowWidth()*0.5,Game::GetInstance().GetWindowHeight()*0.5);
+    return associated.box.GetPos();
+}
+
+Vec2 Player::GetPlayerBoxPos() {
+    return associated.box.GetPos();
 }
 
 Vec2 Player::GetPlayerCenterPos() {
@@ -94,7 +99,7 @@ void Player::NotifyCollision(GameObject& other) {
 
         auto enemy = std::static_pointer_cast<Enemy>(other.GetComponent("Enemy").lock());
         if(enemy->GetState() == Enemy::EnemyState::ATTACKING) {
-            std::cout << "Player::NotifyCollision: Enemy attacking" << std::endl;
+            enemy->SetCollider(COLOR_GREEN,false);
             SetPlayerState(DAMAGED);
         }
     }

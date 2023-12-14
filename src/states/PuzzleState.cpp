@@ -1,10 +1,4 @@
-#include "Game.h"
-#include "selectors/PuzzleSelector.h"
-#include "FoodItem.h"
-#include "FoodPiece.h"
-#include "InputManager.h"
 #include "states/PuzzleState.h"
-#include "defines/DefineInput.h"
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(){
     GameObject* ui = new GameObject();

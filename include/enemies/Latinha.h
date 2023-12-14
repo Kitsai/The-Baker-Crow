@@ -1,12 +1,12 @@
-#ifndef Pavao_h_
-#define Pavao_h_
+#ifndef Latinha_h_
+#define Latinha_h_
 
 #include "Enemy.h"
 
-class Pavao: public Enemy {
+class Latinha: public Enemy {
     public:
-        Pavao(GameObject& associated, int hp = 100);
-        ~Pavao();
+        Latinha(GameObject& associated, int hp = 100);
+        ~Latinha();
 
         bool Is(std::string type);
 
@@ -17,7 +17,7 @@ class Pavao: public Enemy {
 
         void DeathAnimation();
 
-        void DropItems();      
+        void DropItems();
 };
- 
-#endif  
+
+#endif

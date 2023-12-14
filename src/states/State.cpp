@@ -3,8 +3,9 @@
 #include "Vec2.h"
 #include "states/State.h"
 #include "../Collision.cpp"
+#include "CameraFollower.h"
 
-State::State() : popRequested(false), quitRequested(false), started(false), shadowObj(nullptr) {
+State::State() : popRequested(false), quitRequested(false), started(false), shadowObj() {
 }
 
 State::~State() {
@@ -89,19 +90,16 @@ void State::DeleteObjects() {
 			objectArray.erase(objectArray.begin()+i);
 }
 
-void State::LoadShadow(Vec2 pos) {
-
-    shadowObj = new GameObject();        
-    Sprite* shadow = new  Sprite(*shadowObj,"resources/img/Shadow.png");
-    shadow->SetAlpha(128);
-    
-    shadowObj->box = pos;
-            
-    shadowObj->AddComponent(shadow);
-    AddObject(shadowObj);
+void State::LoadShadow() {
+    GameObject* go = new GameObject();        
+    Sprite* shadow = new  Sprite(*go,"resources/img/Shadow.png");
+    shadow->SetAlpha(128);     
+    go->AddComponent(shadow);
+	go->AddComponent(new CameraFollower(*go));
+    shadowObj = AddObject(go);
 }
 
-void State::LoadNewState(State* newState, Vec2 pos) {
-    LoadShadow(pos);
+void State::LoadNewState(State* newState) {
+    LoadShadow();
     Game::GetInstance().Push(newState);
 }
