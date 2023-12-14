@@ -2,6 +2,7 @@
 #include "Vec2.h"
 #include <memory>
 #include <vector>
+#include <iostream>
 
 Obstacle::Obstacle(GameObject& associated): Component(associated) {
 
@@ -31,19 +32,17 @@ Rect Obstacle::GetColliderBox() {
 
 Obstacle::Face Obstacle::GetFace(Rect playerBox) {
     Rect colliderBox = GetColliderBox();
-    // Vec2 pointsPlayerBox[4] = {
-    //     {playerBox.x, playerBox.y},
-    //     {playerBox.x + playerBox.w, playerBox.y},
-    //     {playerBox.x + playerBox.w, playerBox.y + playerBox.h},
-    //     {playerBox.x, playerBox.y + playerBox.h}
+    // Vec2 points[4] = {
+    //     Vec2(colliderBox.x, colliderBox.y),
+    //     Vec2(colliderBox.x + colliderBox.w, colliderBox.y),
+    //     Vec2(colliderBox.x + colliderBox.w, colliderBox.y + colliderBox.h),
+    //     Vec2(colliderBox.x, colliderBox.y + colliderBox.h)
     // };
 
-    // Vec2 pointsCollider[4] = {
-    //     {colliderBox.x, colliderBox.y},
-    //     {colliderBox.x + colliderBox.w, colliderBox.y},
-    //     {colliderBox.x + colliderBox.w, colliderBox.y + colliderBox.h},
-    //     {colliderBox.x, colliderBox.y + colliderBox.h}
-    // };
+    // bool inside[4] = {false, false, false, false};
+
+    // for(int i=0;i<4;i++) inside[i] = colliderBox.isInside(points[i]);
+    
 
     Vec2 aux = (playerBox.GetCenter() - colliderBox.GetCenter()).normalized();
 
