@@ -50,6 +50,10 @@ int Selector::GetNumberOfButtons(){
     return buttons.size();
 }
 
+std::string Selector::GetNameSellectedButton(){
+    return selectedButton->name;
+}
+
 void Selector::SetSelector(int i){
     if (i > 0 && i <= GetNumberOfButtons()){
         selected = i-1;

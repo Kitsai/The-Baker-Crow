@@ -67,11 +67,29 @@ void PuzzleState::Update(float dt){
             for (int i = 0; i < (int)pieces.size(); i++){
                 pieces[i].lock()->RequestDelete();
             }
-
             this->selectorOn = true;
         }
 
         if(objectArray[i]->IsDead()){
+            if(selectorOn){
+                FoodItemType itemType;
+                if ( selector->GetNameSellectedButton() == "straw")         itemType = FoodItemType::straw;
+                else if (selector->GetNameSellectedButton() == "butter")    itemType = FoodItemType::butter;
+                else if (selector->GetNameSellectedButton() == "chocolate") itemType = FoodItemType::chocolate;
+                else if (selector->GetNameSellectedButton() == "milk")      itemType = FoodItemType::milk;
+                else if (selector->GetNameSellectedButton() == "eggs")      itemType = FoodItemType::eggs;
+                else if (selector->GetNameSellectedButton() == "sugar")     itemType = FoodItemType::sugar;
+                else if (selector->GetNameSellectedButton() == "wheat")     itemType = FoodItemType::wheat;
+                else if (selector->GetNameSellectedButton() == "honey")     itemType = FoodItemType::honey;
+
+                GameObject* pieces = new GameObject();
+                pieces->box.x = 415;
+                pieces->box.y = 170;
+                pieces->AddComponent(new FoodItem(*pieces, itemType));
+                
+                AddObject(pieces);
+                this->selectorOn = false;
+            }
             // checks whether piece can be locked; if so, creates a PuzzleSelector
             if(objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
                 FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
@@ -81,7 +99,6 @@ void PuzzleState::Update(float dt){
                     if (!locked) continue;
                     
                     foodPiece->Lock();
-
                     this->selectorOn = true;
                     continue;
                 }

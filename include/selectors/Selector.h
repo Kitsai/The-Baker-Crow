@@ -16,6 +16,7 @@ public:
     int  GetSelected();
     void SetSelector(int i);
     int  GetNumberOfButtons();
+    std::string GetNameSellectedButton();
     
     protected:
         int nButtons;
