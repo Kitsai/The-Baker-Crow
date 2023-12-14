@@ -20,17 +20,8 @@ Selector::~Selector() {
 
 void Selector::Update(float dt) {
     
-    if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected == 0) {
-        selected = nButtons;
-        
-        selectedButton->UnChoose();
-        selectedButton = buttons[selected];
-        selectedButton->Choose();
-        
-        soundPass->Play();
-    }
     
-    else if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
+    if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
         selected--;
         
         selectedButton->UnChoose();
@@ -49,15 +40,6 @@ void Selector::Update(float dt) {
         soundPass->Play();
     }
     
-    else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected == nButtons) {
-        selected = 0;
-
-        selectedButton->UnChoose();
-        selectedButton = buttons[selected];
-        selectedButton->Choose();
-
-        soundPass->Play();
-    }
 }
 
 int Selector::GetSelected(){
@@ -68,9 +50,8 @@ int Selector::GetNumberOfButtons(){
 }
 
 void Selector::SetSelector(int i){
-    if (i > 0 && i < GetNumberOfButtons()){
-        
-        selected = 0;
+    if (i > 0 && i <= GetNumberOfButtons()){
+        selected = i-1;
 
         selectedButton->UnChoose();
         selectedButton = buttons[selected];

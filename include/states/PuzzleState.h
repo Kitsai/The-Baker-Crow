@@ -7,6 +7,13 @@
 #include "FoodPiece.h"
 #include "FoodPuzzle.h"
 #include "selectors/PuzzleSelector.h"
+#include <type_traits>
+
+enum class Direction {
+    Up,
+    Down,
+    Load
+};
 
 class PuzzleState: public State {
     public:
@@ -20,14 +27,18 @@ class PuzzleState: public State {
         void Start();
         void Pause();
         void Resume();    
+        void LoadSelector();    
     private:
         FoodPuzzle* puzzle;
         void LoadMap();
         void CreatePiece();
-        void LoadSelector();
+        void UpdateSelector(Direction direction);
         
         bool selectorOn;
-        std::unique_ptr<Selector> selector;
+        int currentButton;
+        int maxButton;
+        std::vector<Vec2> positions;
+        Selector* selector;
 };
 
 #endif

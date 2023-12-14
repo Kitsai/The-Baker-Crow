@@ -1,3 +1,4 @@
+#include "Button.h"
 #include "Game.h"
 #include "GameData.h"
 #include "selectors/PuzzleSelector.h"
@@ -7,10 +8,18 @@
 #include "selectors/Selector.h"
 #include "states/PuzzleState.h"
 #include "defines/DefineInput.h"
+#include <algorithm>
+#include <memory>
 
-PuzzleState::PuzzleState(int puzzleNumber) : State(), selector(nullptr){
+PuzzleState::PuzzleState(int puzzleNumber) : State(),selectorOn(true), currentButton(4), selector(nullptr){
+    
+    this->positions.emplace_back(Vec2(25, 15));
+    this->positions.emplace_back(Vec2(25, 170));
+    this->positions.emplace_back(Vec2(25, 325));
+    this->positions.emplace_back(Vec2(25, 480));
+
     GameObject* ui = new GameObject();
-    ui->AddComponent(new Sprite(*ui,"resources/img/puzzle/ui/Exemplo.png"));
+    ui->AddComponent(new Sprite(*ui,"resources/img/PuzzleBack.png"));
     ui->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
     AddObject(ui);
     
@@ -79,17 +88,16 @@ void PuzzleState::Update(float dt){
             objectArray.erase(objectArray.begin()+i);
         }
     }
-    if(selector){
-        if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selector->GetSelected() == 1) {
-            selector->SetSelector(selector->GetNumberOfButtons());
-            printf("UP %d %d \n", selector->GetNumberOfButtons(), selector->GetSelected());
-        }
-
-        else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selector->GetSelected() == selector->GetNumberOfButtons()) {
-            printf("DOW %d %d \n", selector->GetNumberOfButtons(), selector->GetSelected());
-            selector->SetSelector(1);
-        }
-        selector->Update(dt);
+    if(selector && selectorOn){
+        if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY)  && selector->GetSelected() == 1)
+            UpdateSelector(Direction::Up);
+        
+        
+        else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selector->GetSelected() == 4)
+            UpdateSelector(Direction::Down);
+        
+        else
+            selector->Update(dt);
     }
 }
 void PuzzleState::Start(){
@@ -121,31 +129,50 @@ void PuzzleState::LoadMap(){
     }
 }
 
-void PuzzleState::LoadSelector(){
-    std::vector<std::shared_ptr<Button>> buttons;
-    std::stack<Vec2> positions;
 
-    positions.push(Vec2(1000, 700));
-    positions.push(Vec2(1000, 600));
-    positions.push(Vec2(1000, 500));
-    positions.push(Vec2(1000, 400));
-    positions.push(Vec2(1000, 300));
-    positions.push(Vec2(1000, 200));
-    positions.push(Vec2(1000, 100));
-    positions.push(Vec2(1000, 0));
+void PuzzleState::LoadSelector(){
+    int count = 0;
 
     for(std::pair<bool, FoodItemType> item : GameData::ingredients ){
         if(item.first){
-            Button* foodButton     = new Button(positions.top(), "resources/img/ingredients/"+foodItemTypeToString[item.second]+".png", false);
-            buttons.push_back((std::shared_ptr<Button>) foodButton);
-            positions.pop();
+            count++;
         }
-        if(buttons.size() == 4){
-            break;
-        }
+    }
+    this->maxButton = count;
+
+    UpdateSelector(Direction::Load);
+}
+
+void PuzzleState::UpdateSelector(Direction direction) {
+    int count = 0;
+    int limitNumber = 4;
+    int dif = currentButton - 4;
+
+    if (direction == Direction::Up) {
+        if (currentButton > limitNumber)
+            currentButton--;
+    }
+
+    else if (direction == Direction::Down) {
+        if (currentButton < maxButton)
+            currentButton++;
     }
     
-    if(buttons.size()){
-        selector = std::make_unique<PuzzleSelector>(buttons);
+    std::vector<std::shared_ptr<Button>> buttons;
+
+    for(std::pair<bool, FoodItemType> item : GameData::ingredients){
+        if(dif > 0){
+            dif = dif -1;
+        }
+        else if(buttons.size() >= 4){
+
+        }
+        else if(item.first){
+            std::shared_ptr<Button> foodButton = std::make_shared<Button>(positions[count], "resources/img/FoodCircle/"+foodItemTypeToString[item.second]+".png", false);
+            buttons.push_back( foodButton);
+            count++;
+        }
     }
+
+    selector = new Selector(buttons);
 }
