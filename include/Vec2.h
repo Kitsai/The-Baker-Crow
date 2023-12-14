@@ -60,6 +60,7 @@ class Vec2 {
         /// @return Rotated version of vector by d radians.
         Vec2 GetRotated(float d);
         float calcInvRoot(float x);
+        Vec2 Abs();
 };
 
 #endif

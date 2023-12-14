@@ -1,5 +1,7 @@
 #include "Collider.h"
+#include "Vec2.h"
 #include <algorithm>
+#include <vector>
 
 
 #ifdef DEBUG
@@ -14,6 +16,11 @@ Collider::Collider(GameObject& associated, Vec2 scale, Vec2 offSet, SDL_Color co
 	offset = offSet;
 	this->color = color;
 	this->active = true;
+
+	box = associated.box;
+	box.w *= scale.x;
+	box.h *= scale.y;
+	box.SetCenter((associated.box.GetCenter() + offset.GetRotated(associated.angleDeg)));
 }
 
 void Collider::Update(float dt) {
@@ -67,4 +74,19 @@ void Collider::SetOffset(Vec2 offset) {
 
 void Collider::SetColor(SDL_Color color) {
 	this->color = color;
+}
+
+Vec2 Collider::GetCenter() {
+	return box.GetCenter();
+}
+
+std::vector<Vec2> Collider::GetPoints() {
+	std::vector<Vec2> points = {
+		{box.x,box.y},
+		{box.x + box.w,box.y},
+		{box.x + box.w, box.y + box.h},
+		{box.x,box.y + box.h}
+	};
+
+	return points;
 }

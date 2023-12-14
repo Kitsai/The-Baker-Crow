@@ -18,6 +18,8 @@ class OverworldState: public State {
     
     private:
         Timer timer;
+        void LoadHouses();
+        void LoadObstacles();
 };
 
 #endif

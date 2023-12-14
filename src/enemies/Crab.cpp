@@ -27,6 +27,7 @@ void Crab::SetState(EnemyState state) {
     switch (state) {
         case MOVING:
             moveTarget = associated.box.GetCenter() + Vec2(rand()%601 - 300,rand()%601 - 300);
+            CheckBorders();
             moveAngle = moveTarget.inclVec2(associated.box.GetCenter());
             ChangeSprite("resources/img/enemies/carang_anim(150).png",4,.15F);
             break;

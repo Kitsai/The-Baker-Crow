@@ -20,7 +20,7 @@ std::string e2s[5] = {"STANDING","WALKING","ATTACKING","DODGING","DAMAGED"};
 void TukiOW::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
-    // std::cout << "x: " << associated.box.x << " y: " << associated.box.y << std::endl;
+    std::cout << "x: " << associated.box.x << " y: " << associated.box.y << std::endl;
 
     playerTimer.Update(dt);
 
@@ -56,7 +56,6 @@ void TukiOW::Update(float dt) {
     Move(dt);
     
     if(GetPlayerState() == DODGING) {
-        //playerTimer.Update(dt);
         if(speed.magSquare() < TOW_SPEED_LIM*TOW_SPEED_LIM) {
             speed = speed.normalized()*TOW_SPEED_LIM;
             SetPlayerState(WALKING);
@@ -88,8 +87,6 @@ void TukiOW::Update(float dt) {
 
     if(iM.KeyPress(K_KEY)) SetPlayerState(DAMAGED);
     if(iM.KeyPress(E_KEY)) if(hp < 3) this->hp++;
-
-    // if(attackCooldown > 0) attackCooldown -= dt;
     
 } 
 
@@ -101,7 +98,11 @@ void TukiOW::Move(float dt) {
     } else {
         speed = speed*DAMP_MOVING;
     }
+
     associated.box += speed*dt;
+
+    CheckBorders();
+
     CalcSpeed(dt);
 }
  
@@ -178,4 +179,14 @@ void TukiOW::SetPlayerState(PlayerState state) {
     }
 
     Player::SetPlayerState(state);
+}
+
+void TukiOW::CheckBorders() {
+    if(associated.box.x < 52) associated.box.x = 52;
+    else if(associated.box.x > 5000) associated.box.x = 5000;
+
+    if(associated.box.y < 100) associated.box.y = 100;
+    else if(associated.box.y > 2695) associated.box.y = 2695;
+
+    
 }

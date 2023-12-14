@@ -64,6 +64,8 @@ class Enemy: public Component {
         void DropItem(FoodItemType itemType);
         void virtual DropItems() = 0;
 
+        void CheckBorders();
+
 };
 
 #endif
