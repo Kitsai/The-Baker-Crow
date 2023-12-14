@@ -152,7 +152,7 @@ void PuzzleState::LoadMap(){
 void PuzzleState::LoadSelector(){
     int count = 0;
 
-    for(std::pair<bool, FoodItemType> item : GameData::ingredients ){
+    for(std::pair<bool, FoodItemType> item : GameData::hasItem ){
         if(item.first){
             count++;
         }
@@ -176,7 +176,7 @@ void PuzzleState::UpdateSelector(Direction direction) {
     
     std::vector<std::shared_ptr<Button>> buttons;
 
-    for(std::pair<bool, FoodItemType> item : GameData::ingredients){
+    for(std::pair<bool, FoodItemType> item : GameData::hasItem){
         if(item.first && dif > 0){
             dif = dif -1;
         }

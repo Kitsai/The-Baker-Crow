@@ -73,7 +73,7 @@ void InventoryState::LoadIngredients() {
     positions.push(Vec2(500, 471));
     positions.push(Vec2(703, 456));
 
-    for(std::pair<bool, FoodItemType> item : GameData::ingredients ){
+    for(std::pair<bool, FoodItemType> item : GameData::hasItem ){
         if(item.first){
             Button* butter      = new Button(positions.top(), "resources/img/ingredients/"+foodItemTypeToString[item.second]+".png", foodItemTypeToString[item.second]  ,false);
             buttons.push_back((std::shared_ptr<Button>) butter);
