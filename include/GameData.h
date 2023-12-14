@@ -24,6 +24,7 @@ class GameData {
         static std::vector<std::string> recipes;
         static std::vector<std::string> clients;
         static bool hasNPC;
+        static bool completed;
         
         static std::unique_ptr<Music> backGroundMusic;
         static std::vector<std::pair<bool, FoodItemType>> hasItem;

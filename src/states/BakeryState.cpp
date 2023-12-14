@@ -1,4 +1,5 @@
 #include "states/BakeryState.h"
+#include "states/CutsceneState.h"
 #include <cstdlib>
 
 BakeryState::BakeryState() : State() {
@@ -31,19 +32,7 @@ BakeryState::BakeryState() : State() {
 
     AddObject(dad);
 
-    GameObject* speakBalloon = new GameObject();
-    Sprite* sprite = new Sprite(*speakBalloon, "resources/img/MenuButton.png");
-    speakBalloon->AddComponent(sprite);
-    sprite->SetScale(3.0f, 2.5f);
-    speakBalloon->box.x = 320;
-    speakBalloon->box.y = 570;
-
-    // AddObject(speakBalloon);
-
-    GameData::intro = false;
-
     GameData::playerAlive = true;
-
 }
 
 BakeryState::~BakeryState() {
@@ -71,6 +60,9 @@ void BakeryState::Update(float dt) {
     }
 
     if(iM.QuitRequested()) quitRequested = true;
+
+    if (GameData::intro || (GameData::completed && floor == 0)) 
+        LoadNewState(new CutsceneState());
 
     if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY))
         LoadNewState(new ResumeState());
@@ -126,7 +118,6 @@ void BakeryState::ChangeFloor(int newFloor) {
             Game::GetInstance().Push(overworld);
             backGroundMusic->Stop(0);
         } else { 
-
         // gets rid of npcs from floor
         for (int i = 0; i < (int)objectArray.size(); i++)
             if (objectArray[i]->GetComponent("NPC").lock())
@@ -167,8 +158,7 @@ void BakeryState::ManageClients(){
 
         GameObject* client = new GameObject();
 
-        int chosen = rand() % 3;
-        std::cout << chosen << std::endl;
+        int chosen = rand() % 9;
         std::string file = "resources/img/npc/Keru.png";
         switch (chosen) {
             case 0:
@@ -178,7 +168,25 @@ void BakeryState::ManageClients(){
                 file = "resources/img/npc/Gary.png";
                 break;
             case 2:
+                file = "resources/img/npc/Lili.png";
+                break;
+            case 3:
                 file = "resources/img/npc/Lysis.png";
+                break;
+            case 4:
+                file = "resources/img/npc/Niki.png";
+                break;
+            case 5:
+                file = "resources/img/npc/Osha.png";
+                break;
+            case 6:
+                file = "resources/img/npc/River.png";
+                break;
+            case 7:
+                file = "resources/img/npc/Saxon.png";
+                break;
+            case 8:
+                file = "resources/img/npc/Stul.png";
                 break;
             default:
                 break;

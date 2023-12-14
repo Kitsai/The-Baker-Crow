@@ -25,9 +25,6 @@ void TukiB::Update(float dt) {
     int posX = associated.box.x;
     int posY = associated.box.y;
 
-    if (iM.KeyPress(X_KEY))
-        std::cout << "x: " << posX << " y: " << posY << std::endl;
-
     if (iM.KeyPress(Z_KEY) && floor == 1) {
         if (faceDirection == DOWN && posX < 300 && posX > 250 && posY > 450) {
             Game::GetInstance().Push(new ChoiceState());
