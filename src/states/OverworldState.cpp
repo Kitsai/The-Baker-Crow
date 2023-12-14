@@ -4,6 +4,8 @@
 #include "enemies/enemies.h"
 
 #include "Tree.h"
+#include "House.h"
+#include "Bush.h"
 
 #include "states/ResumeState.h"
 #include "states/InventoryState.h"
@@ -19,13 +21,17 @@ OverworldState::OverworldState(): State(){
     GameObject* map = new GameObject();
     map->AddComponent(new Sprite(*map, "resources/img/mapa_1_4x.jpg"));
     AddObject(map);
+
+    GameObject* house = new GameObject();
+    house->AddComponent(new House(*house,"resources/img/overworld/confeitaria.png"));
+    house->box.SetCenter(Vec2(688, 2062));
+    AddObject(house);
     
     GameObject* tuki = new GameObject();
     TukiOW* tukiC = new TukiOW(*tuki);
     tuki->AddComponent(tukiC);
     AddObject(tuki);
     tuki->box.SetCenter(Vec2(817,2316));
-
 
     Player::player = tukiC;
     Camera::Follow(tuki);
@@ -58,10 +64,7 @@ OverworldState::OverworldState(): State(){
     Camera::Follow(tuki);
     GameData::playerAlive = true;
 
-    GameObject* tree = new GameObject();
-    tree->AddComponent(new Tree(*tree));
-    tree->box.SetCenter(Vec2(747, 2180));
-    AddObject(tree);
+
 
     //GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
