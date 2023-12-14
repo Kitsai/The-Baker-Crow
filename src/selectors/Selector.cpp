@@ -43,6 +43,10 @@ void Selector::Update(float dt) {
     
 }
 
+void Selector::Unchose(){
+    selectedButton->UnChoose();
+}
+
 int Selector::GetSelected(){
     return selected+1;
 }

@@ -14,6 +14,7 @@ public:
     virtual void Update(float dt);
     
     int  GetSelected();
+    void Unchose();
     void SetSelector(int i);
     int  GetNumberOfButtons();
     std::string GetNameSellectedButton();
