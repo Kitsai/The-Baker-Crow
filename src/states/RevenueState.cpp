@@ -21,29 +21,17 @@ void RevenueState::Update(float dt){
 
     if(iM.QuitRequested()) quitRequested = true;
 
-    if (iM.KeyPress(ENTER_KEY) &&  (selector->GetSelected() == 1))
-        Game::GetInstance().Push(new PuzzleState(1));
-    
-    else if (iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 2))
-        Game::GetInstance().Push(new PuzzleState(2));
+    else if (iM.KeyPress(ENTER_KEY)){
+        popRequested = true;
+        Game::GetInstance().Push(new PuzzleState(selector->GetSelected()));
+    }
+    if (selector){
+        selector->Update(dt);
+    }
 
-    else if (iM.KeyPress(ENTER_KEY) &&  (selector->GetSelected() == 3))
-        Game::GetInstance().Push(new PuzzleState(3));
-    
-    else if (iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 4))
-        Game::GetInstance().Push(new PuzzleState(4));
-    
-    else if (iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 5))
-        Game::GetInstance().Push(new PuzzleState(5));
-    
-    
     for (int i = 0; i < (int) objectArray.size(); i++) {
         objectArray[i]->Update(dt);
     }
-    if(selector){
-        selector->Update(dt);
-    }
-    
 }
 
 void RevenueState::LoadAssets(){
@@ -75,11 +63,11 @@ void RevenueState::LoadRevenues() {
     std::stack<Vec2> positions;
     std::vector<std::shared_ptr<Button>> buttons;
 
-    positions.push(Vec2(500, 600));
-    positions.push(Vec2(500, 500));
-    positions.push(Vec2(500, 400));
-    positions.push(Vec2(500, 300));
-    positions.push(Vec2(500, 200));
+    positions.push(Vec2(450, 573));
+    positions.push(Vec2(448, 470));
+    positions.push(Vec2(455, 355));
+    positions.push(Vec2(465, 267));
+    positions.push(Vec2(463, 153));
 
     for(std::pair<bool, RevenuesItemType> item : GameData::revenuesCompleted ){
         //if(item.first){
