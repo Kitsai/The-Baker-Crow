@@ -24,20 +24,20 @@ void NewGameState::Update(float dt){
     else if (InputManager::GetInstance().KeyPress(ESCAPE_KEY)){
         popRequested = true;
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 0)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 1)){
         GameData::intro = true;
         BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 1)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
+    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 3)){
         OverworldState* newState = new OverworldState();
         Game::GetInstance().Push(newState);
         popRequested = true;

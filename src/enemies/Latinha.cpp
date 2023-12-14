@@ -1,6 +1,7 @@
 #include "enemies/Latinha.h"
 #include "GameObject.h"
 #include "Game.h"
+#include "items.h"
 
 Latinha::Latinha(GameObject& assoc, int hp): Enemy(assoc,false,hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/latinha_idle.png");
@@ -60,5 +61,5 @@ void Latinha::DeathAnimation() {
 }
 
 void Latinha::DropItems() {
-    DropItem(leite);
+    DropItem(milk);
 }

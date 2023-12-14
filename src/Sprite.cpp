@@ -145,20 +145,21 @@ void Sprite::SetFocus(float escalarX, float escalarY) {
 }
 
 void Sprite::UnSetFocus() {
+    if(scale.x != 0 && scale.y != 0){
     float originalW = associated.box.w / scale.x;
     float originalH = associated.box.h / scale.y;
 
     float difX = (originalW - associated.box.w) / 2.0f;
     float difY = (originalH - associated.box.h) / 2.0f;
 
-    this->scale.x = 1.0f;
-    this->scale.y = 1.0f;
-
     associated.box.w = originalW;
     associated.box.h = originalH;
 
     associated.box.x -= difX;
     associated.box.y -= difY;
+    }
+    this->scale.x = 1.0f;
+    this->scale.y = 1.0f;
 }
 
 Vec2 Sprite::GetScale() {

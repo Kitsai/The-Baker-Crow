@@ -1,13 +1,13 @@
 #include "Game.h"
 #include "selectors/Selector.h"
 
-Selector::Selector(std::vector<std::shared_ptr<Button>> buttons) : selected(0), nButtons(2), buttons(buttons){
+Selector::Selector(std::vector<std::shared_ptr<Button>> buttons, int startButton) :nButtons(buttons.size()-1), selected(startButton-1), buttons(buttons){
     
     GameObject* soundPassObj = new GameObject();
     soundPass = new Sound(*soundPassObj, "resources/Sound/ButtonUI.flac");
     soundPassObj->AddComponent(soundPass);
 
-    selectedButton = buttons[0];
+    selectedButton = buttons[selected];
     selectedButton->Choose();
     
     Game::GetInstance().GetCurrentState().AddObject(soundPassObj);
@@ -20,17 +20,8 @@ Selector::~Selector() {
 
 void Selector::Update(float dt) {
     
-    if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected == 0) {
-        selected = nButtons;
-        
-        selectedButton->UnChoose();
-        selectedButton = buttons[selected];
-        selectedButton->Choose();
-        
-        soundPass->Play();
-    }
     
-    else if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
+    if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY) && selected > 0) {
         selected--;
         
         selectedButton->UnChoose();
@@ -48,18 +39,32 @@ void Selector::Update(float dt) {
 
         soundPass->Play();
     }
+    std::cout <<selectedButton->name <<std::endl;
     
-    else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selected == nButtons) {
-        selected = 0;
+}
+
+int Selector::GetSelected(){
+    return selected+1;
+}
+int Selector::GetNumberOfButtons(){
+    return buttons.size();
+}
+
+std::string Selector::GetNameSellectedButton(){
+    return selectedButton->name;
+}
+
+void Selector::SetSelector(int i){
+    if (i > 0 && i <= GetNumberOfButtons()){
+        selected = i-1;
 
         selectedButton->UnChoose();
         selectedButton = buttons[selected];
         selectedButton->Choose();
-
+        
         soundPass->Play();
+    
+    }else{
+        printf("valor errado");
     }
-}
-
-int Selector::GetSelected(){
-    return selected;
 }
