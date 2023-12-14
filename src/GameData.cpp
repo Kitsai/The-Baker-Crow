@@ -11,15 +11,14 @@ Vec2 GameData::lastSafePosition = {0,0};
 std::vector<std::string> GameData::requests = {};
 std::vector<std::pair<bool, FoodItemType>> GameData::hasItem = {
     
-    {true, butter},
-    {true, chocolate},
-    {true, eggs},
-    {true, honey},
-    {true, milk},
-    {true, straw},
-    {true, sugar},
-    {true, wheat},
-
+    {false, butter},
+    {false, chocolate},
+    {false, eggs},
+    {false, honey},
+    {false, milk},
+    {false, straw},
+    {false, sugar},
+    {false, wheat},
 };
 
 std::vector<std::pair<bool, RevenuesItemType>> GameData::revenuesCompleted = {
