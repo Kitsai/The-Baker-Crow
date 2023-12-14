@@ -156,5 +156,7 @@ void Enemy::NotifyCollision(GameObject& other) {
             hp -= 50;
             SetState(DAMAGED);
         }
+    } else if(other.GetComponent("Obstacle").lock()) {
+        moveTarget = associated.box.GetCenter();
     }
 }

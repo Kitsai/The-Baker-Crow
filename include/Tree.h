@@ -2,6 +2,7 @@
 #define Tree_h_
 
 #include "Obstacle.h"
+#include "Sprite.h"
 
 class Tree: public Obstacle {
     public: 

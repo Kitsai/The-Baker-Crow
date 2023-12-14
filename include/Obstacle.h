@@ -13,9 +13,9 @@ class Obstacle: public Component {
         void virtual Render();
         bool virtual Is(std::string type);
 
-        //std::pair<Vec2,Vec2> GetColliderLimits();
         Rect GetColliderBox();
-        Vec2 GetNormalSpeed(Vec2 speed, Rect playerBox);
+        enum Face {TOP, RIGHT, BOTTOM, LEFT, NONE};
+        Face GetFace(Rect playerBox);
     protected:
         void virtual SetCollider() = 0;
 

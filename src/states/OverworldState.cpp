@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "enemies/enemies.h"
 
+#include "Tree.h"
 
 #include "states/ResumeState.h"
 #include "states/InventoryState.h"
@@ -56,6 +57,11 @@ OverworldState::OverworldState(): State(){
 
     Camera::Follow(tuki);
     GameData::playerAlive = true;
+
+    GameObject* tree = new GameObject();
+    tree->AddComponent(new Tree(*tree));
+    tree->box.SetCenter(Vec2(747, 2180));
+    AddObject(tree);
 
     //GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
