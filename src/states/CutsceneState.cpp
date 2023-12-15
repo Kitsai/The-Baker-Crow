@@ -12,7 +12,7 @@ CutsceneState::CutsceneState() : State() {
 
     stage = 0;
     if (GameData::intro){
-        NewDialogue(0, "resources/img/cutscene/pai.png", "resources/img/cutscene/triste nao falando.png", "Tuki, minha querida, o destino das", "nossas receitas e doces esta", "em suas asas.", "A confeitaria e o coracao", "da nossa familia.");
+        NewDialogue(0, "resources/img/cutscene/pai.png", "resources/img/cutscene/triste nao falando.png", "Tuki, minha querida, o destino das", "nossas receitas e doces esta em", "suas asas.", "A confeitaria e o coracao da nos-", "sa familia.");
     } else {
         NewDialogue(0, "resources/img/cutscene/pai-happy.png", "resources/img/cutscene/feliz nao falando.png", "Tuki, querida, como foi o dia", "na confeitaria?", " ", " ", " ");
     }
@@ -26,6 +26,7 @@ CutsceneState::~CutsceneState() {
 void CutsceneState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
     if (iM.KeyPress(Z_KEY)) NextStage();
+    if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)) popRequested = true;
 }
 
 void CutsceneState::Render() {
@@ -53,11 +54,14 @@ void CutsceneState::NextStage() {
     stage++;
     objectArray.clear();
     if (GameData::intro && stage == 5) GameData::intro = false;
-    if (stage == 5) popRequested = true;
 
     GameObject* bg = new GameObject();
     bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
     AddObject(bg);
+    if (stage == 5) {
+        popRequested = true;
+        return;
+    }
     
     if (GameData::intro){
         if (stage == 1){
@@ -75,7 +79,7 @@ void CutsceneState::NextStage() {
         }
     } else {
         if (stage == 1){
-            NewDialogue(1, "resources/img/cutscene/pai-happy nao falando.png", "resources/img/cutscene/feliz.png", "FOi um sucesso!", " ", " ", " ", " ");
+            NewDialogue(1, "resources/img/cutscene/pai-happy nao falando.png", "resources/img/cutscene/feliz.png", "Foi um sucesso!", " ", " ", " ", " ");
         }
         if (stage == 2){   
             NewDialogue(1, "resources/img/cutscene/pai-happy nao falando.png", "resources/img/cutscene/choque.png", "Por mais que aquelas receitas", "me fizeram quebrar o bico para", "terminar...", " ", " ");       
@@ -84,8 +88,8 @@ void CutsceneState::NextStage() {
             NewDialogue(1, "resources/img/cutscene/pai- nao falando.png", "resources/img/cutscene/triste.png", "E... nao achei o ingrediente pra", "cura ainda, papai...", " ", " ", " ");
         }
         if (stage == 4){
-            NewDialogue(0, "resources/img/cutscene/pai-happy.png", "resources/img/cutscene/triste nao falando.png", "Tudo bem, Tuki, a hora certa", "vai chegar... Mas venha dormir,", "já esta tarde e amanhã e um", "novo dia.", " ");
-
+            NewDialogue(0, "resources/img/cutscene/pai-happy.png", "resources/img/cutscene/triste nao falando.png", "Tudo bem, Tuki, a hora certa", "vai chegar... Mas venha dormir,", "ja esta tarde e amanha e um", "novo dia.", " ");
+            GameData::completed = false;
         }
     }
 }
@@ -113,15 +117,15 @@ void CutsceneState::NewDialogue(int type, std::string dad, std::string tuki, std
 
 
         GameObject* textLine1 = new GameObject();
-        textLine1->AddComponent(new Text(*textLine1, "resources/font/Base.ttf", 30, TextStyle::BLENDED, text1, {0,0,0,255}, {0,0,0,255}, false));
+        textLine1->AddComponent(new Text(*textLine1, "resources/font/Minecraft.ttf", 30, TextStyle::BLENDED, text1, {0,0,0,255}, {0,0,0,255}, false));
         GameObject* textLine2 = new GameObject();
-        textLine2->AddComponent(new Text(*textLine2, "resources/font/Base.ttf", 30, TextStyle::BLENDED, text2, {0,0,0,255}, {0,0,0,255}, false));
+        textLine2->AddComponent(new Text(*textLine2, "resources/font/Minecraft.ttf", 30, TextStyle::BLENDED, text2, {0,0,0,255}, {0,0,0,255}, false));
         GameObject* textLine3 = new GameObject();
-        textLine3->AddComponent(new Text(*textLine3, "resources/font/Base.ttf", 30, TextStyle::BLENDED, text3, {0,0,0,255}, {0,0,0,255}, false));
+        textLine3->AddComponent(new Text(*textLine3, "resources/font/Minecraft.ttf", 30, TextStyle::BLENDED, text3, {0,0,0,255}, {0,0,0,255}, false));
         GameObject* textLine4 = new GameObject();
-        textLine4->AddComponent(new Text(*textLine4, "resources/font/Base.ttf", 30, TextStyle::BLENDED, text4, {0,0,0,255}, {0,0,0,255}, false));
+        textLine4->AddComponent(new Text(*textLine4, "resources/font/Minecraft.ttf", 30, TextStyle::BLENDED, text4, {0,0,0,255}, {0,0,0,255}, false));
         GameObject* textLine5 = new GameObject();
-        textLine5->AddComponent(new Text(*textLine5, "resources/font/Base.ttf", 30, TextStyle::BLENDED, text5, {0,0,0,255}, {0,0,0,255}, false));
+        textLine5->AddComponent(new Text(*textLine5, "resources/font/Minecraft.ttf", 30, TextStyle::BLENDED, text5, {0,0,0,255}, {0,0,0,255}, false));
 
 
         textLine1->box.y = 550;
