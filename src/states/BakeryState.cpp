@@ -119,6 +119,7 @@ void BakeryState::Start() {
     LoadAssets();
     StartArray();
     started = true;
+
     GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
     GameData::backGroundMusic->Play();
 }
@@ -132,6 +133,14 @@ void BakeryState::Resume() {
     if(ptr) RemoveObject(ptr.get());
 
     GameData::backGroundMusic->Play();
+
+    if (GameData::requestDone && GameData::hasNPC){
+        // gets rid of npcs from floor
+        for (int i = 0; i < (int)objectArray.size(); i++)
+            if (objectArray[i]->GetComponent("NPC").lock())
+                objectArray[i]->RequestDelete();
+        GameData::hasNPC = false;
+    }
 
     if(floor == 2) {
         auto tuki = std::static_pointer_cast<TukiB>(objectArray[2]->GetComponent("TukiB").lock());
@@ -186,9 +195,11 @@ void BakeryState::ManageClients(){
     bool regulations = false;
     // doesn't spawn clients if there are more than 5 requests
     if (GameData::requests.size() < 5 && (GameData::recipes.size() != 1 || GameData::requests.size() != 1)) regulations = true;
+    std::cout << regulations << std::endl;
     if ((GameData::recipes.size() == 0 || (clientTimer->Get() > 8 && regulations)) && GameData::hasNPC == false) {
         clientTimer->Restart();
 
+        std::cout << "teste" << std::endl;
         GameObject* client = new GameObject();
 
         int chosen = rand() % 9;
