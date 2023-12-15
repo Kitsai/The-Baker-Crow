@@ -6,10 +6,10 @@ quitOWState: 0
 completed: 0
 lastSafePosition: 0 0
 requests: brigadeiro 
-recipes: brigadeiro 
-clients: resources/img/npc/Gary.png 
+recipes: brigadeiro cake 
+clients: resources/img/npc/Lili.png 
 hasNPC: 1
 requestDone: 1
 chosenRequest: brigadeiro
-hasItem: 1 0 0 0 0 0 0 1 
+hasItem: 1 1 1 1 1 1 1 1 
 revenuesCompleted: 0 0 0 0 0 
