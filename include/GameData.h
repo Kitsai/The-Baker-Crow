@@ -18,6 +18,8 @@ class GameData {
         static bool intro;
 
         static int playerLife;
+        static int currentGame;
+        static int SaveIsInUse;
         static Vec2 lastSafePosition;
 
         static std::vector<std::string> requests;
@@ -33,5 +35,4 @@ class GameData {
         static std::vector<std::pair<bool, FoodItemType>> hasItem;
         static std::vector<std::pair<bool, RevenuesItemType>> revenuesCompleted;
 };
-
 #endif

@@ -28,13 +28,17 @@ void LoadGameState::Update(float dt){
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 1)){
         SaveController::ReadSave(1);
+        GameData::currentGame = 1;
+        GameData::SaveIsInUse = 1;
+        
         BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
-        
+        GameData::currentGame = 2;
+        GameData::SaveIsInUse = 1;
         SaveController::ReadSave(2);
         
         BakeryState* newState = new BakeryState();

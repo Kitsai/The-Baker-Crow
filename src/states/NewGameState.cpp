@@ -1,3 +1,4 @@
+#include "GameData.h"
 #include "SaveController.h"
 #include "states/BakeryState.h"
 #include "states/NewGameState.h"
@@ -29,6 +30,8 @@ void NewGameState::Update(float dt){
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 1)){
         SaveController::WriteSave(1);
+        GameData::currentGame = 1;
+        GameData::SaveIsInUse =1;
 
         GameData::intro = true;
         BakeryState* newState = new BakeryState();
@@ -38,8 +41,11 @@ void NewGameState::Update(float dt){
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
         SaveController::WriteSave(2);
+        GameData::currentGame = 2;
+        GameData::SaveIsInUse =1;
 
-        OverworldState* newState = new OverworldState();
+        GameData::intro = true;
+        BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         GameData::backGroundMusic->Stop(0);

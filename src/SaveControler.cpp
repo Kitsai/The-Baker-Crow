@@ -15,9 +15,10 @@ void SaveController::WriteSave(int i) {
     saveFile << "playerLife: " << GameData::playerLife << "\n";
     saveFile << "playerAlive: " << GameData::playerAlive << "\n";
 
+    saveFile << "SaveIsInUse: " << GameData::SaveIsInUse << "\n";
     saveFile << "intro: " << GameData::intro << "\n";
     saveFile << "quitOWState: " << GameData::quitOWState << "\n";
-
+    saveFile << "completed: " << GameData::completed << "\n";
     saveFile << "lastSafePosition: " << GameData::lastSafePosition.x << " " << GameData::lastSafePosition.y << "\n";
 
     saveFile << "requests: ";
@@ -25,6 +26,22 @@ void SaveController::WriteSave(int i) {
         saveFile << request << " ";
     }
     saveFile << "\n";
+
+    saveFile << "recipes: ";
+    for (const auto& recipe : GameData::recipes) {
+        saveFile << recipe << " ";
+    }
+    saveFile << "\n";
+
+    saveFile << "clients: ";
+    for (const auto& client : GameData::clients) {
+        saveFile << client << " ";
+    }
+    saveFile << "\n";
+
+    saveFile << "hasNPC: " << GameData::hasNPC  <<"\n";
+    saveFile << "requestDone: " << GameData::requestDone <<"\n";
+    saveFile << "chosenRequest: " << GameData::chosenRequest <<"\n";
 
     saveFile << "hasItem: ";
     for (const auto& item : GameData::hasItem) {
@@ -59,11 +76,15 @@ void SaveController::ReadSave(int i) {
             iss >> GameData::playerLife;
         } else if (key == "playerAlive:") {
             iss >> GameData::playerAlive;
+        } else if(key == "SaveIsInUse:"){
+            iss >> GameData::SaveIsInUse;
         } else if (key == "intro:") {
             iss >> GameData::intro;
         } else if (key == "quitOWState:") {
             iss >> GameData::quitOWState;
-        } else if (key == "lastSafePosition:") {
+        } else if(key == "completed:"){
+            iss >> GameData::completed;
+        }else if (key == "lastSafePosition:") {
             iss >> GameData::lastSafePosition.x >> GameData::lastSafePosition.y;
         } else if (key == "requests:") {
             GameData::requests.clear();
@@ -71,7 +92,28 @@ void SaveController::ReadSave(int i) {
             while (iss >> request) {
                 GameData::requests.push_back(request);
             }
-        } else if (key == "hasItem:") {
+        } else if (key == "recipes:") {
+            GameData::recipes.clear();
+            std::string recipes;
+            while (iss >> recipes) {
+                GameData::recipes.push_back(recipes);
+            }
+        } else if (key == "clients:") {
+            GameData::clients.clear();
+            std::string clients;
+            while (iss >> clients) {
+                GameData::clients.push_back(clients);
+            }
+        } else if(key == "hasNPC:"){
+            iss >> GameData::hasNPC;
+        
+        } else if(key == "requestDone:"){
+            iss >> GameData::requestDone;
+        
+        } else if(key == "chosenRequest:"){
+            iss >> GameData::chosenRequest;
+        
+        }else if (key == "hasItem:") {
             for (auto& item : GameData::hasItem) {
                 bool hasItem;
                 iss >> hasItem;

@@ -20,9 +20,6 @@ CutsceneState::~CutsceneState() {
 
 void CutsceneState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
-    if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested()) {
-        popRequested = true; 
-    }
     if (iM.KeyPress(Z_KEY)) NextStage();
 }
 
@@ -69,6 +66,7 @@ void CutsceneState::NextStage() {
         }
         if (stage == 4){
             NewDialogue(1, "resources/img/cutscene/pai- nao falando.png", "resources/img/cutscene/triste.png", "Eu farei de tudo para te curar e", "cuidar da confeitaria da nossa", "familia.", " ", " ");
+            GameData::intro = 0;
         }
     } else {
         if (stage == 1){

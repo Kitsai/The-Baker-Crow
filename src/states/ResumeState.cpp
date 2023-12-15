@@ -1,3 +1,4 @@
+#include "GameData.h"
 #include "SaveController.h"
 #include "TileSet.h"
 #include "states/ResumeState.h"
@@ -27,7 +28,7 @@ void ResumeState::Update(float dt){
     }
     
     else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
-        SaveController::WriteSave(2);
+        SaveController::WriteSave(GameData::currentGame);
         popRequested = true;
     }
     

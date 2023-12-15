@@ -1,8 +1,15 @@
 playerLife: 3
 playerAlive: 1
+SaveIsInUse: 1
 intro: 0
 quitOWState: 0
+completed: 0
 lastSafePosition: 0 0
-requests: 
-hasItem: 0 0 0 0 0 0 0 0 
+requests: brigadeiro 
+recipes: brigadeiro 
+clients: resources/img/npc/Gary.png 
+hasNPC: 1
+requestDone: 1
+chosenRequest: brigadeiro
+hasItem: 1 0 0 0 0 0 0 1 
 revenuesCompleted: 0 0 0 0 0 

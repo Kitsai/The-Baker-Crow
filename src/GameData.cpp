@@ -1,17 +1,20 @@
 #include "GameData.h"
 
+int GameData::currentGame;
+
 int GameData::playerLife = 3;
 bool GameData::playerAlive = false;
 
+int GameData:: SaveIsInUse;
 bool GameData::intro = true;
 bool GameData::quitOWState = false;
 bool GameData::completed = false;
-
 Vec2 GameData::lastSafePosition = {0,0};
 
 std::vector<std::string> GameData::requests = {};
 std::vector<std::string> GameData::recipes = {};
 std::vector<std::string> GameData::clients = {};
+
 bool GameData::hasNPC = false;
 
 bool GameData::requestDone = false;
