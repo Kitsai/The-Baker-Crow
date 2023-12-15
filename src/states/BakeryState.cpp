@@ -53,12 +53,6 @@ void BakeryState::LoadAssets() {
 void BakeryState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
-    // manages entrance/outings of clients
-    if (floor == 1) {
-        clientTimer->Update(dt);
-        ManageClients();
-    }
-
     if(iM.QuitRequested()) quitRequested = true;
 
     if (GameData::intro || (GameData::completed && floor == 0)) 
@@ -106,6 +100,12 @@ void BakeryState::Update(float dt) {
         GameData::chosenRequest = "";
     }
 
+    // manages entrance/outings of clients
+    if (floor == 1) {
+        clientTimer->Update(dt);
+        ManageClients();
+    }
+
     UpdateArray(dt);
     CheckCollisions();
     DeleteObjects();
@@ -133,6 +133,7 @@ void BakeryState::Resume() {
     if(ptr) RemoveObject(ptr.get());
 
     GameData::backGroundMusic->Play();
+    clientTimer->Restart();
 
     if (GameData::requestDone && GameData::hasNPC){
         // gets rid of npcs from floor
@@ -195,11 +196,9 @@ void BakeryState::ManageClients(){
     bool regulations = false;
     // doesn't spawn clients if there are more than 5 requests
     if (GameData::requests.size() < 5 && (GameData::recipes.size() != 1 || GameData::requests.size() != 1)) regulations = true;
-    std::cout << regulations << std::endl;
     if ((GameData::recipes.size() == 0 || (clientTimer->Get() > 8 && regulations)) && GameData::hasNPC == false) {
         clientTimer->Restart();
 
-        std::cout << "teste" << std::endl;
         GameObject* client = new GameObject();
 
         int chosen = rand() % 9;
