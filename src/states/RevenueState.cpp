@@ -31,6 +31,7 @@ void RevenueState::Update(float dt){
     else if (iM.KeyPress(Z_KEY)){
         if (selector){
             popRequested = true;
+            GameData::backGroundMusic->Stop(0);
             Game::GetInstance().Push(new PuzzleState((selector->GetSelected())+min));
         }
     }

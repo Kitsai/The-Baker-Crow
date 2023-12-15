@@ -12,7 +12,7 @@ Music::Music(std::string file): Music() {
 }
 
 Music::~Music() {
-    Stop();
+    Stop(0);
 }
 
 void Music::Play(int times) {

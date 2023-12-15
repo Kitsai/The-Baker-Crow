@@ -36,11 +36,12 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(),selectorOn(true), currentBu
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap();
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
 }
 
 PuzzleState::~PuzzleState(){
     objectArray.clear();
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 
 void PuzzleState::LoadAssets(){}
@@ -95,7 +96,7 @@ void PuzzleState::Update(float dt){
         GameData::hasNPC = false; // guarantees there won't be an npc in place
         popRequested = true;
         ((TukiB*)Player::player)->ChangeCooking(false);
-        backGroundMusic->Stop(50);
+        GameData::backGroundMusic->Stop(50);
     }
 
     if(iM.QuitRequested()) quitRequested = true;
@@ -180,7 +181,7 @@ void PuzzleState::Start(){
     StartArray();
     LoadSelector();
     started = true;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Play();
 }
 
 void PuzzleState::Pause(){}
@@ -188,7 +189,7 @@ void PuzzleState::Pause(){}
 void PuzzleState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Play();
 }
 
 void PuzzleState::LoadMap(){
