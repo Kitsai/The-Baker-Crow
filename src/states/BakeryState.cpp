@@ -89,8 +89,9 @@ void BakeryState::Update(float dt) {
 
     if(GameData::requestDone && !GameData::hasNPC){
         int x = 0;
-        for (x; x < (int)GameData::requests.size(); x++){
+        while (x < (int)GameData::requests.size()){
             if (GameData::requests[x] == GameData::chosenRequest) break;
+            x++;
         }
 
         GameData::hasNPC = true;

@@ -6,7 +6,7 @@ MenuState::MenuState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
 
-    Sprite* titleImage = new Sprite(*titleObj, "resources/img/MenuBackground.png");
+    Sprite* titleImage = new Sprite(*titleObj, "resources/img/main_page.png");
     titleObj->AddComponent(titleImage);
 
 
@@ -48,9 +48,9 @@ void MenuState::LoadAssets(){
 
 void MenuState::LoadButtons(){
     std::vector<std::shared_ptr<Button>> buttons;
-    Button* buttonNewGame = new Button(Vec2(500, 200),"resources/img/MenuButton.png", "NEW GAME",36);
-    Button* buttonLoadGame = new Button(Vec2(500, 400),"resources/img/MenuButton.png", "LOAD GAME",36);
-    Button* buttonExitGame = new Button(Vec2(500, 600),"resources/img/MenuButton.png", "EXIT GAME",36);
+    Button* buttonNewGame  = new Button(Vec2(376, 286),"resources/img/MenuButton.png", "NEW GAME",30);
+    Button* buttonLoadGame = new Button(Vec2(376, 427),"resources/img/MenuButton.png", "LOAD GAME",30);
+    Button* buttonExitGame = new Button(Vec2(376, 565),"resources/img/MenuButton.png", "EXIT GAME",30);
 
     buttons.push_back((std::shared_ptr<Button>) buttonNewGame);
     buttons.push_back((std::shared_ptr<Button>) buttonLoadGame);

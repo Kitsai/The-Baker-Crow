@@ -29,8 +29,10 @@ void RevenueState::Update(float dt){
     if (iM.KeyPress(ESCAPE_KEY)) popRequested = true;
 
     else if (iM.KeyPress(Z_KEY)){
-        popRequested = true;
-        Game::GetInstance().Push(new PuzzleState((selector->GetSelected())+min));
+        if (selector){
+            popRequested = true;
+            Game::GetInstance().Push(new PuzzleState((selector->GetSelected())+min));
+        }
     }
     if (selector){
         selector->Update(dt);
