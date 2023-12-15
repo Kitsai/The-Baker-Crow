@@ -8,7 +8,7 @@ TukiOW::TukiOW(GameObject& associated): Player(associated) {
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
     sprite->SetScale(2,2);
     associated.AddComponent(sprite);
-    associated.AddComponent(new Sound(associated,"resources/Sound/TukiAttack.flac"));
+    associated.AddComponent(new Sound(associated,"resources/Sound/TukiAttack.MP3"));
     faceDirection = DOWN;
 }
 
@@ -28,6 +28,15 @@ void TukiOW::Update(float dt) {
     if(hp <= 0) {
         associated.RequestDelete();
         GameData::playerAlive = false;
+        GameObject* dying = new GameObject();
+        Sound* sound = new Sound(*dying,"resources/Sound/TukiDead.MP3");
+        Sprite* sprite = new Sprite(*dying, "resources/img/tuki_anim_dano.png", 4,.15F);
+        dying->AddComponent(sound);
+        dying->AddComponent(sprite);
+        sprite->SetScale(2,2);
+        dying->box = associated.box.GetPos();
+        sound->Play();
+        Game::GetInstance().GetCurrentState().AddObject(dying);
     }
 
     if(iM.KeyPress(X_KEY) && GetPlayerState() != DODGING && GetPlayerState() != ATTACKING) {
