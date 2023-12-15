@@ -35,6 +35,9 @@ void NPC::Update(float dt) {
             WalkOut();
         }
     }
+    if (type == 1 && (associated.box.GetCenter()).x < 540) {
+        associated.box.SetCenter({540, 400});
+    }
     if (associated.box.GetCenter() == Vec2(615, 700)) {
         GameData::hasNPC = false;
         associated.RequestDelete();
