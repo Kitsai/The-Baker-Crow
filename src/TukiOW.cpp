@@ -3,6 +3,7 @@
 #include "Sprite.h"
 #include "defines/DefineInput.h"
 #include <SDL2/SDL_render.h>
+#include "states/OverworldState.h"
 
 TukiOW::TukiOW(GameObject& associated): Player(associated) {
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
@@ -118,10 +119,11 @@ void TukiOW::Move(float dt) {
  
 void TukiOW::CalcSpeed(float dt) {
     InputManager& iM = InputManager::GetInstance();
+    OverworldState& owState = (OverworldState&) Game::GetInstance().GetCurrentState();
 
     if(GetPlayerState() == DODGING)
         return;
-    if(GetPlayerState() == ATTACKING || GetPlayerState() == DAMAGED) {
+    if(GetPlayerState() == ATTACKING || GetPlayerState() == DAMAGED || owState.OpeningDoor()) {
         speed = 0;
         return;
     }

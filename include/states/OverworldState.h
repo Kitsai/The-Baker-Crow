@@ -15,6 +15,8 @@ class OverworldState: public State {
         void Start();
         void Pause();
         void Resume();
+
+        bool OpeningDoor();
     
     private:
         Timer timer;

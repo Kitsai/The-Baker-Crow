@@ -148,6 +148,10 @@ void OverworldState::Resume() {
     GameData::backGroundMusic->Resume();
 }
 
+bool OverworldState::OpeningDoor() {
+    return openingDoor;
+}
+
 void OverworldState::LoadAssets() {
 
     GameObject* heartBarObj = new GameObject();
@@ -191,6 +195,8 @@ void OverworldState::LoadHouses() {
 }
 
 void OverworldState::LoadObstacles() {
+
+
 
     GameObject* bush1 = new GameObject();
     bush1->AddComponent(new Bush(*bush1));
