@@ -24,11 +24,12 @@ class BakeryState : public State {
         void Pause();
         void Start();
         void Resume();
+
+        static Timer* clientTimer;
     private:
         int floor;
         void ChangeFloor(int newFloor);
 
-        Timer clientTimer;
         float nextTime;
         void ManageClients();
 };

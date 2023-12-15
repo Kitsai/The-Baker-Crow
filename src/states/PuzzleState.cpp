@@ -8,10 +8,14 @@
 #include "selectors/Selector.h"
 #include "states/PuzzleState.h"
 #include "defines/DefineInput.h"
+#include "TukiB.h"
 #include <algorithm>
 #include <cstdio>
 #include <memory>
 #include <vector>
+
+int limit = 0;
+std::vector<FoodItemType> lockedPieces = {};
 
 PuzzleState::PuzzleState(int puzzleNumber) : State(),selectorOn(true), currentButton(4), selector(nullptr){
     
@@ -19,6 +23,11 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(),selectorOn(true), currentBu
     this->positions.emplace_back(Vec2(25, 170));
     this->positions.emplace_back(Vec2(25, 325));
     this->positions.emplace_back(Vec2(25, 480));
+
+    this->puzzleNumber = puzzleNumber;
+
+    lockedPieces = {};
+    limit = 0;
 
     GameObject* ui = new GameObject();
     ui->AddComponent(new Sprite(*ui,"resources/img/PuzzleBack.png"));
@@ -43,18 +52,55 @@ void PuzzleState::Render(){
 void PuzzleState::Update(float dt){
     InputManager& iM = InputManager::GetInstance();
 
+    if (puzzle->IsCompleted() && !GameData::requestDone){
+        //backGroundMusic->Stop(50);
+        GameObject* go = new GameObject();
+        go->AddComponent(new Sprite(*go,"resources/img/puzzle/success.png"));
+        go->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+        AddObject(go);
+        GameData::requestDone = true;
 
-    if ((InputManager::GetInstance().KeyPress(SPACE_KEY))){
+        GameObject* food = new GameObject();
+        Sprite* sprite = nullptr;
+        if (puzzleNumber == 1) sprite = (new Sprite(*food,"resources/img/revenues/brigadeiro.png"));
+        else if (puzzleNumber == 2) sprite = (new Sprite(*food, "resources/img/revenues/cake.png"));
+        else if (puzzleNumber == 3) sprite = (new Sprite(*food, "resources/img/revenues/cheesebread.png"));
+        else if (puzzleNumber == 4) sprite = (new Sprite(*food, "resources/img/revenues/macarons.png"));
+        else if (puzzleNumber == 5) sprite = (new Sprite(*food, "resources/img/revenues/pudding.png"));
+        sprite->SetScale(4,4);
+        food->AddComponent(sprite);
+        food->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
+        food->box.y += 50;
+        AddObject(food);
+    }
+
+    if (GameData::requestDone){
+        if (iM.KeyPress(Z_KEY)) {
+            if (puzzleNumber == 5) GameData::completed = true;
+            popRequested = true;
+            //backGroundMusic->Stop(50);
+        }
+        return;
+    }
+
+    int max = 0;
+    if (puzzleNumber == 1) max = 5;
+    else if (puzzleNumber == 2) max = 3;
+    else if (puzzleNumber == 3) max = 3;
+    else if (puzzleNumber == 4) max = 4;
+    else if (puzzleNumber == 5) max = 5;
+
+    if ((iM.KeyPress(ESCAPE_KEY) && selectorOn) || limit == max ){
+        GameData::chosenRequest = "";
+        GameData::hasNPC = false; // guarantees there won't be an npc in place
         popRequested = true;
+        ((TukiB*)Player::player)->ChangeCooking(false);
         backGroundMusic->Stop(50);
     }
 
     if(iM.QuitRequested()) quitRequested = true;
 
     UpdateArray(dt);
-
-    // checks whether puzzle has been complete 
-    if (puzzle->IsCompleted()) quitRequested = true;
 
     for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
         // deletes PuzzleSelector if ESCAPE_KEY has been pressed, creates PuzzleSelector
@@ -70,26 +116,34 @@ void PuzzleState::Update(float dt){
             this->selectorOn = true;
         }
 
-        if(objectArray[i]->IsDead()){
-            if(selectorOn){
-                FoodItemType itemType;
-                if ( selector->GetNameSellectedButton() == "straw")         itemType = FoodItemType::straw;
-                else if (selector->GetNameSellectedButton() == "butter")    itemType = FoodItemType::butter;
-                else if (selector->GetNameSellectedButton() == "chocolate") itemType = FoodItemType::chocolate;
-                else if (selector->GetNameSellectedButton() == "milk")      itemType = FoodItemType::milk;
-                else if (selector->GetNameSellectedButton() == "eggs")      itemType = FoodItemType::eggs;
-                else if (selector->GetNameSellectedButton() == "sugar")     itemType = FoodItemType::sugar;
-                else if (selector->GetNameSellectedButton() == "wheat")     itemType = FoodItemType::wheat;
-                else if (selector->GetNameSellectedButton() == "honey")     itemType = FoodItemType::honey;
+        if(iM.KeyPress(Z_KEY) && selectorOn){
+            FoodItemType itemType;
+            if ( selector->GetNameSellectedButton() == "straw")         itemType = FoodItemType::straw;
+            else if (selector->GetNameSellectedButton() == "butter")    itemType = FoodItemType::butter;
+            else if (selector->GetNameSellectedButton() == "chocolate") itemType = FoodItemType::chocolate;
+            else if (selector->GetNameSellectedButton() == "milk")      itemType = FoodItemType::milk;
+            else if (selector->GetNameSellectedButton() == "eggs")      itemType = FoodItemType::eggs;
+            else if (selector->GetNameSellectedButton() == "sugar")     itemType = FoodItemType::sugar;
+            else if (selector->GetNameSellectedButton() == "wheat")     itemType = FoodItemType::wheat;
+            else if (selector->GetNameSellectedButton() == "honey")     itemType = FoodItemType::honey;
+            
+            bool hasBeenLocked = false;
+            for (int i = 0; i < (int)lockedPieces.size(); i++){
+                if (lockedPieces[i] == itemType) hasBeenLocked = true;
+            }
 
+            if (!hasBeenLocked){
                 GameObject* pieces = new GameObject();
                 pieces->box.x = 415;
                 pieces->box.y = 170;
                 pieces->AddComponent(new FoodItem(*pieces, itemType));
-                
+                    
                 AddObject(pieces);
                 this->selectorOn = false;
             }
+        }
+
+        if(objectArray[i]->IsDead()){
             // checks whether piece can be locked; if so, creates a PuzzleSelector
             if(objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
                 FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
@@ -100,10 +154,10 @@ void PuzzleState::Update(float dt){
                     
                     foodPiece->Lock();
                     this->selectorOn = true;
+                    lockedPieces.emplace_back(foodPiece->GetType());
                     continue;
                 }
             }
-            
             objectArray.erase(objectArray.begin()+i);
         }
     }

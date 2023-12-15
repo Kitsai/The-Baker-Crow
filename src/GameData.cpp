@@ -14,6 +14,9 @@ std::vector<std::string> GameData::recipes = {};
 std::vector<std::string> GameData::clients = {};
 bool GameData::hasNPC = false;
 
+bool GameData::requestDone = false;
+std::string GameData::chosenRequest = "";
+
 std::vector<std::pair<bool, FoodItemType>> GameData::hasItem = {
     
     {false, butter},

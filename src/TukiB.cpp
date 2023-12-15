@@ -1,9 +1,10 @@
 #include "TukiB.h"
 #include "Sprite.h"
 #include "states/BakeryState.h"
-#include "states/ChoiceState.h"
+#include "states/RevenueState.h"
 
 TukiB::TukiB(GameObject& associated): Player(associated) {
+    this->cooking = false;
     Sprite*  sprite = new Sprite(associated, "resources/img/Tuki_idle_front.png");
     sprite->SetScale(2.0f,2.0f);
     associated.AddComponent(sprite);
@@ -26,9 +27,8 @@ void TukiB::Update(float dt) {
     int posY = associated.box.y;
 
     if (iM.KeyPress(Z_KEY) && floor == 1) {
-        if (faceDirection == DOWN && posX < 300 && posX > 250 && posY > 450) {
-            Game::GetInstance().Push(new ChoiceState());
-        }
+        if (faceDirection == DOWN && posX < 300 && posX > 250 && posY > 450 && !GameData::requestDone)
+            ChangeCooking(true);
     }
     
      // Switches from Walking to Standing.
@@ -72,7 +72,7 @@ void TukiB::CalcSpeed(float dt) {
             faceDirection = UP;
             ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
         }
-        if (floor == 1 && associated.box.x < 300 && associated.box.x > 90 && associated.box.y < 0) {
+        if (floor == 1 && associated.box.x < 300 && associated.box.x > 90 && associated.box.y < 0 && !GameData::requestDone) {
             floor = 0;
             associated.box.x = 240;
             associated.box.y = 530;
@@ -88,7 +88,7 @@ void TukiB::CalcSpeed(float dt) {
             floor = 1;
             associated.box.x = 240;
             associated.box.y = 0;
-        } else if (floor == 1  && associated.box.x < 600 && associated.box.x > 500 && associated.box.y > 530) {
+        } else if (floor == 1  && associated.box.x < 600 && associated.box.x > 500 && associated.box.y > 530 && !GameData::requestDone) {
             floor = 2;
         }
     }
@@ -224,4 +224,12 @@ void TukiB::CheckCollisions(Rect oldBox) {
             if (associated.box.y > 590) associated.box.y = 590;
         }
     }
+}
+
+void TukiB::ChangeCooking(bool cooking) {
+    this->cooking = cooking;
+}
+
+bool TukiB::IsCooking() {
+    return cooking;
 }

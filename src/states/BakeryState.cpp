@@ -4,6 +4,8 @@
 #include "states/RevenueState.h"
 #include "GameObject.h"
 
+Timer* BakeryState::clientTimer = nullptr;
+
 BakeryState::BakeryState() : State() {
     GameObject* tuki = new GameObject();
     TukiB* tukiB = new TukiB(*tuki);
@@ -13,6 +15,7 @@ BakeryState::BakeryState() : State() {
     dad->box.SetCenter({520,280});
 
     floor = 0;
+    clientTimer = new Timer();
 
     GameObject* bg = new GameObject();
     bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
@@ -49,15 +52,9 @@ void BakeryState::LoadAssets() {
 void BakeryState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
 
-    // changes floor if Tuki goes down/up stairs
-    int newFloor = ((TukiB*)Player::player)->GetFloor();
-
-    if (newFloor != floor) 
-        ChangeFloor(newFloor);
-
     // manages entrance/outings of clients
     if (floor == 1) {
-        clientTimer.Update(dt);
+        clientTimer->Update(dt);
         ManageClients();
     }
 
@@ -68,15 +65,43 @@ void BakeryState::Update(float dt) {
 
     if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY))
         LoadNewState(new ResumeState());
-    else if (iM.KeyPress(R_KEY))
-        LoadNewState(new RevenueState());
     
     else if (iM.KeyPress(I_KEY))
         LoadNewState(new InventoryState());
 
+    bool isCooking = ((TukiB*)Player::player)->IsCooking();
+
+    if (isCooking) {
+        LoadNewState(new RevenueState());
+    }
+
+    // changes floor if Tuki goes down/up stairs
+    int newFloor = ((TukiB*)Player::player)->GetFloor();
+
+    if (newFloor != floor) {
+        ChangeFloor(newFloor);
+    }
+
     if(GameData::quitOWState){
         popRequested = true; 
         GameData::quitOWState = false;
+    }
+
+    if(GameData::requestDone && !GameData::hasNPC){
+        int x = 0;
+        for (x; x < (int)GameData::requests.size(); x++){
+            if (GameData::requests[x] == GameData::chosenRequest) break;
+        }
+
+        GameData::hasNPC = true;
+        GameObject* client = new GameObject();
+        NPC* npc = new NPC(*client, GameData::clients[x], 1);
+        client->AddComponent(npc);
+        AddObject(client);
+
+        GameData::requests.erase(GameData::requests.begin()+x);   // removes client's request from vector
+        GameData::clients.erase(GameData::clients.begin()+x);     // removes client from vector
+        GameData::chosenRequest = "";
     }
 
     UpdateArray(dt);
@@ -109,6 +134,7 @@ void BakeryState::Resume() {
     if(floor == 2) {
         auto tuki = std::static_pointer_cast<TukiB>(objectArray[2]->GetComponent("TukiB").lock());
         Player::player = tuki.get();
+        tuki->ChangeCooking(0);
         tuki->SetFloor(1);
         tuki->ResetSpeed();
         ChangeFloor(1);
@@ -156,10 +182,9 @@ void BakeryState::ChangeFloor(int newFloor) {
 void BakeryState::ManageClients(){
     bool regulations = false;
     // doesn't spawn clients if there are more than 5 requests
-    // if (GameData::requests.size() < 5 && (GameData::recipes.size() != 1 || GameData::requests.size() != 1)) regulations = true;
-    if (GameData::requests.size() < 5) regulations = true;
-    if ((GameData::recipes.size() == 0 || (clientTimer.Get() > 8 && regulations)) && GameData::hasNPC == false) {
-        clientTimer.Restart();
+    if (GameData::requests.size() < 5 && (GameData::recipes.size() != 1 || GameData::requests.size() != 1)) regulations = true;
+    if ((GameData::recipes.size() == 0 || (clientTimer->Get() > 8 && regulations)) && GameData::hasNPC == false) {
+        clientTimer->Restart();
 
         GameObject* client = new GameObject();
 

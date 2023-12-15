@@ -30,6 +30,7 @@ class PuzzleState: public State {
         void LoadSelector();    
     private:
         FoodPuzzle* puzzle;
+        int puzzleNumber;
         void LoadMap();
         void CreatePiece();
         void UpdateSelector(Direction direction);

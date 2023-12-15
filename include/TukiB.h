@@ -19,6 +19,9 @@ class TukiB: public Player {
         
         void SetFloor(int floor);
         int GetFloor();
+
+        void ChangeCooking(bool cooking);
+        bool IsCooking();
         
         void SetPlayerState(PlayerState state);
         
@@ -29,7 +32,9 @@ class TukiB: public Player {
         void CalcSpeed(float dt);
         void CheckCollisions(Rect oldBox);
 
+
         int floor;
+        bool cooking;
 
         enum faceDirectionEnum {UP, DOWN, LEFT, RIGHT};
         faceDirectionEnum faceDirection;

@@ -1,9 +1,13 @@
 #include "states/RevenueState.h"
 #include "items.h"
 #include "states/PuzzleState.h"
+#include "TukiB.h"
+
+int min = 10;
 
 RevenueState::RevenueState(): State(), selector(nullptr){
 
+    min = 10;
     GameObject* titleObj = new GameObject();
     titleObj->box.x = 350;
     titleObj->box.y = 10;
@@ -14,6 +18,7 @@ RevenueState::RevenueState(): State(), selector(nullptr){
 
 RevenueState::~RevenueState(){
     objectArray.clear();
+    ((TukiB*)Player::player)->ChangeCooking(false);
 }
 
 void RevenueState::Update(float dt){
@@ -21,9 +26,11 @@ void RevenueState::Update(float dt){
 
     if(iM.QuitRequested()) quitRequested = true;
 
-    else if (iM.KeyPress(ENTER_KEY)){
+    if (iM.KeyPress(ESCAPE_KEY)) popRequested = true;
+
+    else if (iM.KeyPress(Z_KEY)){
         popRequested = true;
-        Game::GetInstance().Push(new PuzzleState(selector->GetSelected()));
+        Game::GetInstance().Push(new PuzzleState((selector->GetSelected())+min));
     }
     if (selector){
         selector->Update(dt);
@@ -59,22 +66,23 @@ void RevenueState::Resume(){
 }
 
 void RevenueState::LoadRevenues() {
-
-    std::stack<Vec2> positions;
+    std::vector<Vec2> positions = {Vec2(463, 153), Vec2(465, 267), Vec2(455, 355), Vec2(448,470), Vec2(450, 573)};
     std::vector<std::shared_ptr<Button>> buttons;
 
-    positions.push(Vec2(450, 573));
-    positions.push(Vec2(448, 470));
-    positions.push(Vec2(455, 355));
-    positions.push(Vec2(465, 267));
-    positions.push(Vec2(463, 153));
-
-    for(std::pair<bool, RevenuesItemType> item : GameData::revenuesCompleted ){
-        //if(item.first){
-        Button* butter = new Button(positions.top(), "resources/img/revenues/"+RevenuesItemTypeToString[item.second]+".png", RevenuesItemTypeToString[item.second]  ,false);
-        buttons.push_back((std::shared_ptr<Button>) butter);
-        positions.pop();
-        //}
+    for(int i = 0; i < (int)GameData::requests.size(); i++){
+        int x;
+        for(x = 0; x < (int)GameData::recipes.size(); x++){
+            if(GameData::recipes[x] == GameData::requests[i]) break;
+        }
+        
+        if (x < min) min = x;
+        
+        if (positions[x] != Vec2(0, 0)){
+            Button* butter = new Button(positions[x], "resources/img/revenues/"+GameData::requests[i]+".png", GameData::requests[i]  ,false);
+            buttons.push_back((std::shared_ptr<Button>) butter);
+            GameData::chosenRequest = GameData::requests[i];
+            positions[x] = Vec2(0, 0);
+        }
     }
     if(buttons.size()){
         selector = std::make_unique<Selector>(buttons);

@@ -14,6 +14,14 @@ FoodPuzzle::FoodPuzzle(std::string mapFilePath) : completed(false) {
 }
 
 bool FoodPuzzle::IsCompleted() {
+    completed = true;
+
+    for(int i = 2; i < (int)answerMap.size(); i++){
+        for(int j = 0; j < (int)answerMap[i].size(); j++){
+            if (actualMap[i-2][j] != answerMap[i][j]) completed = false;
+        }
+    }
+
     return completed;
 }
 

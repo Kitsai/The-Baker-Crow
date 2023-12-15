@@ -28,13 +28,17 @@ void NPC::Update(float dt) {
         Vec2 pos = Player::player->GetPlayerPos();
         bool cond = (pos.x > -250 && pos.x < -210 && pos.y > 14 && pos.y < 80);
         if (iM.KeyPress(Z_KEY) && cond) {
-            Request();
+            if (!GameData::requestDone)
+                Request();
+            else if (GameData::requestDone)
+                GameData::requestDone = false;
             WalkOut();
         }
     }
     if (associated.box.GetCenter() == Vec2(615, 700)) {
         GameData::hasNPC = false;
         associated.RequestDelete();
+        BakeryState::clientTimer->Restart();
     }
 }
 
@@ -131,20 +135,20 @@ void NPC::Request() {
                 GameData::recipes.emplace_back("brigadeiro");
                 break;
             case 1:
-                GameData::requests.emplace_back("pudding");
-                GameData::recipes.emplace_back("pudding");
-                break;
-            case 2:
                 GameData::requests.emplace_back("cake");
                 GameData::recipes.emplace_back("cake");
+                break;
+            case 2:
+                GameData::requests.emplace_back("cheesebread");
+                GameData::recipes.emplace_back("cheesebread");
                 break;
             case 3:
                 GameData::requests.emplace_back("macarons");
                 GameData::recipes.emplace_back("macarons");
                 break;
             case 4:
-                GameData::requests.emplace_back("cheesebread");
-                GameData::recipes.emplace_back("cheesebread");
+                GameData::requests.emplace_back("pudding");
+                GameData::recipes.emplace_back("pudding");
                 break;
         }
     } else if (size > 0) GameData::requests.emplace_back(GameData::recipes[oldItems]);

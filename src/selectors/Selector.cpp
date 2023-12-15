@@ -39,7 +39,6 @@ void Selector::Update(float dt) {
 
         soundPass->Play();
     }
-    std::cout <<selectedButton->name <<std::endl;
     
 }
 
@@ -50,6 +49,7 @@ void Selector::Unchose(){
 int Selector::GetSelected(){
     return selected+1;
 }
+
 int Selector::GetNumberOfButtons(){
     return buttons.size();
 }

@@ -19,6 +19,7 @@ class CutsceneState : public State {
         int stage;
 
         void NextStage();
+        void NewDialogue(int type, std::string dad, std::string tuki, std::string text1, std::string text2, std::string text3, std::string text4, std::string text5);
 };
 
 #endif

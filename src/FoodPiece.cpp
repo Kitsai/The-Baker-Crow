@@ -55,7 +55,7 @@ void FoodPiece::Update(float dt) {
         }
     }
 
-    if (iM.KeyPress(ENTER_KEY)) {
+    if (iM.KeyPress(Z_KEY)) {
         associated.RequestDelete();
         Wait();
     } 
