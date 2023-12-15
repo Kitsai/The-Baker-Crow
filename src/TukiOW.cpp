@@ -178,9 +178,6 @@ void TukiOW::SetPlayerState(PlayerState state) {
         std::static_pointer_cast<Sound>(associated.GetComponent("Sound").lock())->Play();
         SetCollider(COLOR_GREEN);
         break;
-    case DODGING:
-        ChangeSprite("resources/img/try.png",1,1);
-        break;
     case DAMAGED:
         if(this->GetPlayerState() == DAMAGED) break;
         hp--;
