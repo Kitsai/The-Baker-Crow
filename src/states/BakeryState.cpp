@@ -31,6 +31,7 @@ BakeryState::BakeryState() : State() {
 
     tukiB->SetFloor(floor);
     tuki->AddComponent(tukiB);
+    tuki->AddComponent(new Sound(*tuki, "resources/Sound/Door.MP3"));
     tuki->box.SetCenter({810,260});
     AddObject(tuki);
     // Camera::Follow(tuki);
@@ -134,12 +135,14 @@ void BakeryState::Resume() {
 
     if(floor == 2) {
         auto tuki = std::static_pointer_cast<TukiB>(objectArray[2]->GetComponent("TukiB").lock());
+        auto sound = std::static_pointer_cast<Sound>(objectArray[2]->GetComponent("Sound").lock());
         Player::player = tuki.get();
         tuki->ChangeCooking(0);
         tuki->SetFloor(1);
         tuki->ResetSpeed();
         ChangeFloor(1);
         Camera::pos = 0;
+        sound->Play();
     }
 }
 
@@ -224,7 +227,11 @@ void BakeryState::ManageClients(){
 
         NPC* npc = new NPC(*client, file, 1);
         client->AddComponent(npc);
+        Sound* sound = new Sound(*client, "resources/Sound/Door.MP3");
+        client->AddComponent(sound);
         AddObject(client);
+
+        sound->Play();
 
         npc->WalkIn();
         GameData::clients.emplace_back(file);
