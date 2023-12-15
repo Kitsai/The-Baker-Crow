@@ -72,3 +72,7 @@ void Selector::SetSelector(int i){
         printf("valor errado");
     }
 }
+
+void Selector::ChangeButtonSprite(int i, std::string file){
+    buttons[i]->ChangeSprite(file);
+}

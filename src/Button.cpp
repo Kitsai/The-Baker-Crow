@@ -57,3 +57,7 @@ void Button::Choose(){
         text->SetColarandTextSize({255, 255, 0, 255}, (int)(size*1.25));
     }
 }
+
+void Button::ChangeSprite(std::string file){
+    buttonImage->Open(file);
+}

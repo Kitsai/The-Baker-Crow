@@ -17,6 +17,7 @@ class Button {
         void UnChoose();
         void LoadTextSize();
         void NoText();
+        void ChangeSprite(std::string file);
 
         bool blinkingText;
         std::string name;

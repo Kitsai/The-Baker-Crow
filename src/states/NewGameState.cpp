@@ -12,7 +12,6 @@ NewGameState::NewGameState(): State(), selector(nullptr){
     titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
-    //backGroundMusic =  std::make_unique<Music>("resources/music/MusicMenu.flac");
 }
 
 NewGameState::~NewGameState(){
@@ -20,6 +19,17 @@ NewGameState::~NewGameState(){
 }
 
 void NewGameState::Update(float dt){
+
+    int selected = selector->GetSelected();
+
+    if(selected == 1) {
+        selector->ChangeButtonSprite(0,"resources/img/LoadSave/Chossed.png");
+        selector->ChangeButtonSprite(1,"resources/img/LoadSave/notChossed.png");
+    }
+    else if(selected == 2) {
+        selector->ChangeButtonSprite(1,"resources/img/LoadSave/Chossed.png");
+        selector->ChangeButtonSprite(0,"resources/img/LoadSave/notChossed.png");
+    }
 
     if (InputManager::GetInstance().QuitRequested()){
         quitRequested = true;

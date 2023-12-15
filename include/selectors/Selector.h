@@ -18,6 +18,7 @@ public:
     void SetSelector(int i);
     int  GetNumberOfButtons();
     std::string GetNameSellectedButton();
+    void ChangeButtonSprite(int i, std::string file);
     
     protected:
         int nButtons;
