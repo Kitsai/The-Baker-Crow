@@ -5,6 +5,11 @@
 
 CutsceneState::CutsceneState() : State() {
     // always, dad is the first object, tuki is second and balloon is third, followed by the balloon text lines
+
+    GameObject* bg = new GameObject();
+    bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
+    AddObject(bg);
+
     stage = 0;
     if (GameData::intro){
         NewDialogue(0, "resources/img/cutscene/pai.png", "resources/img/cutscene/triste nao falando.png", "Tuki, minha querida, o destino das", "nossas receitas e doces esta", "em suas asas.", "A confeitaria e o coracao", "da nossa familia.");
@@ -20,7 +25,8 @@ CutsceneState::~CutsceneState() {
 
 void CutsceneState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
-    if (iM.KeyPress(ESCAPE_KEY) || iM.QuitRequested()) {
+    if(iM.QuitRequested()) quitRequested = true;
+    if (iM.KeyPress(ESCAPE_KEY)) {
         popRequested = true; 
     }
     if (iM.KeyPress(Z_KEY)) NextStage();
@@ -49,14 +55,14 @@ void CutsceneState::LoadAssets() {}
 
 void CutsceneState::NextStage() {
     stage++;
+    objectArray.clear();
     if (GameData::intro && stage == 5) GameData::intro = false;
     if (stage == 5) popRequested = true;
 
-    // tentando apagar objetos. nao deu ainda...
-    for (int i = 0; i < (int)objectArray.size(); i++){
-        RemoveObject(objectArray[i].get());
-    }
-
+    GameObject* bg = new GameObject();
+    bg->AddComponent(new Sprite(*bg, "resources/img/blackBG.jpg"));
+    AddObject(bg);
+    
     if (GameData::intro){
         if (stage == 1){
             NewDialogue(1, "resources/img/cutscene/pai- nao falando.png", "resources/img/cutscene/triste.png", "Pai, sempre estou disposta a aju-", "dar. O que posso fazer?", " ", " ", " ");
