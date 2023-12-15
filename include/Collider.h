@@ -3,6 +3,7 @@
 
 #include "GameObject.h"
 #include <string>
+#include <vector>
 #include "defines/DefineColor.h"
 
 /// @brief Component that adds a hitbox to the GameObject.
@@ -44,6 +45,10 @@ class Collider: public Component {
         /// @param offset Vector with the new Offset.
         void SetOffset(Vec2 offset);
         void SetColor(SDL_Color color);
+
+        Vec2 GetCenter();
+
+        std::vector<Vec2> GetPoints();
 };
 
 #endif

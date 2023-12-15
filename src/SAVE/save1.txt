@@ -1,0 +1,8 @@
+playerLife: 3
+playerAlive: 0
+intro: 1
+quitOWState: 0
+lastSafePosition: 0 0
+requests: 
+hasItem: 0 0 0 0 0 0 0 0 
+revenuesCompleted: 0 0 0 0 0 

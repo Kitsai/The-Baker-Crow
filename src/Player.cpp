@@ -3,6 +3,7 @@
 #include "Game.h"
 #include "Vec2.h"
 #include "enemies/Enemy.h"
+#include "Obstacle.h"
 
 Player* Player::player = nullptr;
 
@@ -96,11 +97,38 @@ int Player::GetPlayerHp() {
 
 void Player::NotifyCollision(GameObject& other) {
     if(other.GetComponent("Enemy").lock() && state != DAMAGED && state != DODGING) {
-
         auto enemy = std::static_pointer_cast<Enemy>(other.GetComponent("Enemy").lock());
         if(enemy->GetState() == Enemy::EnemyState::ATTACKING) {
             enemy->SetCollider(COLOR_GREEN,false);
             SetPlayerState(DAMAGED);
+        }
+    } else if(other.GetComponent("Obstacle").lock() && state != ATTACKING) {
+        auto obstacle = std::static_pointer_cast<Obstacle>(other.GetComponent("Obstacle").lock());
+        Rect box = obstacle->GetColliderBox();
+
+        switch (obstacle->GetFace(associated.box)) {
+            case Obstacle::Face::TOP:
+                if(associated.box.y + associated.box.h > box.y) {
+                    associated.box.y = box.y - associated.box.h;
+                }
+                break;
+            case Obstacle::Face::RIGHT:
+                if(associated.box.x < box.x + box.w) {
+                    associated.box.x = box.x + box.w;
+                }
+                break;
+            case Obstacle::Face::BOTTOM:
+                if(associated.box.y < box.y + box.h) {
+                    associated.box.y = box.y + box.h;
+                }
+                break;
+            case Obstacle::Face::LEFT:
+                if(associated.box.x + associated.box.w > box.x) {
+                    associated.box.x = box.x - associated.box.w;
+                }
+                break;
+            default:
+                break;
         }
     }
 }

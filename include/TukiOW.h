@@ -25,6 +25,7 @@ class TukiOW: public Player {
         void CalcSpeed(float dt);
 
         float attackCooldown;
+        void CheckBorders();
 
         enum faceDirectionEnum {UP, DOWN, LEFT, RIGHT};
         faceDirectionEnum faceDirection;

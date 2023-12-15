@@ -1,6 +1,8 @@
 #include "states/BakeryState.h"
 #include "states/CutsceneState.h"
 #include <cstdlib>
+#include "states/RevenueState.h"
+#include "GameObject.h"
 
 BakeryState::BakeryState() : State() {
     GameObject* tuki = new GameObject();
@@ -66,6 +68,9 @@ void BakeryState::Update(float dt) {
 
     if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY))
         LoadNewState(new ResumeState());
+    else if (iM.KeyPress(R_KEY))
+        LoadNewState(new RevenueState());
+    
     else if (iM.KeyPress(I_KEY))
         LoadNewState(new InventoryState());
 

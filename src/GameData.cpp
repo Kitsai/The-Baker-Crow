@@ -17,13 +17,22 @@ bool GameData::hasNPC = false;
 std::vector<std::pair<bool, FoodItemType>> GameData::hasItem = {
     
     {false, butter},
-    {true, chocolate},
-    {true, eggs},
-    {true, honey},
-    {true, milk},
-    {true, straw},
-    {true, sugar},
-    {true, wheat},
+    {false, chocolate},
+    {false, eggs},
+    {false, honey},
+    {false, milk},
+    {false, straw},
+    {false, sugar},
+    {false, wheat},
+};
+
+std::vector<std::pair<bool, RevenuesItemType>> GameData::revenuesCompleted = {
+    
+    {false, brigadeiro},
+    {false, cake},
+    {false, cheesebread},
+    {false, macarons},
+    {false, pudding},
 
 };
 

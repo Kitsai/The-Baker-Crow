@@ -32,7 +32,7 @@ FoodItemType DroppedItem::GetItemType() {
 }
 
 void DroppedItem::NotifyCollision(GameObject& other) {
-    if(active && other.GetComponent("Player").lock() && GameData::hasItem[itemType].first == false) {
+    if(active && other.GetComponent("Player").lock()) {
         GameData::hasItem[itemType].first = true;
         associated.RequestDelete();
     }

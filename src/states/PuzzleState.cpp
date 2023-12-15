@@ -1,7 +1,7 @@
 #include "Button.h"
 #include "Game.h"
 #include "GameData.h"
-#include "selectors/PuzzleSelector.h"
+#include "selectors/Selector.h"
 #include "FoodItem.h"
 #include "FoodPiece.h"
 #include "InputManager.h"
@@ -108,12 +108,15 @@ void PuzzleState::Update(float dt){
         }
     }
     if(selector && selectorOn){
-        if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY)  && selector->GetSelected() == 1 && currentButton > 4)
+        if (InputManager::GetInstance().KeyPress(UP_ARROW_KEY)  && selector->GetSelected() == 1 && currentButton > 4){
+            selector->Unchose();
             UpdateSelector(Direction::Up);
+        }
         
-        
-        else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selector->GetSelected() == 4 && currentButton < maxButton)
+        else if (InputManager::GetInstance().KeyPress(DOWN_ARROW_KEY) && selector->GetSelected() == 4 && currentButton < maxButton){
+            selector->Unchose();
             UpdateSelector(Direction::Down);
+        }
         
         else
             selector->Update(dt);
@@ -187,10 +190,15 @@ void PuzzleState::UpdateSelector(Direction direction) {
             count++;
         }
     }
-    selector = nullptr;
-    if (direction == Direction::Down){
+    if(buttons.size()>0){
+        if (direction == Direction::Down){
         selector = new Selector(buttons, limitNumber);
+        }
+        else
+            selector = new Selector(buttons);
+        }
+    else{
+        selector = nullptr;
     }
-    else
-        selector = new Selector(buttons);
+
 }

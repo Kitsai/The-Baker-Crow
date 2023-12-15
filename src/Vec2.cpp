@@ -119,3 +119,7 @@ Vec2 Vec2::GetRotated(float d) {
 float Vec2::calcInvRoot(float x) {
     return 1.0f / std::sqrt(x);
 }
+
+Vec2 Vec2::Abs() {
+    return Vec2(std::abs(x), std::abs(y));
+}

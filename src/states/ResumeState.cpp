@@ -1,3 +1,5 @@
+#include "SaveController.h"
+#include "TileSet.h"
 #include "states/ResumeState.h"
 
 ResumeState::ResumeState(): State(), selector(nullptr){
@@ -25,6 +27,8 @@ void ResumeState::Update(float dt){
     }
     
     else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
+        SaveController::WriteSave(2);
+        popRequested = true;
     }
     
     else if(iM.KeyPress(ENTER_KEY) && (selector->GetSelected() == 3)){
