@@ -166,3 +166,8 @@ void Enemy::CheckBorders() {
     if(moveTarget.y < 200) moveTarget.y = 200;
     else if(moveTarget.y > 2715) moveTarget.y = 2715;
 }
+
+void Enemy::PlaySound() {
+    std::shared_ptr<Sound> sound = std::static_pointer_cast<Sound>(associated.GetComponent("Sound").lock());
+    if (sound) sound->Play();   
+}

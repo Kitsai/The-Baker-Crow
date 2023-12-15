@@ -6,6 +6,7 @@ Crab::Crab(GameObject& assoc, int hp): Enemy(assoc,true,hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/carang_idle.png");
     sprite->SetScale(2,2);
     assoc.AddComponent(sprite);
+    assoc.AddComponent(new Sound(assoc, "resources/Sound/EnemyAttack.MP3"));
 }
 
 Crab::~Crab() {
@@ -39,6 +40,7 @@ void Crab::SetState(EnemyState state) {
         case ATTACKING:
             speed = 0;
             ChangeSprite("resources/img/enemies/carang_anim_attac(100).png",6,.15F);
+            PlaySound();
             SetCollider(COLOR_GREEN);
             break;
         case DAMAGED:

@@ -13,7 +13,7 @@
 #include "states/InventoryState.h"
 #include "states/OverworldState.h"
 
-OverworldState::OverworldState(): State(){
+OverworldState::OverworldState(): State(), openingDoor(false){
 
     GameObject* bg = new GameObject();
     bg->AddComponent(new Sprite(*bg,"resources/img/blackBG.jpg"));
@@ -22,6 +22,7 @@ OverworldState::OverworldState(): State(){
 
     GameObject* map = new GameObject();
     map->AddComponent(new Sprite(*map, "resources/img/mapa_1_4x.jpg"));
+    door_sound = map->AddComponent(new Sound(*map, "resources/Sound/Door.flac"));
     AddObject(map);
 
     GameObject* wall = new GameObject();
@@ -80,20 +81,31 @@ void OverworldState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
     
     if(GameData::quitOWState)
-        popRequested = true; 
+        popRequested = true;
     
     if(!GameData::playerAlive) {
         timer.Update(dt);
         if(timer.Get() > 1.0) {
             popRequested = true;
         }
+    } else if(openingDoor) {
+        auto ptr = std::static_pointer_cast<Sound>(door_sound.lock());
+        if(ptr && !ptr->IsPlaying()) popRequested = true; 
     }else{
         Vec2 playerPos = Player::player->GetPlayerBoxPos();
 
         if(iM.KeyPress(SPACE_KEY)
             && playerPos.y >= 2145 && playerPos.y <= 2228
             && playerPos.x >= 698 && playerPos.x <= 796
-        ) popRequested = true;
+        ) {
+            auto ptr = std::static_pointer_cast<Sound>(door_sound.lock());
+            if (ptr) {
+                ptr->Play();
+                openingDoor = true; 
+            } else {
+                popRequested = true;
+            }
+        }
 
         Camera::Update(dt);
 
