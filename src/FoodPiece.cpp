@@ -22,6 +22,16 @@ void FoodPiece::Update(float dt) {
 
     if (locked) return;
 
+    for (int i = 0; i < (int)pieces.size(); i++) {
+        auto lockedPiece = pieces[i].lock();
+
+        if (!lockedPiece) {
+            printf("exception 1");
+            pieces.erase(pieces.begin() + i);
+            continue;
+        }
+    }
+
     if (iM.KeyPress(LEFT_ARROW_KEY)) {
         for (int i = 0; i < (int)pieces.size(); i++)
             if (pieces[i].lock()->box.x < 450) return; // se uma das peças estiver no limite, nenhuma delas pode se mover

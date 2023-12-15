@@ -3,11 +3,11 @@
 #include "states/PuzzleState.h"
 #include "TukiB.h"
 
-int min = 10;
+std::vector<Vec2> positionsRevenue = {Vec2(463, 153), Vec2(465, 267), Vec2(455, 355), Vec2(448,470), Vec2(450, 573)};
 
 RevenueState::RevenueState(): State(), selector(nullptr){
 
-    min = 10;
+    positionsRevenue = {Vec2(463, 153), Vec2(465, 267), Vec2(455, 355), Vec2(448,470), Vec2(450, 573)};
     GameObject* titleObj = new GameObject();
     titleObj->box.x = 350;
     titleObj->box.y = 10;
@@ -30,9 +30,21 @@ void RevenueState::Update(float dt){
 
     else if (iM.KeyPress(Z_KEY)){
         if (selector){
+            int num = selector->GetSelected();
+            int count = 0;
+            for (int i = 0; i < (int)positionsRevenue.size(); i++){
+                if (positionsRevenue[i] == Vec2(0, 0)) {
+                    count++;
+                }
+                if (count == num) {
+                    num = i+1;
+                    break;
+                }
+            }
+
             popRequested = true;
             GameData::backGroundMusic->Stop(0);
-            Game::GetInstance().Push(new PuzzleState((selector->GetSelected())+min));
+            Game::GetInstance().Push(new PuzzleState((num)));
         }
     }
     if (selector){
@@ -69,7 +81,6 @@ void RevenueState::Resume(){
 }
 
 void RevenueState::LoadRevenues() {
-    std::vector<Vec2> positions = {Vec2(463, 153), Vec2(465, 267), Vec2(455, 355), Vec2(448,470), Vec2(450, 573)};
     std::vector<std::shared_ptr<Button>> buttons;
 
     for(int i = 0; i < (int)GameData::requests.size(); i++){
@@ -78,13 +89,11 @@ void RevenueState::LoadRevenues() {
             if(GameData::recipes[x] == GameData::requests[i]) break;
         }
         
-        if (x < min) min = x;
-        
-        if (positions[x] != Vec2(0, 0)){
-            Button* butter = new Button(positions[x], "resources/img/revenues/"+GameData::requests[i]+".png", GameData::requests[i]  ,false);
+        if (positionsRevenue[x] != Vec2(0, 0)){
+            Button* butter = new Button(positionsRevenue[x], "resources/img/revenues/"+GameData::requests[i]+".png", GameData::requests[i]  ,false);
             buttons.push_back((std::shared_ptr<Button>) butter);
             GameData::chosenRequest = GameData::requests[i];
-            positions[x] = Vec2(0, 0);
+            positionsRevenue[x] = Vec2(0, 0);
         }
     }
     if(buttons.size()){

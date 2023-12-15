@@ -99,28 +99,36 @@ void PuzzleState::Update(float dt){
         GameData::hasNPC = false; // guarantees there won't be an npc in place
         popRequested = true;
         ((TukiB*)Player::player)->ChangeCooking(false);
+        
         GameData::backGroundMusic->Stop(50);
+        return;
     }
 
     if(iM.QuitRequested()) quitRequested = true;
 
     UpdateArray(dt);
 
-    for(std::vector<int>::size_type i=0;i<objectArray.size();i++) {
+    for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++) {
+        if (!objectArray[i]) {
+            printf("exception 2");
+            continue;
+        }
         // deletes PuzzleSelector if ESCAPE_KEY has been pressed, creates PuzzleSelector
-        if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
+        if(iM.KeyPress(ESCAPE_KEY) && objectArray[i]->GetComponent("FoodPiece").lock().get()){
             FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
             if (foodPiece->IsLocked()) continue;
             
             objectArray[i]->RequestDelete();
             std::vector<std::weak_ptr<GameObject>> pieces = foodPiece->GetPieces();
-            for (int i = 0; i < (int)pieces.size(); i++){
-                pieces[i].lock()->RequestDelete();
+            for (int j = 0; j < static_cast<int>(pieces.size()); j++) {
+                auto lockedPiece = pieces[j].lock();
+                if(!lockedPiece) continue;
+                else lockedPiece->RequestDelete();
             }
             this->selectorOn = true;
         }
 
-        if(iM.KeyPress(Z_KEY) && selectorOn){
+        if(iM.KeyPress(Z_KEY) && selector && selectorOn){
             FoodItemType itemType;
             if ( selector->GetNameSellectedButton() == "straw")         itemType = FoodItemType::straw;
             else if (selector->GetNameSellectedButton() == "butter")    itemType = FoodItemType::butter;
@@ -146,20 +154,19 @@ void PuzzleState::Update(float dt){
                 this->selectorOn = false;
             }
         }
-
         if(objectArray[i]->IsDead()){
             // checks whether piece can be locked; if so, creates a PuzzleSelector
-            if(objectArray[i]->GetComponent("FoodPiece").lock().get() != nullptr){
+            if(objectArray[i]->GetComponent("FoodPiece").lock().get()){
                 FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
-                if (foodPiece->GetStatus()){ // only checks if piece is waiting to be evaluated
+                if (foodPiece && foodPiece->GetStatus()){ // only checks if piece is waiting to be evaluated
                     bool locked = puzzle->AddFoodPiece(*foodPiece, {objectArray[i]->box.x, objectArray[i]->box.y});
                     objectArray[i]->UnrequestDelete();
                     if (!locked) continue;
-                    
-                    foodPiece->Lock();
-                    this->selectorOn = true;
-                    lockedPieces.emplace_back(foodPiece->GetType());
-                    continue;
+                    if (foodPiece->Lock()){
+                        this->selectorOn = true;
+                        lockedPieces.emplace_back(foodPiece->GetType());
+                        continue;   
+                    }
                 }
             }
             objectArray.erase(objectArray.begin()+i);
