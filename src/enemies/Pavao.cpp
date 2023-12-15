@@ -7,6 +7,7 @@ Pavao::Pavao(GameObject& assoc, int hp): Enemy(assoc,true,hp) {
     Sprite* sprite = new Sprite(assoc, "resources/img/enemies/pavao_idle.png");
     sprite->SetScale(2,2);
     assoc.AddComponent(sprite);
+    assoc.AddComponent(new Sound(assoc, "resources/Sound/EnemyAttack2.MP3"));
 
     auto collider = std::static_pointer_cast<Collider>(associated.GetComponent("Collider").lock());
     if(collider) collider->SetScale({0.8,0.8});
@@ -43,6 +44,7 @@ void Pavao::SetState(EnemyState state) {
         case ATTACKING:
             speed = 0;
             ChangeSprite("resources/img/enemies/pavao_anim_attac(150).png",6,.15F);
+            PlaySound();
             SetCollider(COLOR_GREEN);
             break;
         case DAMAGED:
