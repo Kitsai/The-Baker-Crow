@@ -32,17 +32,57 @@ Rect Obstacle::GetColliderBox() {
 
 Obstacle::Face Obstacle::GetFace(Rect playerBox) {
     Rect colliderBox = GetColliderBox();
-    // Vec2 points[4] = {
-    //     Vec2(colliderBox.x, colliderBox.y),
-    //     Vec2(colliderBox.x + colliderBox.w, colliderBox.y),
-    //     Vec2(colliderBox.x + colliderBox.w, colliderBox.y + colliderBox.h),
-    //     Vec2(colliderBox.x, colliderBox.y + colliderBox.h)
-    // };
+    Vec2 points[4] = {
+        Vec2(playerBox.x, playerBox.y),
+        Vec2(playerBox.x + playerBox.w, playerBox.y),
+        Vec2(playerBox.x + playerBox.w, playerBox.y + playerBox.h),
+        Vec2(playerBox.x, playerBox.y + playerBox.h)
+    };
 
-    // bool inside[4] = {false, false, false, false};
+    Vec2 colliderPoints[4] = {
+        Vec2(colliderBox.x, colliderBox.y),
+        Vec2(colliderBox.x + colliderBox.w, colliderBox.y),
+        Vec2(colliderBox.x + colliderBox.w, colliderBox.y + colliderBox.h),
+        Vec2(colliderBox.x, colliderBox.y + colliderBox.h)
+    };
 
-    // for(int i=0;i<4;i++) inside[i] = colliderBox.isInside(points[i]);
+    bool inside[4] = {false, false, false, false};
+
+    for(int i=0;i<4;i++) inside[i] = colliderBox.isInside(points[i]);
+
+    // bool faces[4] = {false, false, false, false}; // top, right, bottom, left
+
+    for(int i=0;i<4;i++) 
+        if(inside[i] && inside[(i+1)%4]) 
+            return (Face)((i+2)%4); 
     
+    for(int i=0;i<4;i++) 
+        if(inside[i]) {
+            Vec2 aux;
+            if(i == 0) {
+                aux = (colliderPoints[2] - points[0]).Abs();
+                if(aux.x > aux.y) return BOTTOM;
+                else return RIGHT;
+            } 
+            if(i == 1) {
+                aux = (colliderPoints[3] - points[1]).Abs();
+                if(aux.x > aux.y) return BOTTOM;
+                else return LEFT;
+            } 
+            if(i == 2) {
+                aux = (colliderPoints[0] - points[2]).Abs();
+                if(aux.x > aux.y) return TOP;
+                else return LEFT;
+            }
+            if(i == 3) {
+                aux = (colliderPoints[1] - points[3]).Abs();
+                if(aux.x > aux.y) return TOP;
+                else return RIGHT;
+            }
+        }
+            
+
+
 
     Vec2 aux = (playerBox.GetCenter() - colliderBox.GetCenter()).normalized();
 

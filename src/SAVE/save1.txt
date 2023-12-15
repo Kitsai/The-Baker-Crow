@@ -1,6 +1,6 @@
 playerLife: 3
-playerAlive: 0
-intro: 1
+playerAlive: 1
+intro: 0
 quitOWState: 0
 lastSafePosition: 0 0
 requests: 

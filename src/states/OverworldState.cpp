@@ -134,7 +134,7 @@ void OverworldState::Start() {
     LoadAssets();
     StartArray();
     started = true;
-    GameData::backGroundMusic->Resume();
+    GameData::backGroundMusic->Play();
 }
 
 void OverworldState::Pause() {
