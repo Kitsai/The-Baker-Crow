@@ -3,7 +3,7 @@
 
 class SaveController {
     public:
-        static void LoadGame(int i);
+        static void ReadSave(int i);
         static void WriteSave(int i);
 };
 

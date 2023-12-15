@@ -1,3 +1,5 @@
+#include "SaveController.h"
+#include "states/BakeryState.h"
 #include "states/LoadGameState.h"
 
 LoadGameState::LoadGameState(): State(), selector(nullptr){
@@ -25,13 +27,17 @@ void LoadGameState::Update(float dt){
         GameData::backGroundMusic->Stop(0);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector.get()->GetSelected() == 1)){
-        PuzzleState* newState = new PuzzleState(1);
+        SaveController::ReadSave(1);
+        BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
     }
     else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 2)){
-        PuzzleState* newState = new PuzzleState(2);
+        
+        SaveController::ReadSave(2);
+        
+        BakeryState* newState = new BakeryState();
         Game::GetInstance().Push(newState);
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
