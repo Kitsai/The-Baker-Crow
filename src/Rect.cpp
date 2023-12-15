@@ -89,7 +89,7 @@ float Rect::distRect(Rect& r) {
 }
 
 bool Rect::isInside(const Vec2& v) {
-    if((v.x >= 0 && v.x <= w) && (v.y >= 0 && v.y <= h)) 
+    if((v.x >= x && v.x <= x+w) && (v.y >= y && v.y <= y+h)) 
         return true;
     else
         return false;

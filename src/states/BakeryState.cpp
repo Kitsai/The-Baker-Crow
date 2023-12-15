@@ -42,7 +42,7 @@ BakeryState::BakeryState() : State() {
 
 BakeryState::~BakeryState() {
     objectArray.clear();
-    backGroundMusic->Stop(0);
+    GameData::backGroundMusic->Stop(0);
 }
 
 void BakeryState::LoadAssets() {
@@ -123,14 +123,14 @@ void BakeryState::Start() {
 }
 
 void BakeryState::Pause() {
-    backGroundMusic->Pause();
+    GameData::backGroundMusic->Pause();
 }
 
 void BakeryState::Resume() {
     auto ptr = shadowObj.lock();
     if(ptr) RemoveObject(ptr.get());
 
-    backGroundMusic->Resume();
+    GameData::backGroundMusic->Resume();
 
     if(floor == 2) {
         auto tuki = std::static_pointer_cast<TukiB>(objectArray[2]->GetComponent("TukiB").lock());
@@ -148,7 +148,6 @@ void BakeryState::ChangeFloor(int newFloor) {
         if (floor == 2) {
             OverworldState* overworld = new OverworldState();
             Game::GetInstance().Push(overworld);
-            backGroundMusic->Stop(0);
         } else { 
         // gets rid of npcs from floor
         for (int i = 0; i < (int)objectArray.size(); i++)
