@@ -36,11 +36,14 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(),selectorOn(true), currentBu
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap();
+    GameData::backGroundMusic->Resume();
+    GameData::backGroundMusic->Stop(0);
     GameData::backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
 }
 
 PuzzleState::~PuzzleState(){
     objectArray.clear();
+    GameData::backGroundMusic->Stop(0);
     GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 
