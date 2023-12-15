@@ -52,6 +52,15 @@ void PuzzleState::Render(){
 void PuzzleState::Update(float dt){
     InputManager& iM = InputManager::GetInstance();
 
+    if (GameData::requestDone){
+        if (iM.KeyPress(Z_KEY)) {
+            if (puzzleNumber == 5) GameData::completed = true;
+            popRequested = true;
+            //backGroundMusic->Stop(50);
+        }
+        return;
+    }
+
     if (puzzle->IsCompleted() && !GameData::requestDone){
         //backGroundMusic->Stop(50);
         GameObject* go = new GameObject();
@@ -87,17 +96,9 @@ void PuzzleState::Update(float dt){
         sprite->SetScale(4,4);
         food->AddComponent(sprite);
         food->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
-        food->box.y += 50;
+        if (puzzleNumber < 3) food->box.y += 50;
+        else food->box.y += 25;
         AddObject(food);
-    }
-
-    if (GameData::requestDone){
-        if (iM.KeyPress(Z_KEY)) {
-            if (puzzleNumber == 5) GameData::completed = true;
-            popRequested = true;
-            //backGroundMusic->Stop(50);
-        }
-        return;
     }
 
     int max = 0;
