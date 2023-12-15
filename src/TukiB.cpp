@@ -62,13 +62,21 @@ void TukiB::CalcSpeed(float dt) {
 
     if(iM.IsKeyDown(LEFT_ARROW_KEY)) {
         speed.x -= TOW_A*dt;
+        if(GetPlayerState() == WALKING && faceDirection != LEFT) {
+            ChangeSprite("resources/img/tuki_lado_anim(150).png",6,.15F);
+            faceDirection = LEFT;
+        }
     } 
     if(iM.IsKeyDown(RIGHT_ARROW_KEY)) { 
         speed.x += TOW_A*dt;  
+        if(GetPlayerState() == WALKING && faceDirection != RIGHT) {
+            ChangeSprite("resources/img/tuki_lado_anim(150).png",6,.15F,SDL_FLIP_HORIZONTAL);
+            faceDirection = RIGHT;
+        }
     }
     if(iM.IsKeyDown(UP_ARROW_KEY)) {
         speed.y -= TOW_A*dt;
-        if(GetPlayerState() == WALKING && faceDirection == DOWN) {
+        if(GetPlayerState() == WALKING && faceDirection != UP) {
             faceDirection = UP;
             ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
         }
@@ -80,7 +88,7 @@ void TukiB::CalcSpeed(float dt) {
     }
     if(iM.IsKeyDown(DOWN_ARROW_KEY)) {
         speed.y += TOW_A*dt;
-        if(GetPlayerState() == WALKING && faceDirection == UP) {
+        if(GetPlayerState() == WALKING && faceDirection != DOWN) {
             faceDirection = DOWN;
             ChangeSprite("resources/img/Tuki_anim2.png",8,.2F);
         }
@@ -118,12 +126,20 @@ void TukiB::SetPlayerState(PlayerState state) {
             ChangeSprite("resources/img/Tuki_idle_front.png",1,1);
         else if(faceDirection == UP)
             ChangeSprite("resources/img/Tuki_idle_costas.png",1,1);
+        else if(faceDirection == LEFT)
+            ChangeSprite("resources/img/tuki_lado_idle.png",1,1);
+        else if(faceDirection == RIGHT)
+            ChangeSprite("resources/img/tuki_lado_idle.png",1,1,SDL_FLIP_HORIZONTAL);
         break;
     case WALKING:
         if(faceDirection == DOWN)
             ChangeSprite("resources/img/Tuki_anim2.png",8,.2F);
         else if(faceDirection == UP)
             ChangeSprite("resources/img/Tuki_anim_costas.png",8,.2F);
+        else if(faceDirection == LEFT)
+            ChangeSprite("resources/img/tuki_lado_anim(150).png",6,.15F);
+        else if(faceDirection == RIGHT)
+            ChangeSprite("resources/img/tuki_lado_anim(150).png",6,.15F,SDL_FLIP_HORIZONTAL);
         break;
     default:
         break;

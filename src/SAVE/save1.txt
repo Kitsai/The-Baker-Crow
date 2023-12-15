@@ -1,15 +1,15 @@
 playerLife: 3
-playerAlive: 1
-SaveIsInUse: 1
-intro: 0
+playerAlive: 0
+SaveIsInUse: 0
+intro: 1
 quitOWState: 0
 completed: 0
 lastSafePosition: 0 0
-requests: brigadeiro 
-recipes: brigadeiro cake 
-clients: resources/img/npc/Lili.png 
-hasNPC: 1
-requestDone: 1
-chosenRequest: brigadeiro
-hasItem: 1 1 1 1 1 1 1 1 
+requests: 
+recipes: 
+clients: 
+hasNPC: 0
+requestDone: 0
+chosenRequest: 
+hasItem: 0 0 0 0 0 0 0 0 
 revenuesCompleted: 0 0 0 0 0 
