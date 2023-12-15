@@ -185,6 +185,7 @@ void TukiB::CheckCollisions(Rect oldBox) {
                 else associated.box = oldBox;
                 if (oldBox.y < 135 && oldBox.x > 300 && associated.box.y < 60) associated.box.y = 60;
             } 
+            if (associated.box.y < -20) associated.box.y = -20;
         } else {
             // table //
             // down piece
