@@ -4,7 +4,7 @@ LoadGameState::LoadGameState(): State(), selector(nullptr){
 
     GameObject* titleObj = new GameObject();
 
-    Sprite* titleImage = new Sprite(*titleObj, "resources/img/blackBG.jpg");
+    Sprite* titleImage = new Sprite(*titleObj, "resources/img/LoadSave/backGroundLS.png");
     titleObj->AddComponent(titleImage);
 
     objectArray.emplace_back(titleObj);
@@ -36,12 +36,6 @@ void LoadGameState::Update(float dt){
         popRequested = true;
         GameData::backGroundMusic->Stop(0);
     }
-    else if(InputManager::GetInstance().KeyPress(ENTER_KEY) && (selector->GetSelected() == 3)){
-        PuzzleState* newState = new PuzzleState(3);
-        Game::GetInstance().Push(newState);
-        popRequested = true;
-        GameData::backGroundMusic->Stop(0);
-    }
     UpdateArray(dt);
     selector->Update(dt);   
 }
@@ -52,13 +46,12 @@ void LoadGameState::LoadAssets(){
 
 void LoadGameState::LoadButtons(){
     std::vector<std::shared_ptr<Button>> buttons;
-    Button* buttonGame1 = new Button(Vec2(0, 300),"resources/img/MenuButton.png", "LOAD GAME 1", 36);
-    Button* buttonGame2 = new Button(Vec2(400, 300),"resources/img/MenuButton.png", "LOAD GAME 2", 36);
-    Button* buttonGame3 = new Button(Vec2(800, 300),"resources/img/MenuButton.png", "LOAD GAME 3", 36);
+    Button* buttonGame1 = new Button(Vec2(0, 0),"resources/img/LoadSave/Chossed.png", "NEW GAME 1", false);
+    Button* buttonGame2 = new Button(Vec2(0, 20),"resources/img/LoadSave/notChossed.png", "NEW GAME 2", false);
+
 
     buttons.push_back((std::shared_ptr<Button>) buttonGame1);
     buttons.push_back((std::shared_ptr<Button>) buttonGame2);
-    buttons.push_back((std::shared_ptr<Button>) buttonGame3);
     
     selector = std::make_unique<Selector>(buttons);
 
