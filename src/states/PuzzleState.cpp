@@ -36,15 +36,11 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(),selectorOn(true), currentBu
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap();
-    GameData::backGroundMusic->Resume();
-    GameData::backGroundMusic->Stop(0);
-    GameData::backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
+    backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
 }
 
 PuzzleState::~PuzzleState(){
     objectArray.clear();
-    GameData::backGroundMusic->Stop(0);
-    GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
 }
 
 void PuzzleState::LoadAssets(){}
@@ -63,6 +59,23 @@ void PuzzleState::Update(float dt){
         go->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
         AddObject(go);
         GameData::requestDone = true;
+
+        for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++) {
+            if (objectArray[i]->GetComponent("FoodPiece").lock().get()){
+                FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
+                if (foodPiece->IsLocked()){
+                    FoodItemType type = foodPiece->GetType();
+                    if (type == FoodItemType::eggs) GameData::hasItem[2].first = false;
+                    else if (type == FoodItemType::straw) GameData::hasItem[5].first = false;
+                    else if (type == FoodItemType::chocolate) GameData::hasItem[1].first = false;
+                    else if (type == FoodItemType::wheat) GameData::hasItem[7].first = false;
+                    else if (type == FoodItemType::butter) GameData::hasItem[0].first = false;
+                    else if (type == FoodItemType::honey) GameData::hasItem[3].first = false;
+                    else if (type == FoodItemType::sugar) GameData::hasItem[6].first = false;
+                    else if (type == FoodItemType::milk) GameData::hasItem[4].first = false;
+                }
+            }
+        }
 
         GameObject* food = new GameObject();
         Sprite* sprite = nullptr;
@@ -99,8 +112,8 @@ void PuzzleState::Update(float dt){
         GameData::hasNPC = false; // guarantees there won't be an npc in place
         popRequested = true;
         ((TukiB*)Player::player)->ChangeCooking(false);
+        backGroundMusic->Stop(50);
         
-        GameData::backGroundMusic->Stop(50);
         return;
     }
 
@@ -191,7 +204,7 @@ void PuzzleState::Start(){
     StartArray();
     LoadSelector();
     started = true;
-    GameData::backGroundMusic->Play();
+    backGroundMusic->Play();
 }
 
 void PuzzleState::Pause(){}
@@ -199,7 +212,7 @@ void PuzzleState::Pause(){}
 void PuzzleState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    GameData::backGroundMusic->Play();
+    backGroundMusic->Play();
 }
 
 void PuzzleState::LoadMap(){
