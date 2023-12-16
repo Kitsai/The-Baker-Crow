@@ -64,6 +64,8 @@ void BakeryState::Update(float dt) {
     else if (iM.KeyPress(I_KEY))
         LoadNewState(new InventoryState());
 
+    if(iM.KeyPress(L_KEY)) for(int i=0;i<8;i++) GameData::hasItem[i].first = true;
+
     bool isCooking = ((TukiB*)Player::player)->IsCooking();
 
     if (isCooking) {
