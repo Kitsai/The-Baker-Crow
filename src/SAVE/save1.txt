@@ -1,15 +1,15 @@
 playerLife: 3
-playerAlive: 0
-SaveIsInUse: 0
-intro: 1
+playerAlive: 1
+SaveIsInUse: 1
+intro: 0
 quitOWState: 0
 completed: 0
 lastSafePosition: 0 0
-requests: 
-recipes: 
-clients: 
+requests: cheesebread brigadeiro 
+recipes: brigadeiro cake cheesebread 
+clients: resources/img/npc/Osha.png 
 hasNPC: 0
 requestDone: 0
 chosenRequest: 
-hasItem: 0 0 0 0 0 0 0 0 
+hasItem: 1 1 1 1 1 1 1 1 
 revenuesCompleted: 0 0 0 0 0 

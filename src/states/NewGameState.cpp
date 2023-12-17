@@ -18,6 +18,7 @@ NewGameState::NewGameState(): State(), selector(nullptr){
 
 NewGameState::~NewGameState(){
     objectArray.clear();
+    GameData::backGroundMusic =nullptr;
 }
 
 void NewGameState::Update(float dt){
@@ -78,7 +79,6 @@ void NewGameState::Start(){
     LoadButtons();
     StartArray();
     started = true;
-    //backGroundMusic->Play();
 }
 
 void NewGameState::Pause(){

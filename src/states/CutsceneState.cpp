@@ -26,7 +26,6 @@ CutsceneState::~CutsceneState() {
 void CutsceneState::Update(float dt) {
     InputManager& iM = InputManager::GetInstance();
     if (iM.KeyPress(Z_KEY)) NextStage();
-    if (iM.KeyPress(ESCAPE_KEY) || iM.KeyPress(P_KEY)) popRequested = true;
 }
 
 void CutsceneState::Render() {

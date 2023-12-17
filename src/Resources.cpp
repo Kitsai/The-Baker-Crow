@@ -12,7 +12,6 @@ std::shared_ptr<SDL_Texture> Resources::GetImage(std::string file) {
     SDL_Texture* image = IMG_LoadTexture(Game::GetInstance().GetRenderer() , file.data());
     if(image == nullptr) {
         std::cerr << "Error Resources:9 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 
     imageTable[file] = std::shared_ptr<SDL_Texture>(image,[](SDL_Texture* p) {SDL_DestroyTexture(p);});
@@ -27,7 +26,6 @@ std::shared_ptr<Mix_Music> Resources::GetMusic(std::string file) {
     Mix_Music* music = Mix_LoadMUS(file.data());
     if(music == nullptr) {
         std::cerr << "Error Resources:29 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 
     musicTable[file] = std::shared_ptr<Mix_Music>(music,[](Mix_Music* p) {Mix_FreeMusic(p);});
@@ -41,7 +39,6 @@ std::shared_ptr<Mix_Chunk> Resources::GetSound(std::string file) {
     Mix_Chunk* sound = Mix_LoadWAV(file.data());
     if(sound == nullptr) {
         std::cerr << "Error Resources:49 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 
     soundTable[file] = std::shared_ptr<Mix_Chunk>(sound,[](Mix_Chunk* p) {Mix_FreeChunk(p);});
@@ -57,7 +54,6 @@ std::shared_ptr<TTF_Font> Resources::GetFont(std::string file, int size) {
     TTF_Font* font = TTF_OpenFont(file.data(),size);
     if(font == nullptr) {
         std::cerr << "Error - " << SDL_GetError() << '\n';
-        exit(-1);
     }
 
     fontTable[key] = std::shared_ptr<TTF_Font>(font,[](TTF_Font* p) {TTF_CloseFont(p);});

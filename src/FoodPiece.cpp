@@ -26,7 +26,6 @@ void FoodPiece::Update(float dt) {
         auto lockedPiece = pieces[i].lock();
 
         if (!lockedPiece) {
-            printf("exception 1");
             pieces.erase(pieces.begin() + i);
             continue;
         }

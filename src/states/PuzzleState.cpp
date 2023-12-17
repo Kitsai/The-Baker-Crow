@@ -36,11 +36,12 @@ PuzzleState::PuzzleState(int puzzleNumber) : State(),selectorOn(true), currentBu
     
     puzzle = new FoodPuzzle("resources/map/puzzleMap"+std::to_string(puzzleNumber)+".txt");
     LoadMap();
-    backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/MusicPuzzle.flac");
 }
 
 PuzzleState::~PuzzleState(){
     objectArray.clear();
+    GameData::backGroundMusic = nullptr;
 }
 
 void PuzzleState::LoadAssets(){}
@@ -56,13 +57,11 @@ void PuzzleState::Update(float dt){
         if (iM.KeyPress(Z_KEY)) {
             if (puzzleNumber == 5) GameData::completed = true;
             popRequested = true;
-            //backGroundMusic->Stop(50);
         }
         return;
     }
 
     if (puzzle->IsCompleted() && !GameData::requestDone){
-        //backGroundMusic->Stop(50);
         GameObject* go = new GameObject();
         go->AddComponent(new Sprite(*go,"resources/img/puzzle/success.png"));
         go->box.SetCenter({Game::GetInstance().GetWindowWidth() * 0.5F,Game::GetInstance().GetWindowHeight() * 0.5F});
@@ -70,6 +69,7 @@ void PuzzleState::Update(float dt){
         GameData::requestDone = true;
 
         for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++) {
+            if(!objectArray[i]) continue;
             if (objectArray[i]->GetComponent("FoodPiece").lock().get()){
                 FoodPiece* foodPiece = (FoodPiece*)(objectArray[i]->GetComponent("FoodPiece").lock().get());
                 if (foodPiece->IsLocked()){
@@ -112,9 +112,8 @@ void PuzzleState::Update(float dt){
         GameData::chosenRequest = "";
         GameData::hasNPC = false; // guarantees there won't be an npc in place
         popRequested = true;
+        GameData::backGroundMusic = nullptr;
         ((TukiB*)Player::player)->ChangeCooking(false);
-        backGroundMusic->Stop(50);
-        
         return;
     }
 
@@ -124,7 +123,6 @@ void PuzzleState::Update(float dt){
 
     for (std::vector<int>::size_type i = 0; i < objectArray.size(); i++) {
         if (!objectArray[i]) {
-            printf("exception 2");
             continue;
         }
         // deletes PuzzleSelector if ESCAPE_KEY has been pressed, creates PuzzleSelector
@@ -205,7 +203,7 @@ void PuzzleState::Start(){
     StartArray();
     LoadSelector();
     started = true;
-    backGroundMusic->Play();
+    GameData::backGroundMusic->Play();
 }
 
 void PuzzleState::Pause(){}
@@ -213,7 +211,6 @@ void PuzzleState::Pause(){}
 void PuzzleState::Resume(){
     Camera::pos.x = 0;
     Camera::pos.y = 0;
-    backGroundMusic->Play();
 }
 
 void PuzzleState::LoadMap(){

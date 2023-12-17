@@ -48,11 +48,9 @@ void Sprite::Open(std::string file) {
 
     if(!IsOpen()) {
         std::cout << "Error Sprite:24 -  " << SDL_GetError() << std::endl;
-        exit(-1);
     }
     if(SDL_QueryTexture(texture.get(), nullptr, nullptr, &width, &height) != 0) {
         std::cout << "Error Sprite:29 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
     SetClip(0,0,width/frameCount,height);
     associated.box.w = (((double)width)/frameCount) * scale.x;
@@ -87,12 +85,10 @@ void Sprite::Render(int x, int y, int w, int h) {
 
         if (SDL_RenderCopyEx(Game::GetInstance().GetRenderer(), texture.get(), &clipRect, &dstrect, associated.angleDeg * (180 / M_PI), nullptr, flip) != 0) {
             std::cout << "Error Sprite:54 - " << SDL_GetError() << std::endl;
-            exit(-1);
         }
         SDL_SetTextureAlphaMod(texture.get(), 255);
     } else {
         std::cout << "Error Sprite:57 -  " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 }
 

@@ -1,15 +1,15 @@
 playerLife: 3
-playerAlive: 0
-SaveIsInUse: 0
-intro: 1
+playerAlive: 1
+SaveIsInUse: 1
+intro: 0
 quitOWState: 0
 completed: 0
 lastSafePosition: 0 0
 requests: 
-recipes: 
+recipes: brigadeiro 
 clients: 
-hasNPC: 0
-requestDone: 0
+hasNPC: 1
+requestDone: 1
 chosenRequest: 
-hasItem: 0 0 0 0 0 0 0 0 
-revenuesCompleted: 0 0 0 0 0 
+hasItem: 1 1 1 1 1 1 1 1 
+revenuesCompleted: 1 1 1 1 0 

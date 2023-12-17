@@ -12,47 +12,42 @@ Game* Game::instance = nullptr;
 Game::Game(const char* title, int width, int height) {
     if(Game::instance != nullptr) { 
         std::cerr << "A Game instance is already running" << std::endl;      
-        exit(-1);    
+ 
     }
     Game::instance = this;
     
     if(SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_JOYSTICK) != 0) {
         std::cerr << "Error Game:22 -  " << SDL_GetError() << std::endl;
-        exit(-1);
+
     }
 
     int imageBitmask = IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG);
     if(imageBitmask == 0) {
         std::cerr << "Error Game:29 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
     
     int mixerBitmask = Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG );
     if(mixerBitmask == 0) {
         std::cerr << "Error Game:36 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
     if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) != 0) {
         std::cerr << "Error Game:40 - " << SDL_GetError() << std::endl;
-        exit(-1);
+
     }
     Mix_AllocateChannels(32);
 
     if(TTF_Init() != 0) {
         std::cerr << "Error - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 
     window = SDL_CreateWindow(title,SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,width,height,0);
     if(window == nullptr) {
         std::cerr << "Error Game:46 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 
     renderer = SDL_CreateRenderer(window,-1,SDL_RENDERER_ACCELERATED);
     if(renderer == nullptr) {
         std::cerr << "Error Game:52 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
     
     storedState = nullptr;

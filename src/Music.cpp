@@ -21,12 +21,10 @@ void Music::Play(int times) {
             Mix_ResumeMusic();
         } else if(Mix_PlayMusic(music.get(),times) == -1) {
             std::cout << "Error Music:16 - " << SDL_GetError() << std::endl;
-            exit(-1);
         }
     }
     else {   
         std::cout << "Error Music:21 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 }
 
@@ -46,7 +44,6 @@ void Music::Open(std::string file) {
     music = Resources::GetMusic(file);
     if(!IsOpen()) {
         std::cout << "Error Music:33 -  " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 }
 

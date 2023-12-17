@@ -2,6 +2,7 @@
 #include "SDL2/SDL_mixer.h"
 #include "Resources.h"
 
+#include <exception>
 #include <iostream>
 #include <algorithm>
 
@@ -14,9 +15,6 @@ Sound::Sound(GameObject& assoc, std::string file): Sound(assoc) {
 }
 
 Sound::~Sound() {
-    if(chunk != nullptr) {
-        Stop();
-    }
 }
 
 void Sound::Play(int times) {
@@ -26,11 +24,20 @@ void Sound::Play(int times) {
 }
 
 void Sound::Stop() {
-    Mix_HaltChannel(channel);
+    try {
+        Mix_HaltChannel(-1);
+    } catch(const std::exception& e) {
+        std::cout << "ERROR SOUND STOP: " << e.what() << std::endl;
+    }
 }
 
 bool Sound::IsPlaying() {
-    return Mix_Playing(channel)>0;
+    try {
+        return Mix_Playing(channel) > 0;
+    } catch (const std::exception& e) {
+        std::cerr << "Exceção: " << e.what() << std::endl;
+        return false;
+    }
 }
 
 /// @brief Opens the given Sound with the Resource Manager.
@@ -39,7 +46,6 @@ void Sound::Open(std::string file) {
     chunk = Resources::GetSound(file);
     if(chunk == nullptr) {
         std::cout << "Error Sound:24 - " << SDL_GetError() << std::endl;
-        exit(-1);
     }
 }
 

@@ -1,4 +1,5 @@
 #include "states/RevenueState.h"
+#include "GameData.h"
 #include "items.h"
 #include "states/PuzzleState.h"
 #include "TukiB.h"
@@ -43,7 +44,6 @@ void RevenueState::Update(float dt){
             }
 
             popRequested = true;
-            GameData::backGroundMusic->Stop(0);
             Game::GetInstance().Push(new PuzzleState((num)));
         }
     }
