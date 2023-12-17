@@ -6,10 +6,10 @@ quitOWState: 0
 completed: 0
 lastSafePosition: 0 0
 requests: 
-recipes: brigadeiro 
+recipes: brigadeiro cake cheesebread macarons pudding 
 clients: 
 hasNPC: 1
-requestDone: 1
+requestDone: 0
 chosenRequest: 
-hasItem: 1 1 1 1 1 1 1 1 
-revenuesCompleted: 1 1 1 1 0 
+hasItem: 1 0 1 1 0 0 0 1 
+revenuesCompleted: 0 0 0 0 0 

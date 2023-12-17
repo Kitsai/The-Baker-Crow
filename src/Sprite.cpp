@@ -163,7 +163,7 @@ Vec2 Sprite::GetScale() {
 }
 
 bool Sprite::IsOpen() {
-    if(texture == nullptr) 
+    if(!texture) 
         return false;
     return true;
 }

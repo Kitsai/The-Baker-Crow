@@ -127,14 +127,17 @@ void BakeryState::Start() {
 }
 
 void BakeryState::Pause() {
-    GameData::backGroundMusic->Pause();
 }
 
 void BakeryState::Resume() {
     auto ptr = shadowObj.lock();
     if(ptr) RemoveObject(ptr.get());
 
-    GameData::backGroundMusic->Play();
+    if(GameData::backGroundMusic) GameData::backGroundMusic->Resume();
+    else{
+        GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
+        GameData::backGroundMusic->Play();
+    }
     clientTimer->Restart();
 
     if (GameData::requestDone && GameData::hasNPC){

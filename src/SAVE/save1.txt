@@ -5,9 +5,9 @@ intro: 0
 quitOWState: 0
 completed: 0
 lastSafePosition: 0 0
-requests: cheesebread brigadeiro 
-recipes: brigadeiro cake cheesebread 
-clients: resources/img/npc/Osha.png 
+requests: 
+recipes: 
+clients: 
 hasNPC: 0
 requestDone: 0
 chosenRequest: 

@@ -48,7 +48,7 @@ void Music::Open(std::string file) {
 }
 
 bool Music::IsOpen(){
-    if(music == nullptr)
+    if(!music)
         return false;
     else 
         return true;   
