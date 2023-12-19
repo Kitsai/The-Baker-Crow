@@ -8,6 +8,7 @@
 #include "Bush.h"
 #include "Wall.h"
 
+#include "states/BakeryState.h"
 #include "states/ResumeState.h"
 #include "states/RevenueState.h"
 #include "states/InventoryState.h"
@@ -95,6 +96,7 @@ void OverworldState::Update(float dt) {
             && playerPos.y >= 2145 && playerPos.y <= 2228
             && playerPos.x >= 698 && playerPos.x <= 796
         ) {
+            LoadNewState(new BakeryState());
             popRequested = true;    
         }
 
@@ -125,7 +127,7 @@ void OverworldState::Start() {
     LoadAssets();
     StartArray();
     started = true;
-
+    GameData::backGroundMusic = std::make_unique<Music>("resources/music/OWGame.flac");
     GameData::backGroundMusic->Play();
 }
 

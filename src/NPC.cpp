@@ -1,4 +1,5 @@
 #include "NPC.h"
+#include "states/BakeryState.h"
 #include "Player.h"
 
 NPC::NPC(GameObject& associated, std::string file, int type) : Component(associated) {

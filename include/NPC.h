@@ -6,7 +6,6 @@
 #include "defines/DefineMovement.h"
 #include  "InputManager.h"
 #include "GameData.h"
-#include "states/BakeryState.h"
 
 class NPC : public Component {
     public:

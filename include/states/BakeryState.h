@@ -14,7 +14,7 @@
 class BakeryState : public State {
         
     public:
-        BakeryState();
+        BakeryState(int floor = 0);
         ~BakeryState();
     
         void Render();
