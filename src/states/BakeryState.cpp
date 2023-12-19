@@ -6,7 +6,7 @@
 
 Timer* BakeryState::clientTimer = nullptr;
 
-BakeryState::BakeryState(int floor) : State(), floor(floor) {
+BakeryState::BakeryState() : State() {
     GameObject* tuki = new GameObject();
     TukiB* tukiB = new TukiB(*tuki);
 
@@ -14,6 +14,7 @@ BakeryState::BakeryState(int floor) : State(), floor(floor) {
     dad->AddComponent(new NPC(*dad, "resources/img/npc/dad.png"));
     dad->box.SetCenter({520,280});
 
+    floor = 0;
     clientTimer = new Timer();
 
     GameObject* bg = new GameObject();
@@ -163,7 +164,6 @@ void BakeryState::Resume() {
 void BakeryState::ChangeFloor(int newFloor) {
         floor = newFloor;
         if (floor == 2) {
-            popRequested = true;
             OverworldState* overworld = new OverworldState();
             Game::GetInstance().Push(overworld);
         } else { 
