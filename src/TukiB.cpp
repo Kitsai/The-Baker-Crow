@@ -62,14 +62,14 @@ void TukiB::CalcSpeed(float dt) {
 
     if(iM.IsKeyDown(LEFT_ARROW_KEY)) {
         speed.x -= TOW_A*dt;
-        if(GetPlayerState() == WALKING && faceDirection != LEFT) {
+        if(GetPlayerState() == WALKING && faceDirection != LEFT && !(iM.IsKeyDown(UP_ARROW_KEY) || iM.IsKeyDown(DOWN_ARROW_KEY))) {
             ChangeSprite("resources/img/tuki_lado_anim(150).png",6,.15F);
             faceDirection = LEFT;
         }
     } 
     if(iM.IsKeyDown(RIGHT_ARROW_KEY)) { 
         speed.x += TOW_A*dt;  
-        if(GetPlayerState() == WALKING && faceDirection != RIGHT) {
+        if(GetPlayerState() == WALKING && faceDirection != RIGHT && !(iM.IsKeyDown(UP_ARROW_KEY) || iM.IsKeyDown(DOWN_ARROW_KEY))) {
             ChangeSprite("resources/img/tuki_lado_anim(150).png",6,.15F,SDL_FLIP_HORIZONTAL);
             faceDirection = RIGHT;
         }
