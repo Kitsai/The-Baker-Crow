@@ -160,7 +160,7 @@ void Enemy::NotifyCollision(GameObject& other) {
 }
 
 void Enemy::CheckBorders() {
-    if (moveTarget.x < 2378) moveTarget.x = 2378;
+    if (moveTarget.x < 2250) moveTarget.x = 2300;
     else if (moveTarget.x > 5012) moveTarget.x = 5012;
 
     if(moveTarget.y < 200) moveTarget.y = 200;

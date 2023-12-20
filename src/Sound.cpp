@@ -25,7 +25,7 @@ void Sound::Play(int times) {
 
 void Sound::Stop() {
     try {
-        Mix_HaltChannel(-1);
+        Mix_HaltChannel(channel);
     } catch(const std::exception& e) {
         std::cout << "ERROR SOUND STOP: " << e.what() << std::endl;
     }
