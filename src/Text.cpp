@@ -93,9 +93,7 @@ void Text::RemakeTexture() {
     SDL_Surface* surface;
 
     switch (style) {
-    case SOLID:
-        surface = TTF_RenderText_Solid(font.get(),text.data(),colorA);
-        break;
+
     
     case SHADED:
         surface = TTF_RenderText_Shaded(font.get(),text.data(),colorA,colorB);
@@ -105,7 +103,9 @@ void Text::RemakeTexture() {
         surface = TTF_RenderText_Blended(font.get(),text.data(),colorA);
         break;
 
+    case SOLID:
     default:
+        surface = TTF_RenderText_Solid(font.get(),text.data(),colorA);
         break;
     }
 

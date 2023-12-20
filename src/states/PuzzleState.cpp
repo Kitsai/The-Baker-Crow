@@ -149,7 +149,7 @@ void PuzzleState::Update(float dt){
             else if (selector->GetNameSellectedButton() == "eggs")      itemType = FoodItemType::eggs;
             else if (selector->GetNameSellectedButton() == "sugar")     itemType = FoodItemType::sugar;
             else if (selector->GetNameSellectedButton() == "wheat")     itemType = FoodItemType::wheat;
-            else if (selector->GetNameSellectedButton() == "honey")     itemType = FoodItemType::honey;
+            else itemType = FoodItemType::honey;
             
             bool hasBeenLocked = false;
             for (int i = 0; i < (int)lockedPieces.size(); i++){
